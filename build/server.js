@@ -1,28 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express = require("express");
-var mongoose = require("mongoose");
-var bodyParser = require("body-parser");
-var compression = require("compression");
-var logger = require("morgan");
-var helmet = require("helmet");
-var cors = require("cors");
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const compression = require("compression");
+const logger = require("morgan");
+const helmet = require("helmet");
+const cors = require("cors");
 // import routers
-var PostRouter_1 = require("./router/PostRouter");
-var UserRouter_1 = require("./router/UserRouter");
+const ActividadRouter_1 = require("./router/ActividadRouter");
+const UserRouter_1 = require("./router/UserRouter");
 //server class
 //@ts-ignore
-var Server = /** @class */ (function () {
+class Server {
     //@ts-ignore
-    function Server() {
+    constructor() {
         this.app = express();
         this.config();
         this.routes();
     }
     //@ts-ignore
-    Server.prototype.config = function () {
+    config() {
         //set up mongoose
-        var MONGO_URI = 'mongodb://localhost/tes';
+        const MONGO_URI = 'mongodb://localhost/test';
         mongoose.connect(MONGO_URI || process.env.MONGODB_URI);
         //config
         this.app.use(bodyParser.json());
@@ -31,17 +31,17 @@ var Server = /** @class */ (function () {
         this.app.use(compression());
         this.app.use(helmet());
         this.app.use(cors());
-    };
-    Server.prototype.routes = function () {
-        var router;
+    }
+    routes() {
+        let router;
         router = express.Router();
         //@ts-ignore
         this.app.use('/', router);
-        this.app.use('/api/v1/posts', PostRouter_1.default);
+        this.app.use('/api/v1/actividades', ActividadRouter_1.default);
         this.app.use('/api/v1/users', UserRouter_1.default);
-    };
-    return Server;
-}());
+    }
+}
 //export 
 //@ts-ignore
 exports.default = new Server().app;
+//# sourceMappingURL=server.js.map

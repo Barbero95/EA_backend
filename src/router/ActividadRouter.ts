@@ -1,8 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import Actividad from '../models/Actividad';
 import { default_type } from 'mime';
+import bodyParser = require('body-parser');
 
-class PostRouter{
+class ActividadRouter{
 
     router: Router;
 
@@ -11,140 +12,118 @@ class PostRouter{
         this.routes();
     }
 
-
-
-public GetPosts(req: Request, res: Response): void{
+    //ver todas las actividades
+    public GetActividades(req: Request, res: Response): void{
 
         Actividad.find({})
         .then((data) => {
-            const status = req.statusCode;
+            const status = res.statusCode;
             res.json({
                 status,
                 data
             });
         })
         .catch((err) => {
-            const status = req.statusCode;
+            const status = 404;
             res.json({
                 status, 
                 err
             });
         })
 
-}
-
-public GetPost(req: Request, res: Response): void{
-    const slug: string = req.params.slug;
-
-    Actividad.findOne({ slug })
-    .then((data) => {
-        const status = req.statusCode;
-        res.json({
-            status,
-            data
-        });
-    })
-    .catch((err) => {
-        const status = req.statusCode;
-        res.json({
-            status, 
-            err
-        });
-    })
-
-
-}
-
-public CreatePost(req: Request, res: Response): void{
-    const title: string = req.body.title;
-    const slug: string = req.body.slug;
-    const content: string = req.body.content;
-    const featuredImage: string = req.body.featuredImage;
-
-    const post = new Actividad({
-        title, 
-        slug, 
-        content,
-        featuredImage
-    });
-
-    post.save()
-    .then((data) => {
-        const status = req.statusCode;
-        res.json({
-            status,
-            data
-        });
-    })
-    .catch((err) => {
-        console.log('entra en el error')
-        const status = req.statusCode;
-        res.json({
-            status, 
-            err
-        });
-    })
-}
-
-public UpdatePost(req: Request, res: Response): void{
-
-    const slug: string = req.params.slug;
-
-    Actividad.findOneAndUpdate({ slug }, req.body)
-    .then((data) => {
-        const status = req.statusCode;
-        res.json({
-            status,
-            data
-        });
-    })
-    .catch((err) => {
-        const status = req.statusCode;
-        res.json({
-            status, 
-            err
-        });
-    })
-        
-}
-
-public DeletePost(req: Request, res: Response): void{
-
-    const slug: string = req.params.slug;
-
-    Actividad.findOneAndDelete({ slug })
-    .then((data) => {
-        const status = req.statusCode;
-        res.json({
-            status,
-            data
-        });
-    })
-    .catch((err) => {
-        const status = req.statusCode;
-        res.json({
-            status, 
-            err
-        });
-    })
-        
-}
-
-
-    routes(){
-        this.router.get('/', this.GetPosts);
-        this.router.get('/:slug', this.GetPost);
-        this.router.post('/:', this.CreatePost);
-        this.router.put('/:slug', this.UpdatePost);
-        this.router.delete('/:slug', this.DeletePost);
     }
+    //ver una actividad
+    public GetActividad(req: Request, res: Response): void{
+        //const id: number = req.params.id;
+        const titulo: string = req.params.titulo;
 
+        Actividad.findOne({ titulo })
+        .then((data) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                data
+            });
+        })
+        .catch((err) => {
+            const status = res.statusCode;
+            res.json({
+                status, 
+                err
+            });
+        })
+    }
+    //crear una actividad
+    public CrearActividad(req: Request, res: Response): void{
+        const titulo: string = req.body.titulo;
+        const descripcion: string = req.body.descripcion;
+        const estrellas: string = req.body.estrellas;
+        const tags: string = req.body.tags;
+        const propietario: string = req.body.propietario;
+
+        const actividad = new Actividad({
+            titulo, 
+            descripcion,
+            estrellas,
+            tags,
+            propietario
+        });
+
+        actividad.save()
+        .then((data) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                data
+            });
+        })
+        .catch((err) => {
+            const status = res.statusCode;
+            res.json({
+                status, 
+                err
+            });
+        })
+    }
+    //modificar actividad
+    public ModificarActividad(req: Request, res: Response): void{
+
+        const id: number = req.params.id;
+        //const titulo: string = req.params.titulo;
+        //const descripcion: string = req.params.descripcion;
+        //const tags: string[] = req.params.tags;
+        //const propietario: string = req.params.propietario;
+        
+        Actividad.findOneAndUpdate({ id }, req.body)
+        .then((data) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                data
+            });
+        })
+        .catch((err) => {
+            const status = res.statusCode;
+            res.json({
+                status, 
+                err
+            });
+        })
+            
+    }
+    //@ts-ignore
+    routes(){
+        //@ts-ignore
+        this.router.get('/', this.GetActividades);
+        this.router.get('/:titulo', this.GetActividad);
+        this.router.post('/', this.CrearActividad);
+        this.router.put('/modificarActividad/:id', this.ModificarActividad);
+    }
 }
 
 //export
-const postRoutes = new PostRouter();
-postRoutes.routes();
+//@ts-ignore
+const actividadRoutes = new ActividadRouter();
+actividadRoutes.routes();
 
-export default postRoutes.router;
-
-
+export default actividadRoutes.router;

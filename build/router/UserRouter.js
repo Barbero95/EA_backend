@@ -1,140 +1,145 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var User_1 = require("../models/User");
-var UserRouter = /** @class */ (function () {
-    function UserRouter() {
+const express_1 = require("express");
+const User_1 = require("../models/User");
+class UserRouter {
+    constructor() {
         this.router = express_1.Router();
         this.routes();
     }
     //ver todos los usuarios
-    UserRouter.prototype.GetUsers = function (req, res) {
+    GetUsers(req, res) {
         User_1.default.find({})
-            .then(function (data) {
-            var status = req.statusCode;
+            .then((data) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                data: data
+                status,
+                data
             });
         })
-            .catch(function (err) {
-            var status = req.statusCode;
+            .catch((err) => {
+            const status = 404;
             res.json({
-                status: status,
-                err: err
+                status,
+                err
             });
         });
-    };
+    }
     //ver un usuario
-    UserRouter.prototype.GetUser = function (req, res) {
-        var nombre = req.params.nombre;
-        User_1.default.findOne({ nombre: nombre }).populate('posts', '')
-            .then(function (data) {
-            var status = req.statusCode;
+    GetUser(req, res) {
+        const nombre = req.params.nombre;
+        User_1.default.findOne({ nombre }).populate('posts', '')
+            .then((data) => {
+            if (data == null) {
+                const status = 404;
+            }
+            else {
+                const status = res.statusCode;
+            }
             res.json({
-                status: status,
-                data: data
+                status,
+                data
             });
         })
-            .catch(function (err) {
-            var status = req.statusCode;
+            .catch((err) => {
+            const status = 404;
             res.json({
-                status: status,
-                err: err
+                status,
+                err
             });
         });
-    };
+    }
     //crear usuario
-    UserRouter.prototype.CreateUser = function (req, res) {
-        var nombre = req.body.nombre;
-        var apellido = req.body.apellido;
-        var nick = req.body.nick;
-        var email = req.body.email;
-        var estrellas = req.body.estrellas;
-        var password = req.body.password;
-        var imagen = req.body.imagen;
-        var tags = req.body.tags;
-        var actividadesPropietario = req.body.actividadesPropietario;
-        var actividadesCliente = req.body.actividadesCliente;
-        var user = new User_1.default({
-            nombre: nombre,
-            apellido: apellido,
-            nick: nick,
-            email: email,
-            estrellas: estrellas,
-            password: password,
-            imagen: imagen,
-            tags: tags,
-            actividadesPropietario: actividadesPropietario,
-            actividadesCliente: actividadesCliente
+    CreateUser(req, res) {
+        const nombre = req.body.nombre;
+        const apellido = req.body.apellido;
+        const nick = req.body.nick;
+        const email = req.body.email;
+        const estrellas = req.body.estrellas;
+        const password = req.body.password;
+        const imagen = req.body.imagen;
+        const tags = req.body.tags;
+        const actividadesPropietario = req.body.actividadesPropietario;
+        const actividadesCliente = req.body.actividadesCliente;
+        const user = new User_1.default({
+            nombre,
+            apellido,
+            nick,
+            email,
+            estrellas,
+            password,
+            imagen,
+            tags,
+            actividadesPropietario,
+            actividadesCliente
         });
         user.save()
-            .then(function (data) {
-            var status = req.statusCode;
+            .then((data) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                data: data
+                status,
+                data
             });
         })
-            .catch(function (err) {
-            var status = req.statusCode;
+            .catch((err) => {
+            const status = 404;
             res.json({
-                status: status,
-                err: err
+                status,
+                err
             });
         });
-    };
+    }
     //modificar usuario
-    UserRouter.prototype.UpdateUser = function (req, res) {
-        var username = req.params.username;
-        User_1.default.findOneAndUpdate({ username: username }, req.body)
-            .then(function (data) {
-            var status = req.statusCode;
+    UpdateUser(req, res) {
+        const username = req.params.username;
+        User_1.default.findOneAndUpdate({ username }, req.body)
+            .then((data) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                data: data
+                status,
+                data
             });
         })
-            .catch(function (err) {
-            var status = req.statusCode;
+            .catch((err) => {
+            const status = 404;
             res.json({
-                status: status,
-                err: err
+                status,
+                err
             });
         });
-    };
+    }
     //borrar usuario
-    UserRouter.prototype.DeleteUser = function (req, res) {
-        var username = req.params.username;
-        User_1.default.findOneAndRemove({ username: username })
-            .then(function (data) {
-            var status = req.statusCode;
+    DeleteUser(req, res) {
+        const username = req.params.username;
+        User_1.default.findOneAndRemove({ username })
+            .then((data) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                data: data
+                status,
+                data
             });
         })
-            .catch(function (err) {
-            var status = req.statusCode;
+            .catch((err) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                err: err
+                status,
+                err
             });
         });
-    };
+    }
     //@ts-ignore
-    UserRouter.prototype.routes = function () {
+    routes() {
         //@ts-ignore
         this.router.get('/', this.GetUsers);
         this.router.get('/:nombre', this.GetUser);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/:username', this.DeleteUser);
-    };
-    return UserRouter;
-}());
+    }
+}
 //export
 //@ts-ignore
-var userRoutes = new UserRouter();
+const userRoutes = new UserRouter();
 userRoutes.routes();
 exports.default = userRoutes.router;
+//# sourceMappingURL=UserRouter.js.map

@@ -1,31 +1,35 @@
 import {Schema, model, Mongoose} from 'mongoose';
 
-let PostSchema: Schema = new Schema({
+const ActividadSchema: Schema = new Schema({
 
     createdAt: Date, 
-    updateAt: Date, 
-    title:{
-        type: String, 
-        default: '', 
-        required: true
+    updateAt: Date,
+    titulo:{
+        type: String
+        //required: true,
+        //path: 'titulo'
     },
-    slug:{
-        //url.com/posts/firtscosa
-        type: String, 
-        default: '',
-        required: true, 
-        unique: true,
-        lowercase: true
+    descripcion:{
+        type: String 
+        //required: true,
+        //path: 'descripcion'
     },
-    content: {
-        type: String, 
-        default: '', 
-        required: true
+    //estrellas de la Actividad
+    estrellas:{
+        type: Number, 
+        //path: 'estrellas'
     },
-    featuredImage: {
+    //ponemos aqui los tags a los que pertenece la actividad?
+    tags:[{
+        type: String, 
+        //default: '',
+        //path: 'tags'
+    }],
+    propietario:{
         type: String,
-        default: ''
+        //default: '',
+        //path: 'propietario'
     }
 });
 
-export default model('Post', PostSchema);
+export default model('Actividad', ActividadSchema);

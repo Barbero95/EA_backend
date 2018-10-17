@@ -13,8 +13,8 @@ debug('ts-express:server');
 
 
 
-const port = normalizePort(process.env.PORT || 3000);
-
+//const port = normalizePort(process.env.PORT || 3000);
+const port = 3000;
 Server.set('port', port);
 
 

@@ -1,121 +1,115 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var Actividad_1 = require("../models/Actividad");
-var PostRouter = /** @class */ (function () {
-    function PostRouter() {
+const express_1 = require("express");
+const Actividad_1 = require("../models/Actividad");
+class ActividadRouter {
+    constructor() {
         this.router = express_1.Router();
         this.routes();
     }
-    PostRouter.prototype.GetPosts = function (req, res) {
+    //ver todas las actividades
+    GetActividades(req, res) {
         Actividad_1.default.find({})
-            .then(function (data) {
-            var status = req.statusCode;
+            .then((data) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                data: data
+                status,
+                data
             });
         })
-            .catch(function (err) {
-            var status = req.statusCode;
+            .catch((err) => {
+            const status = 404;
             res.json({
-                status: status,
-                err: err
+                status,
+                err
             });
         });
-    };
-    PostRouter.prototype.GetPost = function (req, res) {
-        var slug = req.params.slug;
-        Actividad_1.default.findOne({ slug: slug })
-            .then(function (data) {
-            var status = req.statusCode;
+    }
+    //ver una actividad
+    GetActividad(req, res) {
+        //const id: number = req.params.id;
+        const titulo = req.params.titulo;
+        Actividad_1.default.findOne({ titulo })
+            .then((data) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                data: data
+                status,
+                data
             });
         })
-            .catch(function (err) {
-            var status = req.statusCode;
+            .catch((err) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                err: err
+                status,
+                err
             });
         });
-    };
-    PostRouter.prototype.CreatePost = function (req, res) {
-        var title = req.body.title;
-        var slug = req.body.slug;
-        var content = req.body.content;
-        var featuredImage = req.body.featuredImage;
-        var post = new Actividad_1.default({
-            title: title,
-            slug: slug,
-            content: content,
-            featuredImage: featuredImage
+    }
+    //crear una actividad
+    CrearActividad(req, res) {
+        const titulo = req.body.titulo;
+        const descripcion = req.body.descripcion;
+        const estrellas = req.body.estrellas;
+        const tags = req.body.tags;
+        const propietario = req.body.propietario;
+        const actividad = new Actividad_1.default({
+            titulo,
+            descripcion,
+            estrellas,
+            tags,
+            propietario
         });
-        post.save()
-            .then(function (data) {
-            var status = req.statusCode;
+        actividad.save()
+            .then((data) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                data: data
+                status,
+                data
             });
         })
-            .catch(function (err) {
-            console.log('entra en el error');
-            var status = req.statusCode;
+            .catch((err) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                err: err
+                status,
+                err
             });
         });
-    };
-    PostRouter.prototype.UpdatePost = function (req, res) {
-        var slug = req.params.slug;
-        Actividad_1.default.findOneAndUpdate({ slug: slug }, req.body)
-            .then(function (data) {
-            var status = req.statusCode;
+    }
+    //modificar actividad
+    ModificarActividad(req, res) {
+        const id = req.params.id;
+        //const titulo: string = req.params.titulo;
+        //const descripcion: string = req.params.descripcion;
+        //const tags: string[] = req.params.tags;
+        //const propietario: string = req.params.propietario;
+        Actividad_1.default.findOneAndUpdate({ id }, req.body)
+            .then((data) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                data: data
+                status,
+                data
             });
         })
-            .catch(function (err) {
-            var status = req.statusCode;
+            .catch((err) => {
+            const status = res.statusCode;
             res.json({
-                status: status,
-                err: err
+                status,
+                err
             });
         });
-    };
-    PostRouter.prototype.DeletePost = function (req, res) {
-        var slug = req.params.slug;
-        Actividad_1.default.findOneAndDelete({ slug: slug })
-            .then(function (data) {
-            var status = req.statusCode;
-            res.json({
-                status: status,
-                data: data
-            });
-        })
-            .catch(function (err) {
-            var status = req.statusCode;
-            res.json({
-                status: status,
-                err: err
-            });
-        });
-    };
-    PostRouter.prototype.routes = function () {
-        this.router.get('/', this.GetPosts);
-        this.router.get('/:slug', this.GetPost);
-        this.router.post('/:', this.CreatePost);
-        this.router.put('/:slug', this.UpdatePost);
-        this.router.delete('/:slug', this.DeletePost);
-    };
-    return PostRouter;
-}());
+    }
+    //@ts-ignore
+    routes() {
+        //@ts-ignore
+        this.router.get('/', this.GetActividades);
+        this.router.get('/:titulo', this.GetActividad);
+        this.router.post('/', this.CrearActividad);
+        this.router.put('/modificarActividad/:id', this.ModificarActividad);
+    }
+}
 //export
-var postRoutes = new PostRouter();
-postRoutes.routes();
-exports.default = postRoutes.router;
+//@ts-ignore
+const actividadRoutes = new ActividadRouter();
+actividadRoutes.routes();
+exports.default = actividadRoutes.router;
+//# sourceMappingURL=ActividadRouter.js.map

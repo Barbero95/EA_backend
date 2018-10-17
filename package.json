@@ -1,11 +1,11 @@
 {
-  "name": "proyectoBruno",
+  "name": "mongo",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "ts": "tsc -w",
-    "server": "nodemon ./build/index.js",
+    "server-ea": "nodemon ./build/index.js",
     "start": "tsc && node ./build/index.js"
   },
   "dependencies": {
@@ -25,5 +25,7 @@
     "@types/node": "^10.11.3",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1"
-  }
+  },
+  "repository": "https://github.com/Nodet23/EA_backend.git",
+  "author": "Barbero95 <barberodavid95@yahoo.es>"
 }

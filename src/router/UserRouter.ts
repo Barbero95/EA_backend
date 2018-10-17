@@ -19,14 +19,14 @@ public GetUsers(req: Request, res: Response): void{
 
         User.find({})
         .then((data) => {
-            const status = req.statusCode;
+            const status = res.statusCode;
             res.json({
                 status,
                 data
             });
         })
         .catch((err) => {
-            const status = req.statusCode;
+            const status = 404;
             res.json({
                 status, 
                 err
@@ -41,14 +41,18 @@ public GetUser(req: Request, res: Response): void{
 
     User.findOne({ nombre }).populate('posts', '')
     .then((data) => {
-        const status = req.statusCode;
+        if(data==null){
+            const status = 404;
+        }else{
+        const status = res.statusCode;
+        }
         res.json({
             status,
             data
         });
     })
     .catch((err) => {
-        const status = req.statusCode;
+        const status = 404;
         res.json({
             status, 
             err
@@ -87,14 +91,14 @@ public CreateUser(req: Request, res: Response): void{
 
     user.save()
     .then((data) => {
-        const status = req.statusCode;
+        const status = res.statusCode;
         res.json({
             status,
             data
         });
     })
     .catch((err) => {
-        const status = req.statusCode;
+        const status = 404;
         res.json({
             status, 
             err
@@ -109,14 +113,14 @@ public UpdateUser(req: Request, res: Response): void{
 
     User.findOneAndUpdate({ username }, req.body)
     .then((data) => {
-        const status = req.statusCode;
+        const status = res.statusCode;
         res.json({
             status,
             data
         });
     })
     .catch((err) => {
-        const status = req.statusCode;
+        const status = 404;
         res.json({
             status, 
             err
@@ -132,14 +136,14 @@ public DeleteUser(req: Request, res: Response): void{
 
     User.findOneAndRemove({ username })
     .then((data) => {
-        const status = req.statusCode;
+        const status = res.statusCode;
         res.json({
             status,
             data
         });
     })
     .catch((err) => {
-        const status = req.statusCode;
+        const status = res.statusCode;
         res.json({
             status, 
             err

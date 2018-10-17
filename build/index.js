@@ -1,19 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var debug = require("debug");
-var http = require("http");
-var server_1 = require("./server");
+const debug = require("debug");
+const http = require("http");
+const server_1 = require("./server");
 debug('ts-express:server');
-var port = normalizePort(process.env.PORT || 3000);
+//const port = normalizePort(process.env.PORT || 3000);
+const port = 3000;
 server_1.default.set('port', port);
 //@ts-ignore
 console.log('listening on port ${port}');
-var server = http.createServer(server_1.default);
+const server = http.createServer(server_1.default);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 function normalizePort(val) {
-    var port = typeof val === 'string' ? parseInt(val, 10) : val;
+    const port = typeof val === 'string' ? parseInt(val, 10) : val;
     if (isNaN(port)) {
         return val;
     }
@@ -28,7 +29,7 @@ function onError(error) {
     if (error.syscall !== 'listen') {
         throw error;
     }
-    var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+    const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
     switch (error.code) {
         case 'EACCES':
             console.error("${bind} requires elevated privileges");
@@ -49,3 +50,4 @@ function onListening() {
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
 }
+//# sourceMappingURL=index.js.map

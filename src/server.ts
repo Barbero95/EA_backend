@@ -9,7 +9,7 @@ import * as cors from 'cors';
 
 
 // import routers
-import PostRouter from './router/PostRouter';
+import ActividadRouter from './router/ActividadRouter';
 import UserRouter from './router/UserRouter';
 
 //server class
@@ -28,7 +28,7 @@ class Server{
     public config(){
         
         //set up mongoose
-        const MONGO_URI: string = 'mongodb://localhost/tes';
+        const MONGO_URI: string = 'mongodb://localhost/test';
         mongoose.connect(MONGO_URI || process.env.MONGODB_URI);
 
         //config
@@ -46,7 +46,7 @@ class Server{
         router = express.Router();
         //@ts-ignore
         this.app.use('/', router);
-        this.app.use('/api/v1/posts', PostRouter);
+        this.app.use('/api/v1/actividades', ActividadRouter);
         this.app.use('/api/v1/users', UserRouter);
 
     }

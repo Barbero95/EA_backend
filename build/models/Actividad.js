@@ -1,30 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = require("mongoose");
-var PostSchema = new mongoose_1.Schema({
+const mongoose_1 = require("mongoose");
+const ActividadSchema = new mongoose_1.Schema({
     createdAt: Date,
     updateAt: Date,
-    title: {
-        type: String,
-        default: '',
-        required: true
+    titulo: {
+        type: String
+        //required: true,
+        //path: 'titulo'
     },
-    slug: {
-        //url.com/posts/firtscosa
-        type: String,
-        default: '',
-        required: true,
-        unique: true,
-        lowercase: true
+    descripcion: {
+        type: String
+        //required: true,
+        //path: 'descripcion'
     },
-    content: {
-        type: String,
-        default: '',
-        required: true
+    //estrellas de la Actividad
+    estrellas: {
+        type: Number,
     },
-    featuredImage: {
+    //ponemos aqui los tags a los que pertenece la actividad?
+    tags: [{
+            type: String,
+        }],
+    propietario: {
         type: String,
-        default: ''
     }
 });
-exports.default = mongoose_1.model('Post', PostSchema);
+exports.default = mongoose_1.model('Actividad', ActividadSchema);
+//# sourceMappingURL=Actividad.js.map
