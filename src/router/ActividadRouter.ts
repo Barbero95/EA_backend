@@ -121,7 +121,8 @@ class ActividadRouter{
                     err
                 });
             })
-        }
+        
+        /*
         else{
             //ya existe
             const status = 404
@@ -130,6 +131,7 @@ class ActividadRouter{
                 err
             });
         }
+        */
     }
     //modificar actividad
     public ModificarActividad(req: Request, res: Response): void{
