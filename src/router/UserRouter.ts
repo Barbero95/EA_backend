@@ -19,14 +19,18 @@ public GetUsers(req: Request, res: Response): void{
 
         User.find({})
         .then((data) => {
-            const status = res.statusCode;
+            let status = 200;
+            if(data==null){
+                status=404;
+            }
+            res.statusCode=status;
             res.json({
                 status,
                 data
             });
         })
         .catch((err) => {
-            const status = 404;
+            const status = 500;
             res.json({
                 status, 
                 err
@@ -41,18 +45,18 @@ public GetUser(req: Request, res: Response): void{
 
     User.findOne({ nombre }).populate('posts', '')
     .then((data) => {
+        let status = 200;
         if(data==null){
-            const status = 404;
-        }else{
-        const status = res.statusCode;
+            status=404;
         }
+        res.statusCode=status;
         res.json({
             status,
             data
         });
     })
     .catch((err) => {
-        const status = 404;
+        const status = 500;
         res.json({
             status, 
             err
@@ -91,7 +95,8 @@ public CreateUser(req: Request, res: Response): void{
 
     user.save()
     .then((data) => {
-        const status = res.statusCode;
+        const status = 200;
+
         res.json({
             status,
             data
@@ -113,7 +118,8 @@ public UpdateUser(req: Request, res: Response): void{
 
     User.findOneAndUpdate({ username }, req.body)
     .then((data) => {
-        const status = res.statusCode;
+        const status = 200;
+
         res.json({
             status,
             data
@@ -136,14 +142,14 @@ public DeleteUser(req: Request, res: Response): void{
 
     User.findOneAndRemove({ username })
     .then((data) => {
-        const status = res.statusCode;
+        const status = 200;
         res.json({
             status,
             data
         });
     })
     .catch((err) => {
-        const status = res.statusCode;
+        const status = 404;
         res.json({
             status, 
             err

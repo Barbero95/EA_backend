@@ -17,7 +17,11 @@ class ActividadRouter{
 
         Actividad.find({})
         .then((data) => {
-            const status = res.statusCode;
+            let status = 200;
+            if(data==null){
+                status=404;
+            }
+            res.statusCode=status;
             res.json({
                 status,
                 data
@@ -37,24 +41,101 @@ class ActividadRouter{
         //const id: number = req.params.id;
         const titulo: string = req.params.titulo;
 
-        Actividad.findOne({ titulo })
+        Actividad.findOne({ "titulo": titulo })
         .then((data) => {
-            const status = res.statusCode;
+            let status = 200;
+            if(data==null){
+                status=404;
+            }
+            res.statusCode=status;
             res.json({
                 status,
                 data
             });
+            
         })
         .catch((err) => {
-            const status = res.statusCode;
+            const status = 500;
             res.json({
                 status, 
                 err
             });
         })
     }
+    //ver si esta actividad ya existe para el mismo ususario
+    //miramos si hay ya una 
+    public ComprobarActividad(titulo:String, propietario: String, callback:(Error,Actividad)=>void): void{
+        //p=:promise<err,Actividad>
+        //p.then(........) dentro pongo lo que quiero ejecutar
+        //p.catch(......) para error
+        
+        Actividad.findOne({ "titulo": titulo, "propietario": propietario})
+        .then((data) => {
+            callback(null,data);
+            return;
+        })
+        .catch((err) => {
+            return callback(err,null);
+        })
+    }
     //crear una actividad
     public CrearActividad(req: Request, res: Response): void{
+        const titulo: string = req.body.titulo;
+        const descripcion: string = req.body.descripcion;
+        let estrellas: number = req.body.estrellas;
+        if (estrellas==null){
+            estrellas=0;
+        }
+        const tags: string = req.body.tags;
+        const propietario: string = req.body.propietario;
+
+        const actividad = new Actividad({
+            titulo, 
+            descripcion,
+            estrellas,
+            tags,
+            propietario
+        });
+        
+        this.ComprobarActividad(titulo,propietario, (err:Error, data: Document) => {
+            if(err!=null)
+
+            data;
+        });
+        
+        
+        //if(this.ComprobarActividad){
+            actividad.save()
+            .then((data) => {
+                let status = 200;
+                res.statusCode=status;
+                res.json({
+                    status,
+                    data
+                });
+            })
+            .catch((err) => {
+                const status = 500;
+                res.json({
+                    status, 
+                    err
+                });
+            })
+        }
+        else{
+            //ya existe
+            const status = 404
+            res.json({
+                status, 
+                err
+            });
+        }
+    }
+    //modificar actividad
+    public ModificarActividad(req: Request, res: Response): void{
+
+        const title: string = req.params.title;
+
         const titulo: string = req.body.titulo;
         const descripcion: string = req.body.descripcion;
         const estrellas: string = req.body.estrellas;
@@ -68,42 +149,18 @@ class ActividadRouter{
             tags,
             propietario
         });
-
-        actividad.save()
-        .then((data) => {
-            const status = res.statusCode;
-            res.json({
-                status,
-                data
-            });
-        })
-        .catch((err) => {
-            const status = res.statusCode;
-            res.json({
-                status, 
-                err
-            });
-        })
-    }
-    //modificar actividad
-    public ModificarActividad(req: Request, res: Response): void{
-
-        const id: number = req.params.id;
-        //const titulo: string = req.params.titulo;
-        //const descripcion: string = req.params.descripcion;
-        //const tags: string[] = req.params.tags;
-        //const propietario: string = req.params.propietario;
         
-        Actividad.findOneAndUpdate({ id }, req.body)
+        //Actividad.findOneAndUpdate({ "_id": new ObjectID(id) }, actividad)
+        Actividad.findOneAndUpdate({ "title": title}, req.body)
         .then((data) => {
-            const status = res.statusCode;
+            const status = 200;
             res.json({
                 status,
                 data
             });
         })
         .catch((err) => {
-            const status = res.statusCode;
+            const status = 404;
             res.json({
                 status, 
                 err
@@ -117,7 +174,7 @@ class ActividadRouter{
         this.router.get('/', this.GetActividades);
         this.router.get('/:titulo', this.GetActividad);
         this.router.post('/', this.CrearActividad);
-        this.router.put('/modificarActividad/:id', this.ModificarActividad);
+        this.router.put('/:title', this.ModificarActividad);
     }
 }
 

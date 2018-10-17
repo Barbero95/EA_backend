@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "ts": "tsc -w",
-    "server-ea": "nodemon ./build/index.js",
+    "server": "nodemon ./build/index.js",
     "start": "tsc && node ./build/index.js"
   },
   "dependencies": {

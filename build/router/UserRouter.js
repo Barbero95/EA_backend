@@ -11,14 +11,18 @@ class UserRouter {
     GetUsers(req, res) {
         User_1.default.find({})
             .then((data) => {
-            const status = res.statusCode;
+            let status = 200;
+            if (data == null) {
+                status = 404;
+            }
+            res.statusCode = status;
             res.json({
                 status,
                 data
             });
         })
             .catch((err) => {
-            const status = 404;
+            const status = 500;
             res.json({
                 status,
                 err
@@ -30,19 +34,18 @@ class UserRouter {
         const nombre = req.params.nombre;
         User_1.default.findOne({ nombre }).populate('posts', '')
             .then((data) => {
+            let status = 200;
             if (data == null) {
-                const status = 404;
+                status = 404;
             }
-            else {
-                const status = res.statusCode;
-            }
+            res.statusCode = status;
             res.json({
                 status,
                 data
             });
         })
             .catch((err) => {
-            const status = 404;
+            const status = 500;
             res.json({
                 status,
                 err
@@ -75,7 +78,7 @@ class UserRouter {
         });
         user.save()
             .then((data) => {
-            const status = res.statusCode;
+            const status = 200;
             res.json({
                 status,
                 data
@@ -94,7 +97,7 @@ class UserRouter {
         const username = req.params.username;
         User_1.default.findOneAndUpdate({ username }, req.body)
             .then((data) => {
-            const status = res.statusCode;
+            const status = 200;
             res.json({
                 status,
                 data
@@ -113,14 +116,14 @@ class UserRouter {
         const username = req.params.username;
         User_1.default.findOneAndRemove({ username })
             .then((data) => {
-            const status = res.statusCode;
+            const status = 200;
             res.json({
                 status,
                 data
             });
         })
             .catch((err) => {
-            const status = res.statusCode;
+            const status = 404;
             res.json({
                 status,
                 err
