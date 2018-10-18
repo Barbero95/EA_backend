@@ -17,14 +17,12 @@ class ActividadRouter {
             }
             res.statusCode = status;
             res.json({
-                status,
                 data
             });
         })
             .catch((err) => {
-            const status = 404;
+            res.statusCode = 404;
             res.json({
-                status,
                 err
             });
         });
@@ -41,14 +39,12 @@ class ActividadRouter {
             }
             res.statusCode = status;
             res.json({
-                status,
                 data
             });
         })
             .catch((err) => {
-            const status = 500;
+            res.statusCode = 500;
             res.json({
-                status,
                 err
             });
         });
@@ -73,9 +69,9 @@ class ActividadRouter {
         const titulo = req.body.titulo;
         const descripcion = req.body.descripcion;
         let estrellas = req.body.estrellas;
-        if (estrellas == null) {
-            estrellas = 0;
-        }
+        //if (estrellas==null){
+        //    estrellas=0;
+        //}
         const tags = req.body.tags;
         const propietario = req.body.propietario;
         const actividad = new Actividad_1.default({
@@ -85,33 +81,87 @@ class ActividadRouter {
             tags,
             propietario
         });
-        this.ComprobarActividad(titulo, propietario, (err, data) => {
-            if (err != null) {
-                //enviar codigo ya existe
-                const status = 402;
+        /*
+        //intento 1
+        this.ComprobarActividad(titulo,propietario, (err:Error, data: Document) => {
+            if(err!=null){
+                res.statusCode = 404;
                 res.json({
-                    status,
                     err
                 });
+            }else{
+                if(data==null){
+                    //enviar codigo ya existe
+                    res.statusCode = 402;
+                    res.json({
+                    err
+                });
+                }else{
+                    actividad.save()
+                    .then((data) => {
+                        res.statusCode = 200;
+                        res.json({
+                            data
+                        });
+                    })
+                    .catch((err) => {
+                        res.statusCode = 404;
+                        res.json({
+ 
+                            err
+                        });
+                    })
+                }
             }
-            else {
+        });
+        */
+        //intento 2
+        Actividad_1.default.findOne({ "titulo": titulo, "propietario": propietario })
+            .then((data) => {
+            if (data == null) {
                 actividad.save()
                     .then((data) => {
-                    const status = 200;
+                    res.statusCode = 200;
                     res.json({
-                        status,
                         data
                     });
                 })
                     .catch((err) => {
-                    const status = 404;
+                    res.statusCode = 404;
                     res.json({
-                        status,
                         err
                     });
                 });
             }
+            else {
+                res.statusCode = 404;
+                res.json({
+                    data: null
+                });
+            }
+        })
+            .catch((err) => {
+            res.statusCode = 404;
+            res.json({
+                err
+            });
         });
+        //este funciona sin comprobar, va creando el mismo tantas veces como quieres
+        /*
+        actividad.save()
+                    .then((data) => {
+                        res.statusCode = 200;
+                        res.json({
+                            data
+                        });
+                    })
+                    .catch((err) => {
+                        res.statusCode = 404;
+                        res.json({
+                            err
+                        });
+                    })
+        */
     }
     //modificar actividad
     ModificarActividad(req, res) {
@@ -121,26 +171,28 @@ class ActividadRouter {
         const estrellas = req.body.estrellas;
         const tags = req.body.tags;
         const propietario = req.body.propietario;
-        const actividad = new Actividad_1.default({
+        /*
+        const actividad = new Actividad({
             titulo,
             descripcion,
             estrellas,
             tags,
             propietario
         });
+        */
+        //db.getCollection('actividads').findOneAndUpdate({ "titulo" : "pepito" },
+        //{ $set: { "propietario" : "DAV", "estrellas": 5}})
         //Actividad.findOneAndUpdate({ "_id": new ObjectID(id) }, actividad)
-        Actividad_1.default.findOneAndUpdate({ "title": title }, { $set: { actividad } })
+        Actividad_1.default.findOneAndUpdate({ "titulo": title }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario } })
             .then((data) => {
-            const status = 200;
+            res.statusCode = 200;
             res.json({
-                status,
                 data
             });
         })
             .catch((err) => {
-            const status = 404;
+            res.statusCode = 404;
             res.json({
-                status,
                 err
             });
         });
