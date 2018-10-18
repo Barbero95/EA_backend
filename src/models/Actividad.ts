@@ -1,5 +1,4 @@
 import {Schema, model, Mongoose} from 'mongoose';
-import { ObjetoDeNickYEstado } from './Nick&status';
 
 const ActividadSchema: Schema = new Schema({
 
@@ -32,7 +31,8 @@ const ActividadSchema: Schema = new Schema({
         //path: 'propietario'
     },
     clientes:[{
-        type: ObjetoDeNickYEstado
+        nick: String,
+        estado: String
     }]
 });
 

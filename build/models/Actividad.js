@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const Nick_status_1 = require("./Nick&status");
 const ActividadSchema = new mongoose_1.Schema({
     createdAt: Date,
     updateAt: Date,
@@ -27,7 +26,8 @@ const ActividadSchema = new mongoose_1.Schema({
         type: String,
     },
     clientes: [{
-            type: Nick_status_1.ObjetoDeNickYEstado
+            nick: String,
+            estado: String
         }]
 });
 exports.default = mongoose_1.model('Actividad', ActividadSchema);

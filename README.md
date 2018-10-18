@@ -7,7 +7,8 @@
 #Luego para arrancar ( es server pork lo hemos declarado en el package.json )
 #yarn server
 
-Para Actividad
+#Para Actividad
+#http://localhost:3000/actividades/
 {
     "titulo": "EA",
     "descripcion": "La vida es dura en ea",
@@ -16,7 +17,8 @@ Para Actividad
     "propietario": "TimexTime"
 }
 
-Para Usuario
+#Para Usuario
+#http://localhost:3000/users/
 {
     "nombre": "Time",
     "apellido": "xTime",
