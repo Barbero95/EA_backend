@@ -6,3 +6,27 @@
 
 #Luego para arrancar ( es server pork lo hemos declarado en el package.json )
 #yarn server
+
+Para Actividad
+{
+    "titulo": "EA",
+    "descripcion": "La vida es dura en ea",
+    "estrellas": [4,2],
+    "tags": ["xxx","yyy"],
+    "propietario": "TimexTime"
+}
+
+Para Usuario
+{
+    "nombre": "Time",
+    "apellido": "xTime",
+    "nick": "TimexTime",
+    "email": "timextime@ea.es",
+    "estrellas": [1,4,3],
+    "password": "xxx",
+    "imagen": "timextime",
+    "tags": ["deporte","mates"],
+    "actividadesPropietario": [1,4],
+    "actividadesCliente": [1,4]
+}
+

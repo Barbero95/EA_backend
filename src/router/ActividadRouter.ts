@@ -76,7 +76,7 @@ class ActividadRouter{
     public CrearActividad(req: Request, res: Response): void{
         const titulo: string = req.body.titulo;
         const descripcion: string = req.body.descripcion;
-        let estrellas: number = req.body.estrellas;
+        let estrellas: number [] = req.body.estrellas;
         //if (estrellas==null){
         //    estrellas=0;
         //}
@@ -180,7 +180,7 @@ class ActividadRouter{
 
         const titulo: string = req.body.titulo;
         const descripcion: string = req.body.descripcion;
-        const estrellas: number = req.body.estrellas;
+        const estrellas: number []= req.body.estrellas;
         const tags: string [] = req.body.tags;
         const propietario: string = req.body.propietario;
         /*
