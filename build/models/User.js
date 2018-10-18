@@ -17,7 +17,6 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
     },
     estrellas: [{
-            //array
             type: Number
         }],
     password: {
@@ -27,16 +26,13 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
     },
     tags: [{
-            //array
             type: String
         }],
     actividadesPropietario: [{
-            //array
-            type: String
+            type: mongoose_1.Schema.Types.ObjectId, ref: 'Actividad'
         }],
     actividadesCliente: [{
-            //array
-            type: String
+            type: mongoose_1.Schema.Types.ObjectId, ref: 'Actividad'
         }]
 });
 exports.default = mongoose_1.model('User', UserSchema);

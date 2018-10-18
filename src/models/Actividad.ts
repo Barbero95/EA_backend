@@ -31,7 +31,7 @@ const ActividadSchema: Schema = new Schema({
         //path: 'propietario'
     },
     clientes:[{
-        nick: String,
+        type: Schema.Types.ObjectId, ref: 'User',
         estado: String
     }]
 });
