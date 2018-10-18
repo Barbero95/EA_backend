@@ -8,7 +8,7 @@ debug('ts-express:server');
 const port = 3000;
 server_1.default.set('port', port);
 //@ts-ignore
-console.log('listening on port ${port}');
+console.log('listening on port ' + port);
 const server = http.createServer(server_1.default);
 server.listen(port);
 server.on('error', onError);

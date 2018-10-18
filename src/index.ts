@@ -20,7 +20,7 @@ Server.set('port', port);
 
 //@ts-ignore
 
-console.log('listening on port ${port}');
+console.log('listening on port '+ port);
 
 
 

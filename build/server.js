@@ -22,8 +22,8 @@ class Server {
     //@ts-ignore
     config() {
         //set up mongoose
-        const MONGO_URI = 'mongodb://localhost/test';
-        mongoose.connect(MONGO_URI || process.env.MONGODB_URI);
+        const MONGO_URI = 'mongodb://localhost/timextime';
+        mongoose.connect(MONGO_URI || process.env.MONGODB_URI, { useNewUrlParser: true });
         //config
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,8 +37,8 @@ class Server {
         router = express.Router();
         //@ts-ignore
         this.app.use('/', router);
-        this.app.use('/api/v1/actividades', ActividadRouter_1.default);
-        this.app.use('/api/v1/users', UserRouter_1.default);
+        this.app.use('/actividades', ActividadRouter_1.default);
+        this.app.use('/users', UserRouter_1.default);
     }
 }
 //export 

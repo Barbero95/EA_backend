@@ -28,8 +28,8 @@ class Server{
     public config(){
         
         //set up mongoose
-        const MONGO_URI: string = 'mongodb://localhost/test';
-        mongoose.connect(MONGO_URI || process.env.MONGODB_URI);
+        const MONGO_URI: string = 'mongodb://localhost/timextime';
+        mongoose.connect(MONGO_URI || process.env.MONGODB_URI,{ useNewUrlParser: true } );
 
         //config
         this.app.use(bodyParser.json());
@@ -46,8 +46,8 @@ class Server{
         router = express.Router();
         //@ts-ignore
         this.app.use('/', router);
-        this.app.use('/api/v1/actividades', ActividadRouter);
-        this.app.use('/api/v1/users', UserRouter);
+        this.app.use('/actividades', ActividadRouter);
+        this.app.use('/users', UserRouter);
 
     }
 }
