@@ -68,7 +68,6 @@ class ActividadRouter{
         //p=:promise<err,Actividad>
         //p.then(........) dentro pongo lo que quiero ejecutar
         //p.catch(......) para error
-        
         Actividad.findOne({ "titulo": titulo, "propietario": propietario})
         .then((data) => {
             callback(null,data);
@@ -96,42 +95,33 @@ class ActividadRouter{
             tags,
             propietario
         });
-        
-        this.ComprobarActividad(titulo,propietario, (err:Error, data: Document) => {
-            if(err!=null)
 
-            data;
-        });
-        
-        
-        //if(this.ComprobarActividad){
-            actividad.save()
-            .then((data) => {
-                let status = 200;
-                res.statusCode=status;
-                res.json({
-                    status,
-                    data
-                });
-            })
-            .catch((err) => {
-                const status = 500;
+        this.ComprobarActividad(titulo,propietario, (err:Error, data: Document) => {
+            if(err!=null){
+                //enviar codigo ya existe
+                const status = 402;
                 res.json({
                     status, 
                     err
                 });
-            })
-        
-        /*
-        else{
-            //ya existe
-            const status = 404
-            res.json({
-                status, 
-                err
-            });
-        }
-        */
+            }else{
+                actividad.save()
+                .then((data) => {
+                    const status = 200;
+                    res.json({
+                        status,
+                        data
+                    });
+                })
+                .catch((err) => {
+                    const status = 404;
+                    res.json({
+                        status, 
+                        err
+                    });
+                })
+            }
+        });
     }
     //modificar actividad
     public ModificarActividad(req: Request, res: Response): void{
@@ -153,7 +143,7 @@ class ActividadRouter{
         });
         
         //Actividad.findOneAndUpdate({ "_id": new ObjectID(id) }, actividad)
-        Actividad.findOneAndUpdate({ "title": title}, req.body)
+        Actividad.findOneAndUpdate({ "title": title}, {$set:{actividad}})
         .then((data) => {
             const status = 200;
             res.json({

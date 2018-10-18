@@ -55,27 +55,17 @@ class ActividadRouter {
     }
     //ver si esta actividad ya existe para el mismo ususario
     //miramos si hay ya una 
-    ComprobarActividad(req, res) {
-        const titulo = req.body.titulo;
-        const propietario = req.body.propietario;
+    ComprobarActividad(titulo, propietario, callback) {
+        //p=:promise<err,Actividad>
+        //p.then(........) dentro pongo lo que quiero ejecutar
+        //p.catch(......) para error
         Actividad_1.default.findOne({ "titulo": titulo, "propietario": propietario })
             .then((data) => {
-            let status = 200;
-            if (data == null) {
-                status = 404;
-            }
-            res.statusCode = status;
-            res.json({
-                status,
-                data
-            });
+            callback(null, data);
+            return;
         })
             .catch((err) => {
-            const status = 500;
-            res.json({
-                status,
-                err
-            });
+            return callback(err, null);
         });
     }
     //crear una actividad
@@ -95,21 +85,32 @@ class ActividadRouter {
             tags,
             propietario
         });
-        actividad.save()
-            .then((data) => {
-            let status = 200;
-            res.statusCode = status;
-            res.json({
-                status,
-                data
-            });
-        })
-            .catch((err) => {
-            const status = 500;
-            res.json({
-                status,
-                err
-            });
+        this.ComprobarActividad(titulo, propietario, (err, data) => {
+            if (err != null) {
+                //enviar codigo ya existe
+                const status = 402;
+                res.json({
+                    status,
+                    err
+                });
+            }
+            else {
+                actividad.save()
+                    .then((data) => {
+                    const status = 200;
+                    res.json({
+                        status,
+                        data
+                    });
+                })
+                    .catch((err) => {
+                    const status = 404;
+                    res.json({
+                        status,
+                        err
+                    });
+                });
+            }
         });
     }
     //modificar actividad
@@ -128,7 +129,7 @@ class ActividadRouter {
             propietario
         });
         //Actividad.findOneAndUpdate({ "_id": new ObjectID(id) }, actividad)
-        Actividad_1.default.findOneAndUpdate({ "title": title }, req.body)
+        Actividad_1.default.findOneAndUpdate({ "title": title }, { $set: { actividad } })
             .then((data) => {
             const status = 200;
             res.json({
