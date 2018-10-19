@@ -30,5 +30,5 @@ const ActividadSchema = new mongoose_1.Schema({
             estado: String
         }]
 });
-exports.default = mongoose_1.model('Actividad', ActividadSchema);
+exports.default = mongoose_1.model('Actividade', ActividadSchema);
 //# sourceMappingURL=Actividad.js.map

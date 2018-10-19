@@ -23,12 +23,14 @@ class ActividadRouter{
             }
             res.statusCode=status;
             res.json({
+                status,
                 data
             });
         })
         .catch((err) => {
-            res.statusCode = 404;
+            const status = 500;
             res.json({
+                status, 
                 err
             });
         })

@@ -36,4 +36,5 @@ const ActividadSchema: Schema = new Schema({
     }]
 });
 
-export default model('Actividad', ActividadSchema);
+
+export default model('Actividade', ActividadSchema);
