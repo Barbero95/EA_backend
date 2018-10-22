@@ -36,6 +36,36 @@ class ActividadRouter{
         })
 
     }
+
+
+//ver actividad segun propietario
+public GetActividadesPropietario(req: Request, res: Response): void{
+    //const id: number = req.params.id;
+    const propietario: string = req.params.propieario;
+
+    Actividad.findOne({ "propietario": propietario })
+    .then((data) => {
+        let status = 200;
+        if(data==null){
+            status=404;
+        }
+        res.statusCode=status;
+        res.json({
+            data
+        });
+    })
+    .catch((err) => {
+        res.statusCode = 500;
+        res.json({
+            err
+        });
+    })
+}
+
+
+
+
+
     //ver una actividad
     public GetActividad(req: Request, res: Response): void{
         //const id: number = req.params.id;
@@ -217,6 +247,7 @@ class ActividadRouter{
         //@ts-ignore
         this.router.get('/', this.GetActividades);
         this.router.get('/:titulo', this.GetActividad);
+        this.router.get('/:propietario', this.GetActividadesPropietario);
         this.router.post('/', this.CrearActividad);
         this.router.put('/:title', this.ModificarActividad);
     }
