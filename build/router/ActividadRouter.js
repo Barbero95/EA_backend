@@ -29,6 +29,30 @@ class ActividadRouter {
             });
         });
     }
+    //ver actividad segun propietario
+    GetActividadesPropietario(req, res) {
+        const propietario = req.params.propietario;
+        Actividad_1.default.find({ "propietario": propietario })
+            .then((data) => {
+            let status = 200;
+            if (data == null) {
+                status = 404;
+                console.log("llegue hasta 1er control");
+            }
+            console.log("llegue hasta 2er control");
+            res.statusCode = status;
+            res.json({
+                data
+            });
+        })
+            .catch((err) => {
+            console.log("llegue hasta 3er control");
+            res.statusCode = 500;
+            res.json({
+                err
+            });
+        });
+    }
     //ver una actividad
     GetActividad(req, res) {
         //const id: number = req.params.id;
@@ -204,6 +228,7 @@ class ActividadRouter {
         //@ts-ignore
         this.router.get('/', this.GetActividades);
         this.router.get('/:titulo', this.GetActividad);
+        this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.post('/', this.CrearActividad);
         this.router.put('/:title', this.ModificarActividad);
     }
