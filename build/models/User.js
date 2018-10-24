@@ -16,9 +16,9 @@ const UserSchema = new mongoose_1.Schema({
     email: {
         type: String,
     },
-    estrellas: [{
-            type: Number
-        }],
+    estrellas: {
+        type: Number
+    },
     password: {
         type: String,
     },

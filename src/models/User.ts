@@ -16,9 +16,9 @@ const UserSchema: Schema = new Schema({
     email:{
         type: String,
     },
-    estrellas:[{
+    estrellas:{
         type: Number
-    }],
+    },
     password: {
         type: String, 
     }, 

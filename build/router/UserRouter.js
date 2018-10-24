@@ -16,40 +16,28 @@ class UserRouter {
                 status = 404;
             }
             res.statusCode = status;
-            res.json({
-                status,
-                data
-            });
+            res.json(data);
         })
             .catch((err) => {
             const status = 500;
-            res.json({
-                status,
-                err
-            });
+            res.json(err);
         });
     }
     //ver un usuario
     GetUser(req, res) {
-        const nombre = req.params.nombre;
-        User_1.default.findOne({ nombre }).populate('posts', '')
+        const nick = req.params.nick;
+        User_1.default.findOne({ "nick": nick })
             .then((data) => {
             let status = 200;
             if (data == null) {
                 status = 404;
             }
             res.statusCode = status;
-            res.json({
-                status,
-                data
-            });
+            res.json(data);
         })
             .catch((err) => {
             const status = 500;
-            res.json({
-                status,
-                err
-            });
+            res.json(err);
         });
     }
     //crear usuario
@@ -76,37 +64,54 @@ class UserRouter {
             actividadesPropietario,
             actividadesCliente
         });
-        user.save()
+        User_1.default.findOne({ "nick": nick })
             .then((data) => {
-            const status = 200;
-            res.json({
-                status,
-                data
-            });
+            if (data == null) {
+                user.save()
+                    .then((data) => {
+                    res.statusCode = 200;
+                    res.json(data);
+                })
+                    .catch((err) => {
+                    res.statusCode = 404;
+                    res.json(err);
+                });
+            }
+            else {
+                res.statusCode = 404;
+                res.json({
+                    data: null
+                });
+            }
         })
             .catch((err) => {
-            const status = 404;
-            res.json({
-                status,
-                err
-            });
+            res.statusCode = 404;
+            res.json(err);
         });
     }
     //modificar usuario
     UpdateUser(req, res) {
         const username = req.params.username;
-        User_1.default.findOneAndUpdate({ username }, req.body)
+        const nombre = req.body.nombre;
+        const apellido = req.body.apellido;
+        //const nick: string = req.body.nick;
+        const email = req.body.email;
+        //const estrellas: number = req.body.estrellas;
+        const password = req.body.password;
+        //const imagen: string = req.body.imagen;
+        const tags = req.body.tags;
+        //const actividadesPropietario: number = req.body.actividadesPropietario;
+        //const actividadesCliente: number = req.body.actividadesCliente;
+        User_1.default.findOneAndUpdate({ "nick": username }, { $set: { "nombre": nombre, "apellido": apellido, "email": email, "tags": tags, "password": password } })
             .then((data) => {
-            const status = 200;
+            res.statusCode = 200;
             res.json({
-                status,
                 data
             });
         })
             .catch((err) => {
-            const status = 404;
+            res.statusCode = 404;
             res.json({
-                status,
                 err
             });
         });
@@ -117,24 +122,18 @@ class UserRouter {
         User_1.default.findOneAndRemove({ username })
             .then((data) => {
             const status = 200;
-            res.json({
-                status,
-                data
-            });
+            res.json(data);
         })
             .catch((err) => {
             const status = 404;
-            res.json({
-                status,
-                err
-            });
+            res.json(err);
         });
     }
     //@ts-ignore
     routes() {
         //@ts-ignore
         this.router.get('/', this.GetUsers);
-        this.router.get('/:nombre', this.GetUser);
+        this.router.get('/:nick', this.GetUser);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/:username', this.DeleteUser);

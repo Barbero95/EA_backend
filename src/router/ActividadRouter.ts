@@ -22,17 +22,15 @@ class ActividadRouter{
                 status=404;
             }
             res.statusCode=status;
-            res.json({
-                status,
+            res.json(
                 data
-            });
+            );
         })
         .catch((err) => {
             const status = 500;
-            res.json({
-                status, 
+            res.json(
                 err
-            });
+            );
         })
 
     }
@@ -52,16 +50,16 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         }
         console.log("llegue hasta 2er control");
         res.statusCode=status;
-        res.json({
+        res.json(
             data
-        });
+        );
     })
     .catch((err) => {
         console.log("llegue hasta 3er control");
         res.statusCode = 500;
-        res.json({
+        res.json(
             err
-        });
+        );
     })
 }
 
@@ -81,15 +79,15 @@ public GetActividadesPropietario(req: Request, res: Response): void{
                 status=404;
             }
             res.statusCode=status;
-            res.json({
+            res.json(
                 data
-            });
+            );
         })
         .catch((err) => {
             res.statusCode = 500;
-            res.json({
+            res.json(
                 err
-            });
+            );
         })
     }
     //ver si esta actividad ya existe para el mismo ususario
@@ -111,7 +109,7 @@ public GetActividadesPropietario(req: Request, res: Response): void{
     public CrearActividad(req: Request, res: Response): void{
         const titulo: string = req.body.titulo;
         const descripcion: string = req.body.descripcion;
-        let estrellas: number [] = req.body.estrellas;
+        let estrellas: number = req.body.estrellas;
         //if (estrellas==null){
         //    estrellas=0;
         //}
@@ -167,15 +165,15 @@ public GetActividadesPropietario(req: Request, res: Response): void{
                 actividad.save()
                 .then((data) => {
                     res.statusCode = 200;
-                    res.json({
+                    res.json(
                         data
-                    });
+                    );
                 })
                 .catch((err) => {
                     res.statusCode = 404;
-                    res.json({
+                    res.json(
                         err
-                    });
+                    );
                 })
             }else{
                 res.statusCode = 404;
@@ -186,9 +184,9 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         })
         .catch((err) => {
             res.statusCode = 404;
-            res.json({
+            res.json(
                 err
-                });
+                );
         })
         
         //este funciona sin comprobar, va creando el mismo tantas veces como quieres
@@ -233,15 +231,15 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         Actividad.findOneAndUpdate({"titulo": title}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario}})
         .then((data) => {
             res.statusCode = 200;
-            res.json({
+            res.json(
                 data
-            });
+            );
         })
         .catch((err) => {
             res.statusCode = 404;
-            res.json({
+            res.json(
                 err
-            });
+            );
         })
             
     }

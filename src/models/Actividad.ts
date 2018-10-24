@@ -15,10 +15,10 @@ const ActividadSchema: Schema = new Schema({
         //path: 'descripcion'
     },
     //estrellas de la Actividad
-    estrellas:[{
+    estrellas:{
         type: Number, 
         //path: 'estrellas'
-    }],
+    },
     //ponemos aqui los tags a los que pertenece la actividad?
     tags:[{
         type: String, 

@@ -16,17 +16,11 @@ class ActividadRouter {
                 status = 404;
             }
             res.statusCode = status;
-            res.json({
-                status,
-                data
-            });
+            res.json(data);
         })
             .catch((err) => {
             const status = 500;
-            res.json({
-                status,
-                err
-            });
+            res.json(err);
         });
     }
     //ver actividad segun propietario
@@ -41,16 +35,12 @@ class ActividadRouter {
             }
             console.log("llegue hasta 2er control");
             res.statusCode = status;
-            res.json({
-                data
-            });
+            res.json(data);
         })
             .catch((err) => {
             console.log("llegue hasta 3er control");
             res.statusCode = 500;
-            res.json({
-                err
-            });
+            res.json(err);
         });
     }
     //ver una actividad
@@ -64,15 +54,11 @@ class ActividadRouter {
                 status = 404;
             }
             res.statusCode = status;
-            res.json({
-                data
-            });
+            res.json(data);
         })
             .catch((err) => {
             res.statusCode = 500;
-            res.json({
-                err
-            });
+            res.json(err);
         });
     }
     //ver si esta actividad ya existe para el mismo ususario
@@ -148,15 +134,11 @@ class ActividadRouter {
                 actividad.save()
                     .then((data) => {
                     res.statusCode = 200;
-                    res.json({
-                        data
-                    });
+                    res.json(data);
                 })
                     .catch((err) => {
                     res.statusCode = 404;
-                    res.json({
-                        err
-                    });
+                    res.json(err);
                 });
             }
             else {
@@ -168,9 +150,7 @@ class ActividadRouter {
         })
             .catch((err) => {
             res.statusCode = 404;
-            res.json({
-                err
-            });
+            res.json(err);
         });
         //este funciona sin comprobar, va creando el mismo tantas veces como quieres
         /*
@@ -212,15 +192,11 @@ class ActividadRouter {
         Actividad_1.default.findOneAndUpdate({ "titulo": title }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario } })
             .then((data) => {
             res.statusCode = 200;
-            res.json({
-                data
-            });
+            res.json(data);
         })
             .catch((err) => {
             res.statusCode = 404;
-            res.json({
-                err
-            });
+            res.json(err);
         });
     }
     //@ts-ignore

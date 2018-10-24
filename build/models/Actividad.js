@@ -15,9 +15,9 @@ const ActividadSchema = new mongoose_1.Schema({
         //path: 'descripcion'
     },
     //estrellas de la Actividad
-    estrellas: [{
-            type: Number,
-        }],
+    estrellas: {
+        type: Number,
+    },
     //ponemos aqui los tags a los que pertenece la actividad?
     tags: [{
             type: String,

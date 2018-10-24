@@ -24,43 +24,35 @@ public GetUsers(req: Request, res: Response): void{
                 status=404;
             }
             res.statusCode=status;
-            res.json({
-                status,
-                data
-            });
+            res.json(data);
         })
         .catch((err) => {
             const status = 500;
-            res.json({
-                status, 
-                err
-            });
+            res.json(err);
         })
 
 }
 
 //ver un usuario
 public GetUser(req: Request, res: Response): void{
-    const nombre: string = req.params.nombre;
+    const nick: string = req.params.nick;
 
-    User.findOne({ nombre }).populate('posts', '')
+    User.findOne({ "nick": nick })
     .then((data) => {
         let status = 200;
         if(data==null){
             status=404;
         }
         res.statusCode=status;
-        res.json({
-            status,
+        res.json(
             data
-        });
+        );
     })
     .catch((err) => {
         const status = 500;
-        res.json({
-            status, 
+        res.json(
             err
-        });
+        );
     })
 
 
@@ -75,9 +67,9 @@ public CreateUser(req: Request, res: Response): void{
     const estrellas: number = req.body.estrellas;
     const password: string = req.body.password; 
     const imagen: string = req.body.imagen;
-    const tags: string = req.body.tags;
-    const actividadesPropietario: string = req.body.actividadesPropietario;
-    const actividadesCliente: string = req.body.actividadesCliente;
+    const tags: string[] = req.body.tags;
+    const actividadesPropietario: number[] = req.body.actividadesPropietario;
+    const actividadesCliente: number[] = req.body.actividadesCliente;
     
     const user = new User({
         nombre, 
@@ -92,46 +84,65 @@ public CreateUser(req: Request, res: Response): void{
         actividadesCliente
 
     });
-
-    user.save()
-    .then((data) => {
-        const status = 200;
-
-        res.json({
-            status,
-            data
-        });
-    })
-    .catch((err) => {
-        const status = 404;
-        res.json({
-            status, 
-            err
-        });
-    })
+    User.findOne({ "nick": nick})
+        .then((data) => {
+            if(data==null){
+                user.save()
+                .then((data) => {
+                    res.statusCode = 200;
+                    res.json(
+                        data
+                    );
+                })
+                .catch((err) => {
+                    res.statusCode = 404;
+                    res.json(
+                        err
+                    );
+                })
+            }else{
+                res.statusCode = 404;
+                res.json({
+                    data: null
+                })
+            }
+        })
+        .catch((err) => {
+            res.statusCode = 404;
+            res.json(
+                err
+                );
+        })
 }
 
 //modificar usuario
 public UpdateUser(req: Request, res: Response): void{
 
     const username: string = req.params.username;
+    const nombre: string = req.body.nombre;
+    const apellido: string = req.body.apellido;
+    //const nick: string = req.body.nick;
+    const email: string = req.body.email;
+    //const estrellas: number = req.body.estrellas;
+    const password: string = req.body.password; 
+    //const imagen: string = req.body.imagen;
+    const tags: string[] = req.body.tags;
+    //const actividadesPropietario: number = req.body.actividadesPropietario;
+    //const actividadesCliente: number = req.body.actividadesCliente;
 
-    User.findOneAndUpdate({ username }, req.body)
-    .then((data) => {
-        const status = 200;
-
-        res.json({
-            status,
-            data
-        });
-    })
-    .catch((err) => {
-        const status = 404;
-        res.json({
-            status, 
-            err
-        });
-    })
+    User.findOneAndUpdate({"nick": username}, { $set: {"nombre": nombre, "apellido" :apellido, "email": email, "tags": tags, "password": password}})
+        .then((data) => {
+            res.statusCode = 200;
+            res.json({
+                data
+            });
+        })
+        .catch((err) => {
+            res.statusCode = 404;
+            res.json({
+                err
+            });
+        })
         
 }
 
@@ -143,17 +154,15 @@ public DeleteUser(req: Request, res: Response): void{
     User.findOneAndRemove({ username })
     .then((data) => {
         const status = 200;
-        res.json({
-            status,
+        res.json(
             data
-        });
+        );
     })
     .catch((err) => {
         const status = 404;
-        res.json({
-            status, 
+        res.json(
             err
-        });
+        );
     })
         
 }
@@ -162,7 +171,7 @@ public DeleteUser(req: Request, res: Response): void{
     routes(){
         //@ts-ignore
         this.router.get('/', this.GetUsers);
-        this.router.get('/:nombre', this.GetUser);
+        this.router.get('/:nick', this.GetUser);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/:username', this.DeleteUser);
