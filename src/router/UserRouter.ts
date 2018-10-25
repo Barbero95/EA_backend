@@ -133,15 +133,15 @@ public UpdateUser(req: Request, res: Response): void{
     User.findOneAndUpdate({"nick": username}, { $set: {"nombre": nombre, "apellido" :apellido, "email": email, "tags": tags, "password": password}})
         .then((data) => {
             res.statusCode = 200;
-            res.json({
+            res.json(
                 data
-            });
+            );
         })
         .catch((err) => {
             res.statusCode = 404;
-            res.json({
+            res.json(
                 err
-            });
+            );
         })
         
 }

@@ -105,15 +105,11 @@ class UserRouter {
         User_1.default.findOneAndUpdate({ "nick": username }, { $set: { "nombre": nombre, "apellido": apellido, "email": email, "tags": tags, "password": password } })
             .then((data) => {
             res.statusCode = 200;
-            res.json({
-                data
-            });
+            res.json(data);
         })
             .catch((err) => {
             res.statusCode = 404;
-            res.json({
-                err
-            });
+            res.json(err);
         });
     }
     //borrar usuario
