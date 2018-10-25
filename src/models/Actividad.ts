@@ -6,29 +6,20 @@ const ActividadSchema: Schema = new Schema({
     updateAt: Date,
     titulo:{
         type: String
-        //required: true,
-        //path: 'titulo'
     },
     descripcion:{
         type: String 
-        //required: true,
-        //path: 'descripcion'
     },
     //estrellas de la Actividad
     estrellas:{
-        type: Number, 
-        //path: 'estrellas'
+        type: Number 
     },
     //ponemos aqui los tags a los que pertenece la actividad?
     tags:[{
-        type: String, 
-        //default: '',
-        //path: 'tags'
+        type: String 
     }],
     propietario:{
-        type: String,
-        //default: '',
-        //path: 'propietario'
+        type: String
     },
     clientes:[{
         type: Schema.Types.ObjectId, ref: 'User',
