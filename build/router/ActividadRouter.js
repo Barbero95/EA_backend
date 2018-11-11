@@ -31,14 +31,11 @@ class ActividadRouter {
             let status = 200;
             if (data == null) {
                 status = 404;
-                console.log("llegue hasta 1er control");
             }
-            console.log("llegue hasta 2er control");
             res.statusCode = status;
             res.json(data);
         })
             .catch((err) => {
-            console.log("llegue hasta 3er control");
             res.statusCode = 500;
             res.json(err);
         });
@@ -199,6 +196,20 @@ class ActividadRouter {
             res.json(err);
         });
     }
+    //Borrar actividad
+    BorrarActividad(req, res) {
+        const titulo = req.params.titulo;
+        const propietario = req.params.propietario;
+        Actividad_1.default.findOneAndDelete({ "titulo": titulo, "propietario": propietario })
+            .then((data) => {
+            const status = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            const status = 404;
+            res.json(err);
+        });
+    }
     //@ts-ignore
     routes() {
         //@ts-ignore
@@ -207,6 +218,7 @@ class ActividadRouter {
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.post('/', this.CrearActividad);
         this.router.put('/:title', this.ModificarActividad);
+        this.router.delete('/:propietario/:titulo', this.BorrarActividad);
     }
 }
 //export

@@ -46,16 +46,13 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         let status = 200;
         if(data==null){
             status=404;
-            console.log("llegue hasta 1er control");
         }
-        console.log("llegue hasta 2er control");
         res.statusCode=status;
         res.json(
             data
         );
     })
     .catch((err) => {
-        console.log("llegue hasta 3er control");
         res.statusCode = 500;
         res.json(
             err
@@ -243,6 +240,36 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         })
             
     }
+
+        //Borrar actividad
+    public BorrarActividad(req: Request, res: Response): void{
+
+        const titulo: string = req.params.titulo;
+        const propietario: string = req.params.propietario;
+       
+        
+    Actividad.findOneAndDelete({ "titulo": titulo,"propietario": propietario})
+    .then((data) => {
+        const status = 200;
+        res.json(
+            data
+        );
+    })
+    .catch((err) => {
+        const status = 404;
+        res.json(
+            err
+        );
+    })
+    }
+        
+
+
+    
+    
+
+
+
     //@ts-ignore
     routes(){
         //@ts-ignore
@@ -251,6 +278,8 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.post('/', this.CrearActividad);
         this.router.put('/:title', this.ModificarActividad);
+        this.router.delete('/:propietario/:titulo', this.BorrarActividad);
+        
     }
 }
 
