@@ -81,17 +81,16 @@ class ActividadRouter {
         const titulo = req.body.titulo;
         const descripcion = req.body.descripcion;
         let estrellas = req.body.estrellas;
-        //if (estrellas==null){
-        //    estrellas=0;
-        //}
         const tags = req.body.tags;
         const propietario = req.body.propietario;
+        const horas = req.body.horas;
         const actividad = new Actividad_1.default({
             titulo,
             descripcion,
             estrellas,
             tags,
-            propietario
+            propietario,
+            horas
         });
         /*
         //intento 1

@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import Actividad from '../models/Actividad';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
+import { NativeDate } from 'mongoose';
 
 class ActividadRouter{
 
@@ -110,18 +111,17 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         const titulo: string = req.body.titulo;
         const descripcion: string = req.body.descripcion;
         let estrellas: number = req.body.estrellas;
-        //if (estrellas==null){
-        //    estrellas=0;
-        //}
         const tags: string [] = req.body.tags;
         const propietario: string = req.body.propietario;
+        const horas: number = req.body.horas;
 
         const actividad = new Actividad({
             titulo, 
             descripcion,
             estrellas,
             tags,
-            propietario
+            propietario,
+            horas
         });
         /* 
         //intento 1

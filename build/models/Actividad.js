@@ -6,24 +6,26 @@ const ActividadSchema = new mongoose_1.Schema({
     updateAt: Date,
     titulo: {
         type: String
-        //required: true,
-        //path: 'titulo'
     },
     descripcion: {
         type: String
-        //required: true,
-        //path: 'descripcion'
     },
     //estrellas de la Actividad
     estrellas: {
-        type: Number,
+        type: Number, default: 0
+    },
+    fecha: {
+        type: Date, default: Date.now
+    },
+    horas: {
+        type: Number
     },
     //ponemos aqui los tags a los que pertenece la actividad?
     tags: [{
-            type: String,
+            type: String
         }],
     propietario: {
-        type: String,
+        type: String
     },
     clientes: [{
             type: mongoose_1.Schema.Types.ObjectId, ref: 'User',

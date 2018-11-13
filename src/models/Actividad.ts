@@ -12,7 +12,13 @@ const ActividadSchema: Schema = new Schema({
     },
     //estrellas de la Actividad
     estrellas:{
-        type: Number 
+        type: Number , default: 0
+    },
+    fecha:{
+        type: Date, default: Date.now
+    },
+    horas:{
+        type: Number
     },
     //ponemos aqui los tags a los que pertenece la actividad?
     tags:[{

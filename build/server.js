@@ -10,6 +10,7 @@ const cors = require("cors");
 // import routers
 const ActividadRouter_1 = require("./router/ActividadRouter");
 const UserRouter_1 = require("./router/UserRouter");
+const ImgRouters_1 = require("./router/ImgRouters");
 //server class
 //@ts-ignore
 class Server {
@@ -39,6 +40,7 @@ class Server {
         this.app.use('/', router);
         this.app.use('/actividades', ActividadRouter_1.default);
         this.app.use('/users', UserRouter_1.default);
+        this.app.use('/imgs', ImgRouters_1.default);
     }
 }
 //export 

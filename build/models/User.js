@@ -5,25 +5,29 @@ const UserSchema = new mongoose_1.Schema({
     createdAt: Date,
     updateAt: Date,
     nombre: {
-        type: String,
+        type: String
     },
     apellido: {
-        type: String,
+        type: String
     },
     nick: {
         type: String,
+        tags: { type: [String], index: true }
     },
     email: {
-        type: String,
+        type: String
     },
     estrellas: {
         type: Number
     },
     password: {
-        type: String,
+        type: String
+    },
+    horas: {
+        type: Number
     },
     imagen: {
-        type: String,
+        type: mongoose_1.Schema.Types.ObjectId, ref: 'Img'
     },
     tags: [{
             type: String

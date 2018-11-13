@@ -11,7 +11,8 @@ const UserSchema: Schema = new Schema({
         type: String
     },
     nick:{
-        type: String
+        type: String,
+        tags: { type: [String], index: true }
     },
     email:{
         type: String
@@ -21,9 +22,12 @@ const UserSchema: Schema = new Schema({
     },
     password: {
         type: String
-    }, 
+    },
+    horas:{
+        type: Number
+    },
     imagen: {
-        type: String
+        type: Schema.Types.ObjectId, ref: 'Img'
     },
     tags: [{
         type: String
