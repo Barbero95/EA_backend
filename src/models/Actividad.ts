@@ -24,8 +24,17 @@ const ActividadSchema: Schema = new Schema({
     clientes:[{
         type: Schema.Types.ObjectId, ref: 'User',
         estado: String
-    }]
+    }],
+    ubicacion:{
+        type: String
+    },
+    location:{
+        type: {type: String},
+        coordinates: []
+    }
 });
+
+ActividadSchema.index({ location: "2dsphere" });
 
 
 export default model('Actividade', ActividadSchema);
