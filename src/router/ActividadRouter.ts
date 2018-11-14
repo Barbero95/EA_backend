@@ -120,66 +120,33 @@ public GetActividadesPropietario(req: Request, res: Response): void{
             tags,
             propietario
         });
-        /* 
-        //intento 1
-        this.ComprobarActividad(titulo,propietario, (err:Error, data: Document) => {
-            if(err!=null){
-                res.statusCode = 404;
-                res.json({
-                    err
-                });
-            }else{
-                if(data==null){
-                    //enviar codigo ya existe
-                    res.statusCode = 402;
-                    res.json({
-                    err
-                });
-                }else{
-                    actividad.save()
-                    .then((data) => {
-                        res.statusCode = 200;
-                        res.json({
-                            data
-                        });
-                    })
-                    .catch((err) => {
-                        res.statusCode = 404;
-                        res.json({
- 
-                            err
-                        });
-                    })
-                }
-            }
-        });
-        */
-        
-        //intento 2
         Actividad.findOne({ "titulo": titulo, "propietario": propietario})
         .then((data) => {
             if(data==null){
                 actividad.save()
                 .then((data) => {
+                    //hemos podido crear la actividad
                     res.statusCode = 200;
                     res.json(
                         data
                     );
                 })
                 .catch((err) => {
+                    //error al crear
                     res.statusCode = 404;
                     res.json(
                         err
                     );
                 })
             }else{
-                res.statusCode = 404;
+                //Actividad ya existe
                 res.json({
                     data: null
                 })
             }
         })
         .catch((err) => {
+            //error en la busqueda
             res.statusCode = 404;
             res.json(
                 err
