@@ -200,6 +200,7 @@ public GetActividadesPropietario(req: Request, res: Response): void{
     }
     //modificar actividad
     public ModificarActividad(req: Request, res: Response): void{
+        const title: string = req.params.title;
 
         const titulo: string = req.body.titulo;
         const descripcion: string = req.body.descripcion;
@@ -207,8 +208,10 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         const tags: string [] = req.body.tags;
         const propietario: string = req.body.propietario;
        console.log(titulo);
+       console.log(title);
+
        console.log(propietario);
-        Actividad.findOneAndUpdate({"titulo": titulo , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario}})
+        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario}})
         .then((data) => {
             res.statusCode = 200;
             res.json(
@@ -261,10 +264,8 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
         this.router.post('/', this.CrearActividad);
-        this.router.put('/update', this.ModificarActividad);
+        this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
-
-        
     }
 }
 
