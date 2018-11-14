@@ -23,15 +23,18 @@ const ActividadSchema: Schema = new Schema({
     },
     clientes:[{
         type: Schema.Types.ObjectId, ref: 'User',
-        estado: String
+        estado: Number
     }],
     ubicacion:{
         type: String
     },
+    /*
     location:{
-        type: {type: String},
-        coordinates: []
+        tipo: {type: String},
+        coordinates: [{type: Number}]
     }
+    */
+    location: [{type: Number}]
 });
 
 ActividadSchema.index({ location: "2dsphere" });

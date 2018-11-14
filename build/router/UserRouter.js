@@ -98,11 +98,11 @@ class UserRouter {
         const email = req.body.email;
         //const estrellas: number = req.body.estrellas;
         const password = req.body.password;
-        //const imagen: string = req.body.imagen;
+        const imagen = req.body.imagen;
         const tags = req.body.tags;
         //const actividadesPropietario: number = req.body.actividadesPropietario;
         //const actividadesCliente: number = req.body.actividadesCliente;
-        User_1.default.findOneAndUpdate({ "nick": username }, { $set: { "nombre": nombre, "apellido": apellido, "email": email, "tags": tags, "password": password } })
+        User_1.default.findOneAndUpdate({ "nick": username }, { $set: { "nombre": nombre, "apellido": apellido, "email": email, "tags": tags, "password": password, "imagen": imagen } })
             .then((data) => {
             res.statusCode = 200;
             res.json(data);

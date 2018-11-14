@@ -23,8 +23,19 @@ const ActividadSchema = new mongoose_1.Schema({
     },
     clientes: [{
             type: mongoose_1.Schema.Types.ObjectId, ref: 'User',
-            estado: String
-        }]
+            estado: Number
+        }],
+    ubicacion: {
+        type: String
+    },
+    /*
+    location:{
+        tipo: {type: String},
+        coordinates: [{type: Number}]
+    }
+    */
+    location: [{ type: Number }]
 });
+ActividadSchema.index({ location: "2dsphere" });
 exports.default = mongoose_1.model('Actividade', ActividadSchema);
 //# sourceMappingURL=Actividad.js.map
