@@ -58,6 +58,24 @@ class ActividadRouter {
             res.json(err);
         });
     }
+    GetActividadPropietario(req, res) {
+        //const id: number = req.params.id;
+        const titulo = req.params.titulo;
+        const propietario = req.params.propietario;
+        Actividad_1.default.findOne({ "titulo": titulo, "propietario": propietario })
+            .then((data) => {
+            let status = 200;
+            if (data == null) {
+                status = 404;
+            }
+            res.statusCode = status;
+            res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 500;
+            res.json(err);
+        });
+    }
     //ver si esta actividad ya existe para el mismo ususario
     //miramos si hay ya una 
     ComprobarActividad(titulo, propietario, callback) {
@@ -136,25 +154,14 @@ class ActividadRouter {
     }
     //modificar actividad
     ModificarActividad(req, res) {
-        const title = req.params.title;
         const titulo = req.body.titulo;
         const descripcion = req.body.descripcion;
         const estrellas = req.body.estrellas;
         const tags = req.body.tags;
         const propietario = req.body.propietario;
-        /*
-        const actividad = new Actividad({
-            titulo,
-            descripcion,
-            estrellas,
-            tags,
-            propietario
-        });
-        */
-        //db.getCollection('actividads').findOneAndUpdate({ "titulo" : "pepito" },
-        //{ $set: { "propietario" : "DAV", "estrellas": 5}})
-        //Actividad.findOneAndUpdate({ "_id": new ObjectID(id) }, actividad)
-        Actividad_1.default.findOneAndUpdate({ "titulo": title }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario } })
+        console.log(titulo);
+        console.log(propietario);
+        Actividad_1.default.findOneAndUpdate({ "titulo": titulo, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario } })
             .then((data) => {
             res.statusCode = 200;
             res.json(data);
@@ -184,8 +191,9 @@ class ActividadRouter {
         this.router.get('/', this.GetActividades);
         this.router.get('/:titulo', this.GetActividad);
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
+        this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
         this.router.post('/', this.CrearActividad);
-        this.router.put('/:title', this.ModificarActividad);
+        this.router.put('/update', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
     }
 }

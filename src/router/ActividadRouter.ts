@@ -87,6 +87,34 @@ public GetActividadesPropietario(req: Request, res: Response): void{
             );
         })
     }
+
+    public GetActividadPropietario(req: Request, res: Response): void{
+        //const id: number = req.params.id;
+        const titulo: string = req.params.titulo;
+        const propietario: string = req.params.propietario;
+
+        Actividad.findOne({ "titulo": titulo, "propietario": propietario })
+        .then((data) => {
+            let status = 200;
+            if(data==null){
+                status=404;
+            }
+            res.statusCode=status;
+            res.json(
+                data
+            );
+        })
+        .catch((err) => {
+            res.statusCode = 500;
+            res.json(
+                err
+            );
+        })
+    }
+
+
+
+
     //ver si esta actividad ya existe para el mismo ususario
     //miramos si hay ya una 
     public ComprobarActividad(titulo:String, propietario: String, callback:(Error,Actividad)=>void): void{
@@ -173,26 +201,14 @@ public GetActividadesPropietario(req: Request, res: Response): void{
     //modificar actividad
     public ModificarActividad(req: Request, res: Response): void{
 
-        const title: string = req.params.title;
-
         const titulo: string = req.body.titulo;
         const descripcion: string = req.body.descripcion;
-        const estrellas: number []= req.body.estrellas;
+        const estrellas: number = req.body.estrellas;
         const tags: string [] = req.body.tags;
         const propietario: string = req.body.propietario;
-        /*
-        const actividad = new Actividad({
-            titulo, 
-            descripcion,
-            estrellas,
-            tags,
-            propietario
-        });
-        */
-        //db.getCollection('actividads').findOneAndUpdate({ "titulo" : "pepito" },
-        //{ $set: { "propietario" : "DAV", "estrellas": 5}})
-        //Actividad.findOneAndUpdate({ "_id": new ObjectID(id) }, actividad)
-        Actividad.findOneAndUpdate({"titulo": title}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario}})
+       console.log(titulo);
+       console.log(propietario);
+        Actividad.findOneAndUpdate({"titulo": titulo , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario}})
         .then((data) => {
             res.statusCode = 200;
             res.json(
@@ -243,9 +259,11 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         this.router.get('/', this.GetActividades);
         this.router.get('/:titulo', this.GetActividad);
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
+        this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
         this.router.post('/', this.CrearActividad);
-        this.router.put('/:title', this.ModificarActividad);
+        this.router.put('/update', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
+
         
     }
 }
