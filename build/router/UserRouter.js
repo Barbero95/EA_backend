@@ -7,6 +7,20 @@ class UserRouter {
         this.router = express_1.Router();
         this.routes();
     }
+    //Validación del administrador
+    //validar administrador
+    validarUsuario(req, res) {
+        User_1.default.findOne({ "nombre": req.body.nombre, "password": req.body.password, "rol": "admin" })
+            .then((data) => {
+            console.log("He llegado hasta la validación");
+            console.log(req.body.nombre);
+            console.log(req.body.password);
+            console.log(req.body.rol);
+            console.log(data);
+            res.statusCode = 200;
+            res.json(data);
+        });
+    }
     //ver todos los usuarios
     GetUsers(req, res) {
         User_1.default.find({})
@@ -114,8 +128,8 @@ class UserRouter {
     }
     //borrar usuario
     DeleteUser(req, res) {
-        const username = req.params.username;
-        User_1.default.findOneAndRemove({ username })
+        const username = req.body.nick;
+        User_1.default.findOneAndDelete({ "nick": username })
             .then((data) => {
             const status = 200;
             res.json(data);
@@ -128,11 +142,12 @@ class UserRouter {
     //@ts-ignore
     routes() {
         //@ts-ignore
-        this.router.get('/', this.GetUsers);
+        this.router.get('/usuarios', this.GetUsers);
         this.router.get('/:nick', this.GetUser);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/:username', this.DeleteUser);
+        this.router.post('/validacion', this.validarUsuario);
     }
 }
 //export

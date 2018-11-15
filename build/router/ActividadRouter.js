@@ -154,16 +154,14 @@ class ActividadRouter {
     }
     //modificar actividad
     ModificarActividad(req, res) {
-        const title = req.params.title;
         const titulo = req.body.titulo;
         const descripcion = req.body.descripcion;
         const estrellas = req.body.estrellas;
         const tags = req.body.tags;
         const propietario = req.body.propietario;
         console.log(titulo);
-        console.log(title);
         console.log(propietario);
-        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario } })
+        Actividad_1.default.findOneAndUpdate({ "titulo": titulo, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario } })
             .then((data) => {
             res.statusCode = 200;
             res.json(data);
@@ -195,7 +193,7 @@ class ActividadRouter {
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
         this.router.post('/', this.CrearActividad);
-        this.router.put('/update/:title', this.ModificarActividad);
+        this.router.put('/update', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
     }
 }

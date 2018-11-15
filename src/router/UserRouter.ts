@@ -12,6 +12,24 @@ class UserRouter{
         this.router = Router();
         this.routes();
     }
+    //Validación del administrador
+
+    //validar administrador
+public validarUsuario(req: Request, res: Response): void{
+    
+    User.findOne({ "nombre": req.body.nombre, "password": req.body.password, "rol": "admin"})
+    .then((data) => {
+        console.log("He llegado hasta la validación");
+         console.log(req.body.nombre);
+         console.log(req.body.password);
+         console.log(req.body.rol);
+         console.log(data);
+            res.statusCode = 200;
+            res.json(
+                data
+            );
+        })
+}
 
 
 //ver todos los usuarios
@@ -149,9 +167,9 @@ public UpdateUser(req: Request, res: Response): void{
 //borrar usuario
 public DeleteUser(req: Request, res: Response): void{
 
-    const username: string = req.params.username;
-
-    User.findOneAndRemove({ username })
+    const username: string = req.body.nick;
+        
+    User.findOneAndDelete({ "nick":username})
     .then((data) => {
         const status = 200;
         res.json(
@@ -164,17 +182,18 @@ public DeleteUser(req: Request, res: Response): void{
             err
         );
     })
+    }
         
-}
 
     //@ts-ignore
     routes(){
         //@ts-ignore
-        this.router.get('/', this.GetUsers);
+        this.router.get('/usuarios', this.GetUsers);
         this.router.get('/:nick', this.GetUser);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/:username', this.DeleteUser);
+        this.router.post('/validacion', this.validarUsuario);
     }
 
 }
