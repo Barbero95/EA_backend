@@ -175,6 +175,9 @@ public DeleteUser(req: Request, res: Response): void{
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/:username', this.DeleteUser);
+        
+
+
     }
 
 }

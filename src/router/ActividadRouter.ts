@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import Actividad from '../models/Actividad';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
+import Estadistica from '../models/Estadistica'
 
 class ActividadRouter{
 
@@ -248,6 +249,30 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         );
     })
     }
+    
+    public StatsActivity (req: Request, res: Response): void{
+        const busqueda: string = req.params.id;
+        if(busqueda == "MXS"){
+            const labels:string[] = ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'];
+            const info: number[] = [0,4,5,5,5,5,5,5,5,5,5,5];
+            const label: string = 'Clases de MXS';
+            res.statusCode = 200;
+            res.json({labels,info,label});
+        }else if (busqueda == "EA"){
+            const labels:string[] = ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'];
+            const info: number[] = [7,8,8,8,8,8,8,8,8,8,8,8];
+            const label: string = 'Clases de EA';
+            res.statusCode = 200;
+            res.json({labels,info,label});
+        }else{
+            const labels:string[] = ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'];
+            const info: number[] = [7,2,5,10,6,3,9,6,8,10,11,5];
+            const label: string = 'Clases de Padel';
+            res.statusCode = 200;
+            res.json({labels,info,label});
+        }
+        
+    }
         
 
 
@@ -266,6 +291,10 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         this.router.post('/', this.CrearActividad);
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
+
+        /////panel de administracion
+        //para obtener
+        this.router.get('/stats/:id', this.StatsActivity) 
     }
 }
 

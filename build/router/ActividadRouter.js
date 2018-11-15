@@ -187,6 +187,30 @@ class ActividadRouter {
             res.json(err);
         });
     }
+    StatsActivity(req, res) {
+        const busqueda = req.params.id;
+        if (busqueda == "MXS") {
+            const labels = ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'];
+            const info = [0, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5];
+            const label = 'Clases de MXS';
+            res.statusCode = 200;
+            res.json({ labels, info, label });
+        }
+        else if (busqueda == "EA") {
+            const labels = ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'];
+            const info = [7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8];
+            const label = 'Clases de EA';
+            res.statusCode = 200;
+            res.json({ labels, info, label });
+        }
+        else {
+            const labels = ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'];
+            const info = [7, 2, 5, 10, 6, 3, 9, 6, 8, 10, 11, 5];
+            const label = 'Clases de Padel';
+            res.statusCode = 200;
+            res.json({ labels, info, label });
+        }
+    }
     //@ts-ignore
     routes() {
         //@ts-ignore
@@ -197,6 +221,9 @@ class ActividadRouter {
         this.router.post('/', this.CrearActividad);
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
+        /////panel de administracion
+        //para obtener
+        this.router.get('/stats/:id', this.StatsActivity);
     }
 }
 //export
