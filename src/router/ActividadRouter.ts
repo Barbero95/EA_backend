@@ -63,7 +63,10 @@ public GetActividadesPropietario(req: Request, res: Response): void{
     })
 }
 
+public GetActividadesXdistancia(){
 
+
+}
 
 
 
@@ -105,6 +108,7 @@ public GetActividadesPropietario(req: Request, res: Response): void{
             return callback(err,null);
         })
     }
+
     //crear una actividad
     public CrearActividad(req: Request, res: Response): void{
         const titulo: string = req.body.titulo;
@@ -251,6 +255,7 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.post('/', this.CrearActividad);
         this.router.put('/:title', this.ModificarActividad);
+        this.router.get('/dist/:val',this.GetActividadesXdistancia);
     }
 }
 

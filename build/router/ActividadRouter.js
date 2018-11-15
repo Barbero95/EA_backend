@@ -43,6 +43,8 @@ class ActividadRouter {
             res.json(err);
         });
     }
+    GetActividadesXdistancia() {
+    }
     //ver una actividad
     GetActividad(req, res) {
         //const id: number = req.params.id;
@@ -207,6 +209,7 @@ class ActividadRouter {
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.post('/', this.CrearActividad);
         this.router.put('/:title', this.ModificarActividad);
+        this.router.get('/dist/:val', this.GetActividadesXdistancia);
     }
 }
 //export
