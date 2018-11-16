@@ -26,7 +26,8 @@ class ActividadRouter {
     //ver actividad segun propietario
     GetActividadesPropietario(req, res) {
         const propietario = req.params.propietario;
-        Actividad_1.default.find({ "propietario": propietario })
+        let habilitada = 0;
+        Actividad_1.default.find({ "propietario": propietario, "habilitada": habilitada })
             .then((data) => {
             let status = 200;
             if (data == null) {
@@ -101,13 +102,16 @@ class ActividadRouter {
         //}
         const tags = req.body.tags;
         const propietario = req.body.propietario;
+        let habilitada = 0;
         const actividad = new Actividad_1.default({
             titulo,
             descripcion,
             estrellas,
             tags,
-            propietario
+            propietario,
+            habilitada
         });
+        console.log(actividad);
         Actividad_1.default.findOne({ "titulo": titulo, "propietario": propietario })
             .then((data) => {
             if (data == null) {
@@ -151,6 +155,36 @@ class ActividadRouter {
                         });
                     })
         */
+    }
+    //Deshabilitar actividad
+    DeshabilitarActividad(req, res) {
+        const title = req.params.titulo;
+        const propietario = req.params.propietario;
+        let habilitada = 1;
+        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "habilitada": habilitada } })
+            .then((data) => {
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 404;
+            res.json(err);
+        });
+    }
+    //Habilitar Actividad
+    HabilitarActividad(req, res) {
+        const title = req.params.titulo;
+        const propietario = req.params.propietario;
+        let habilitada = 0;
+        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "habilitada": habilitada } })
+            .then((data) => {
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 404;
+            res.json(err);
+        });
     }
     //modificar actividad
     ModificarActividad(req, res) {
@@ -196,6 +230,8 @@ class ActividadRouter {
         this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
         this.router.post('/', this.CrearActividad);
         this.router.put('/update/:title', this.ModificarActividad);
+        this.router.put('/deshabilitar/:propietario/:titulo', this.DeshabilitarActividad);
+        this.router.put('/habilitar/:propietario/:titulo', this.HabilitarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
     }
 }

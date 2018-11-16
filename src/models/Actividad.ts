@@ -28,6 +28,9 @@ const ActividadSchema: Schema = new Schema({
     ubicacion:{
         type: String
     },
+    habilitada:{
+        type: Number
+    },
     /*
     location:{
         tipo: {type: String},

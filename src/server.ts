@@ -11,6 +11,7 @@ import * as cors from 'cors';
 // import routers
 import ActividadRouter from './router/ActividadRouter';
 import UserRouter from './router/UserRouter';
+import DenunciaRouter from './router/DenunciaRouter';
 
 //server class
 //@ts-ignore
@@ -48,6 +49,7 @@ class Server{
         this.app.use('/', router);
         this.app.use('/actividades', ActividadRouter);
         this.app.use('/users', UserRouter);
+        this.app.use('/denuncias', DenunciaRouter);
 
     }
 }

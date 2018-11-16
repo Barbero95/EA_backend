@@ -28,6 +28,9 @@ const ActividadSchema = new mongoose_1.Schema({
     ubicacion: {
         type: String
     },
+    habilitada: {
+        type: Number
+    },
     /*
     location:{
         tipo: {type: String},
