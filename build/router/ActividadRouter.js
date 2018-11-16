@@ -43,7 +43,22 @@ class ActividadRouter {
             res.json(err);
         });
     }
-    GetActividadesXdistancia() {
+    GetActividadesXdistancia(req, res) {
+        this.ubicacion.longitude = req.params.longitude;
+        this.ubicacion.latitude = req.params.latitude;
+        this.val = req.params.val / 3963.192;
+        Actividad_1.default.find({ 'localizacion': { $within: { $centerSphere: [[this.ubicacion.longitude, this.ubicacion.latitude], this.val] } } })
+            .then((data) => {
+            let status = 200;
+            if (data == null) {
+                status = 404;
+            }
+            res.statusCode = status;
+            res.json(data);
+        }).catch((err) => {
+            res.statusCode = 500;
+            res.json(err);
+        });
     }
     //ver una actividad
     GetActividad(req, res) {
@@ -209,7 +224,7 @@ class ActividadRouter {
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.post('/', this.CrearActividad);
         this.router.put('/:title', this.ModificarActividad);
-        this.router.get('/dist/:val', this.GetActividadesXdistancia);
+        this.router.get('/dist/:val/:longitude/:latitude', this.GetActividadesXdistancia);
     }
 }
 //export

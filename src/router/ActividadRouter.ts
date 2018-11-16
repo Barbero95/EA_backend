@@ -1,11 +1,19 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import Actividad from '../models/Actividad';
+
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
+import Localizacion from '../models/Localizacion';
+
 
 class ActividadRouter{
 
     router: Router;
+    ubicacion: Localizacion;
+
+    val: Number;
+
+
 
     constructor(){
         this.router = Router();
@@ -63,7 +71,29 @@ public GetActividadesPropietario(req: Request, res: Response): void{
     })
 }
 
-public GetActividadesXdistancia(){
+public GetActividadesXdistancia(req: Request, res: Response): void{
+
+         this.ubicacion.longitude = req.params.longitude;
+         this.ubicacion.latitude = req.params.latitude;
+         this.val = req.params.val/3963.192;
+
+    Actividad.find({'localizacion': {$within: {$centerSphere: [[this.ubicacion.longitude,this.ubicacion.latitude], this.val]}}})
+        .then((data) => {
+        let status = 200;
+        if(data==null){
+            status=404;
+        }
+        res.statusCode=status;
+        res.json(
+            data
+        );
+    }).catch((err) => {
+            res.statusCode = 500;
+            res.json(
+                err
+            );
+        })
+
 
 
 }
@@ -255,7 +285,7 @@ public GetActividadesXdistancia(){
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.post('/', this.CrearActividad);
         this.router.put('/:title', this.ModificarActividad);
-        this.router.get('/dist/:val',this.GetActividadesXdistancia);
+        this.router.get('/dist/:val/:longitude/:latitude',this.GetActividadesXdistancia);
     }
 }
 
