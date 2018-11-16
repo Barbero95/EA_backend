@@ -35,7 +35,11 @@ const UserSchema: Schema = new Schema({
     }],
     actividadesCliente:[{
        type: Schema.Types.ObjectId, ref: 'Actividad'
-    }]
+    }],
+    localizacion:{
+        type: Schema.Types.ObjectId, ref: 'Localizacion'
+    }
+
 });
 
 export default model('User', UserSchema);

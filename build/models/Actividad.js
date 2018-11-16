@@ -24,7 +24,10 @@ const ActividadSchema = new mongoose_1.Schema({
     clientes: [{
             type: mongoose_1.Schema.Types.ObjectId, ref: 'User',
             estado: String
-        }]
+        }],
+    localizacion: {
+        type: mongoose_1.Schema.Types.ObjectId, ref: 'Localizacion'
+    }
 });
-exports.default = mongoose_1.model('Actividade', ActividadSchema);
+exports.default = mongoose_1.model('Actividad', ActividadSchema);
 //# sourceMappingURL=Actividad.js.map

@@ -33,7 +33,10 @@ const UserSchema = new mongoose_1.Schema({
         }],
     actividadesCliente: [{
             type: mongoose_1.Schema.Types.ObjectId, ref: 'Actividad'
-        }]
+        }],
+    localizacion: {
+        type: mongoose_1.Schema.Types.ObjectId, ref: 'Localizacion'
+    }
 });
 exports.default = mongoose_1.model('User', UserSchema);
 //# sourceMappingURL=User.js.map

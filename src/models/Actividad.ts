@@ -24,8 +24,11 @@ const ActividadSchema: Schema = new Schema({
     clientes:[{
         type: Schema.Types.ObjectId, ref: 'User',
         estado: String
-    }]
+    }],
+    localizacion:{
+        type: Schema.Types.ObjectId, ref: 'Localizacion'
+    }
 });
 
 
-export default model('Actividade', ActividadSchema);
+export default model('Actividad', ActividadSchema);
