@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Actividad_1 = require("../models/Actividad");
+//const {Point} = require('mongoose-geojson-schemas');
 class ActividadRouter {
     constructor() {
         this.router = express_1.Router();
@@ -39,6 +40,41 @@ class ActividadRouter {
             res.statusCode = 500;
             res.json(err);
         });
+    }
+    /// buscamos por ubicación
+    BusquedaGeo(req, res) {
+        //const radio: number = req.body.radio;
+        const distance = 1000;
+        //const geo: number[] = req.body.geo;
+        const lat = 124;
+        const long = 124;
+        //Intento 1
+        Actividad_1.default.findOne({ 'locatio': { $near: [long, lat], $maxDistance: distance } })
+            .then((data) => {
+            let status = 200;
+            if (data == null) {
+                status = 404;
+            }
+            res.statusCode = status;
+            res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 500;
+            res.json(err);
+        });
+        /*
+       //Intento 2
+       var query = Actividad.find({});
+       query = query.where('locatio').near({ center: {type: 'Point', coordinates: [long, lat]},
+                maxDistance: distance * 1609.34, spherical:true});
+
+        query.exec(function(err, actividades){
+            if(err)
+                res.send(err);
+            else
+                res.json(actividades)
+        });
+        */
     }
     //ver una actividad
     GetActividad(req, res) {
@@ -96,29 +132,42 @@ class ActividadRouter {
         const titulo = req.body.titulo;
         const descripcion = req.body.descripcion;
         let estrellas = req.body.estrellas;
-        //if (estrellas==null){
-        //    estrellas=0;
-        //}
         const tags = req.body.tags;
         const propietario = req.body.propietario;
+        const ubicacion = req.body.ubicacion;
+        const locatio = req.body.location;
+        //const geo: number [] = [ req.body.lat, req.body.lng ];
+        //const coordinates = 
+        //const geo = req.body.geo;
+        //let loc: { type:'Point', coordinates: [179.9, 0.0]};
+        console.log(req.body.tags);
+        console.log(req.body.propietario);
+        console.log(req.body.ubicacion);
+        console.log(req.body.location);
         const actividad = new Actividad_1.default({
             titulo,
             descripcion,
+            propietario,
             estrellas,
             tags,
-            propietario
+            ubicacion,
+            locatio
         });
         Actividad_1.default.findOne({ "titulo": titulo, "propietario": propietario })
             .then((data) => {
+            console.log("ha entrado fase1");
             if (data == null) {
+                console.log("ha entrado fase2");
                 actividad.save()
                     .then((data) => {
                     //hemos podido crear la actividad
+                    console.log("ha entrado 200");
                     res.statusCode = 200;
                     res.json(data);
                 })
                     .catch((err) => {
                     //error al crear
+                    console.log("ha entrado 404");
                     res.statusCode = 404;
                     res.json(err);
                 });
@@ -197,6 +246,8 @@ class ActividadRouter {
         this.router.post('/', this.CrearActividad);
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
+        /////busqueda 
+        this.router.get('/search', this.BusquedaGeo);
     }
 }
 //export
