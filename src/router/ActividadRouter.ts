@@ -69,6 +69,7 @@ class ActividadRouter{
         const long: number = 124;
 
         //Intento 1s
+        /*
         Actividad.findOne({'locatio': {$near: [long,lat], $maxDistance: distance}})
         .then((data) => {
             let status = 200;
@@ -86,6 +87,7 @@ class ActividadRouter{
                 err
             );
         })
+        */
         /*
        //Intento 2
        var query = Actividad.find({});
@@ -99,6 +101,24 @@ class ActividadRouter{
                 res.json(actividades)
         });
         */
+       //intento 3
+       Actividad.find({'localizacion': {$within: {$centerSphere:[[41.3818,3],]}}})
+        .then((data) => {
+            let status = 200;
+            if(data==null){
+                status=404;
+            }
+            res.statusCode=status;
+            res.json(
+                data
+            );
+        })
+        .catch((err) => {
+            res.statusCode = 500;
+            res.json(
+                err
+            );
+        })
     }
 
 

@@ -48,20 +48,26 @@ class ActividadRouter {
         //const geo: number[] = req.body.geo;
         const lat = 124;
         const long = 124;
-        //Intento 1
-        Actividad_1.default.findOne({ 'locatio': { $near: [long, lat], $maxDistance: distance } })
-            .then((data) => {
+        //Intento 1s
+        /*
+        Actividad.findOne({'locatio': {$near: [long,lat], $maxDistance: distance}})
+        .then((data) => {
             let status = 200;
-            if (data == null) {
-                status = 404;
+            if(data==null){
+                status=404;
             }
-            res.statusCode = status;
-            res.json(data);
+            res.statusCode=status;
+            res.json(
+                data
+            );
         })
-            .catch((err) => {
+        .catch((err) => {
             res.statusCode = 500;
-            res.json(err);
-        });
+            res.json(
+                err
+            );
+        })
+        */
         /*
        //Intento 2
        var query = Actividad.find({});
@@ -75,6 +81,20 @@ class ActividadRouter {
                 res.json(actividades)
         });
         */
+        //intento 3
+        Actividad_1.default.find({ 'localizacion': { $within: { $centerSphere: [[41.3818, 3],] } } })
+            .then((data) => {
+            let status = 200;
+            if (data == null) {
+                status = 404;
+            }
+            res.statusCode = status;
+            res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 500;
+            res.json(err);
+        });
     }
     //ver una actividad
     GetActividad(req, res) {
@@ -112,21 +132,23 @@ class ActividadRouter {
             res.json(err);
         });
     }
+    /*
     //ver si esta actividad ya existe para el mismo ususario
-    //miramos si hay ya una 
-    ComprobarActividad(titulo, propietario, callback) {
+    //miramos si hay ya una
+    public ComprobarActividad(titulo:String, propietario: String, callback:(Error,Actividad)=>void): void{
         //p=:promise<err,Actividad>
         //p.then(........) dentro pongo lo que quiero ejecutar
         //p.catch(......) para error
-        Actividad_1.default.findOne({ "titulo": titulo, "propietario": propietario })
-            .then((data) => {
-            callback(null, data);
+        Actividad.findOne({ "titulo": titulo, "propietario": propietario})
+        .then((data) => {
+            callback(null,data);
             return;
         })
-            .catch((err) => {
-            return callback(err, null);
-        });
+        .catch((err) => {
+            return callback(err,null);
+        })
     }
+    */
     //crear una actividad
     CrearActividad(req, res) {
         const titulo = req.body.titulo;
@@ -140,9 +162,6 @@ class ActividadRouter {
         //const coordinates = 
         //const geo = req.body.geo;
         //let loc: { type:'Point', coordinates: [179.9, 0.0]};
-        console.log(req.body.tags);
-        console.log(req.body.propietario);
-        console.log(req.body.ubicacion);
         console.log(req.body.location);
         const actividad = new Actividad_1.default({
             titulo,

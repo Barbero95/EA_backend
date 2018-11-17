@@ -45,7 +45,7 @@ const ActividadSchema = new mongoose_1.Schema({
     }
     */
     //[Long,Lat]
-    locatio: [{
+    localizacion: [{
             type: Number
         }]
 });

@@ -46,7 +46,7 @@ const ActividadSchema: Schema = new Schema({
     }
     */
    //[Long,Lat]
-    locatio:[{
+    localizacion:[{
         type: Number
     }]
     
