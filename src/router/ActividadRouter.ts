@@ -3,13 +3,14 @@ import Actividad from '../models/Actividad';
 
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
-import Localizacion from '../models/Localizacion';
 
 
 class ActividadRouter{
 
     router: Router;
-    ubicacion: Localizacion;
+    longitude: Number;
+    latitude: Number;
+
 
     val: Number;
 
@@ -73,11 +74,11 @@ public GetActividadesPropietario(req: Request, res: Response): void{
 
 public GetActividadesXdistancia(req: Request, res: Response): void{
 
-         this.ubicacion.longitude = req.params.longitude;
-         this.ubicacion.latitude = req.params.latitude;
+         this.longitude = req.params.longitude;
+         this.latitude = req.params.latitude;
          this.val = req.params.val/3963.192;
 
-    Actividad.find({'localizacion': {$within: {$centerSphere: [[this.ubicacion.longitude,this.ubicacion.latitude], this.val]}}})
+    Actividad.find({'localizacion': {$within: {$centerSphere: [[this.longitude,this.latitude], this.val]}}})
         .then((data) => {
         let status = 200;
         if(data==null){

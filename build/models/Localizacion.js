@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const LocalizacionSchema = new mongoose_1.Schema({
+    createdAt: Date,
+    updateAt: Date,
     longitude: {
         type: Number
     },

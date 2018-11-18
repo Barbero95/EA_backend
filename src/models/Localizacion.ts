@@ -3,6 +3,9 @@ import {Schema, model, Mongoose} from 'mongoose';
 
 const LocalizacionSchema: Schema = new Schema({
 
+
+    createdAt: Date,
+    updateAt: Date,
     longitude:{
         type: Number
     },

@@ -44,10 +44,10 @@ class ActividadRouter {
         });
     }
     GetActividadesXdistancia(req, res) {
-        this.ubicacion.longitude = req.params.longitude;
-        this.ubicacion.latitude = req.params.latitude;
+        this.longitude = req.params.longitude;
+        this.latitude = req.params.latitude;
         this.val = req.params.val / 3963.192;
-        Actividad_1.default.find({ 'localizacion': { $within: { $centerSphere: [[this.ubicacion.longitude, this.ubicacion.latitude], this.val] } } })
+        Actividad_1.default.find({ 'localizacion': { $within: { $centerSphere: [[this.longitude, this.latitude], this.val] } } })
             .then((data) => {
             let status = 200;
             if (data == null) {
