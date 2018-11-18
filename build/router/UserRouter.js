@@ -40,6 +40,39 @@ class UserRouter {
             res.json(err);
         });
     }
+    GetLogin(req, res) {
+        const nick = req.params.username;
+        const password = req.params.password;
+        User_1.default.findOne({ "nick": nick })
+            .then((data) => {
+            var status = 200;
+            if (data == null) {
+                status = 404;
+            }
+            else {
+                User_1.default.findOne({ "nick": nick, "password": password }, {})
+                    .then((data2) => {
+                    status = 300;
+                    if (data2 == null) {
+                        console.log("ha ntrat");
+                        status = 409;
+                    }
+                })
+                    .catch((err) => {
+                    const status = 500;
+                    res.json(err);
+                });
+                res.statusCode = status;
+            }
+            console.log(status);
+            res.statusCode = status;
+            res.json(data);
+        })
+            .catch((err) => {
+            const status = 500;
+            res.json(err);
+        });
+    }
     //crear usuario
     CreateUser(req, res) {
         const nombre = req.body.nombre;
@@ -64,6 +97,7 @@ class UserRouter {
             actividadesPropietario,
             actividadesCliente
         });
+        console.log(user);
         User_1.default.findOne({ "nick": nick })
             .then((data) => {
             if (data == null) {
@@ -129,6 +163,7 @@ class UserRouter {
     routes() {
         //@ts-ignore
         this.router.get('/', this.GetUsers);
+        this.router.get('/login/:username/:password', this.GetLogin);
         this.router.get('/:nick', this.GetUser);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);

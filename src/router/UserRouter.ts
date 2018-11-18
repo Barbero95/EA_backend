@@ -58,6 +58,53 @@ public GetUser(req: Request, res: Response): void{
 
 }
 
+/// fucnion para loggearse
+public GetLogin(req: Request, res: Response): void{
+    const nick: string = req.params.username;
+    const password: string = req.params.password;
+
+    User.findOne({ "nick": nick })
+    .then((data) => {
+        
+        var status = 200;
+        if(data==null){
+            status=404;
+        }
+        else  {
+
+            User.findOne({ "nick": nick  , "password":password},{})
+            .then((data2) => {
+                status = 200;     
+                if(data2==null){
+                    console.log("ha entrado");
+                    status=409;   //no se que numero hay que poner aqui
+                    
+                }
+            })
+            .catch((err) => {
+                const status = 500;
+                res.json(
+                    err
+                );
+            })
+
+        }
+        console.log(status);
+        res.statusCode=status;
+        res.json(
+            data
+        );
+    })
+    .catch((err) => {
+        const status = 500;
+        res.json(
+            err
+        );
+    })
+
+
+}
+
 //crear usuario
 public CreateUser(req: Request, res: Response): void{
     const nombre: string = req.body.nombre;
@@ -84,6 +131,8 @@ public CreateUser(req: Request, res: Response): void{
         actividadesCliente
 
     });
+
+    console.log(user);
     User.findOne({ "nick": nick})
         .then((data) => {
             if(data==null){
@@ -171,6 +220,7 @@ public DeleteUser(req: Request, res: Response): void{
     routes(){
         //@ts-ignore
         this.router.get('/', this.GetUsers);
+        this.router.get('/login/:username/:password', this.GetLogin);
         this.router.get('/:nick', this.GetUser);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
