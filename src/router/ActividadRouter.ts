@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import Actividad from '../models/Actividad';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
+//const {Point} = require('mongoose-geojson-schemas');
 
 class ActividadRouter{
 
@@ -36,29 +37,92 @@ class ActividadRouter{
     }
 
 
-//ver actividad segun propietario
-public GetActividadesPropietario(req: Request, res: Response): void{
-   
-    const propietario: string = req.params.propietario;
+    //ver actividad segun propietario
+    public GetActividadesPropietario(req: Request, res: Response): void{
+    
+        const propietario: string = req.params.propietario;
 
-    Actividad.find({ "propietario": propietario })
-    .then((data) => {
-        let status = 200;
-        if(data==null){
-            status=404;
-        }
-        res.statusCode=status;
-        res.json(
-            data
-        );
-    })
-    .catch((err) => {
-        res.statusCode = 500;
-        res.json(
-            err
-        );
-    })
-}
+        Actividad.find({ "propietario": propietario })
+        .then((data) => {
+            let status = 200;
+            if(data==null){
+                status=404;
+            }
+            res.statusCode=status;
+            res.json(
+                data
+            );
+        })
+        .catch((err) => {
+            res.statusCode = 500;
+            res.json(
+                err
+            );
+        })
+    }
+    /// buscamos por ubicación
+    public BusquedaGeo (req: Request, res: Response){
+        //const radio: number = req.body.radio;
+        const distance = 1000;
+        //const geo: number[] = req.body.geo;
+        const lat: number = 124;
+        const long: number = 124;
+
+        //Intento 1s
+        /*
+        Actividad.findOne({'locatio': {$near: [long,lat], $maxDistance: distance}})
+        .then((data) => {
+            let status = 200;
+            if(data==null){
+                status=404;
+            }
+            res.statusCode=status;
+            res.json(
+                data
+            );
+        })
+        .catch((err) => {
+            res.statusCode = 500;
+            res.json(
+                err
+            );
+        })
+        */
+        /*
+       //Intento 2
+       var query = Actividad.find({});
+       query = query.where('locatio').near({ center: {type: 'Point', coordinates: [long, lat]},
+                maxDistance: distance * 1609.34, spherical:true});
+
+        query.exec(function(err, actividades){
+            if(err)
+                res.send(err);
+            else
+                res.json(actividades)
+        });
+        */
+       //intento 3
+       Actividad.find({'localizacion': {$within: {$centerSphere:[[51.678418,7.809007],100/3963.192]}}})
+        .then((data) => {
+            if(data==null){
+                res.statusCode=404;
+                res.json(
+                    data
+                );
+            }else{
+                res.statusCode=200;
+                res.json(
+                    data
+                );
+            }
+        })
+        .catch((err) => {
+            res.statusCode = 500;
+            res.json(
+                err
+            );
+        })
+    }
 
 
 
@@ -114,7 +178,7 @@ public GetActividadesPropietario(req: Request, res: Response): void{
 
 
 
-
+    /*
     //ver si esta actividad ya existe para el mismo ususario
     //miramos si hay ya una 
     public ComprobarActividad(titulo:String, propietario: String, callback:(Error,Actividad)=>void): void{
@@ -130,30 +194,41 @@ public GetActividadesPropietario(req: Request, res: Response): void{
             return callback(err,null);
         })
     }
+    */
     //crear una actividad
     public CrearActividad(req: Request, res: Response): void{
         const titulo: string = req.body.titulo;
         const descripcion: string = req.body.descripcion;
         let estrellas: number = req.body.estrellas;
-        //if (estrellas==null){
-        //    estrellas=0;
-        //}
         const tags: string [] = req.body.tags;
         const propietario: string = req.body.propietario;
+        const ubicacion: string = req.body.ubicacion;
+        const localizacion: number [] = req.body.localizacion;
 
+        //const geo: number [] = [ req.body.lat, req.body.lng ];
+        //const coordinates = 
+        //const geo = req.body.geo;
+        //let loc: { type:'Point', coordinates: [179.9, 0.0]};
+
+        console.log(req.body.location);
         const actividad = new Actividad({
             titulo, 
             descripcion,
+            propietario,
             estrellas,
             tags,
-            propietario
+            ubicacion,
+            localizacion
         });
         Actividad.findOne({ "titulo": titulo, "propietario": propietario})
         .then((data) => {
+            console.log("ha entrado fase1");
             if(data==null){
+                console.log("ha entrado fase2");
                 actividad.save()
                 .then((data) => {
                     //hemos podido crear la actividad
+                    console.log("ha entrado 200");
                     res.statusCode = 200;
                     res.json(
                         data
@@ -161,6 +236,7 @@ public GetActividadesPropietario(req: Request, res: Response): void{
                 })
                 .catch((err) => {
                     //error al crear
+                    console.log("ha entrado 404");
                     res.statusCode = 404;
                     res.json(
                         err
@@ -259,6 +335,7 @@ public GetActividadesPropietario(req: Request, res: Response): void{
     //@ts-ignore
     routes(){
         //@ts-ignore
+        
         this.router.get('/', this.GetActividades);
         this.router.get('/:titulo', this.GetActividad);
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
@@ -266,6 +343,9 @@ public GetActividadesPropietario(req: Request, res: Response): void{
         this.router.post('/', this.CrearActividad);
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
+
+        /////busqueda 
+        this.router.get('/busqueda/:GPS', this.BusquedaGeo);
     }
 }
 

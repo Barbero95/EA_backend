@@ -1,5 +1,7 @@
 import {Schema, model, Mongoose} from 'mongoose';
 
+const {Point} = require('mongoose-geojson-schemas');
+
 const ActividadSchema: Schema = new Schema({
 
     createdAt: Date, 
@@ -29,15 +31,28 @@ const ActividadSchema: Schema = new Schema({
         type: String
     },
     /*
-    location:{
-        tipo: {type: String},
+    location: {
+        type: Point,
         coordinates: [{type: Number}]
     }
+    
+    geo:{
+        lat: {type: Number},
+        lng: {type: Number}
+    }
+    loc: {
+        type: {type:String},
+        coordinates: []
+    }
     */
-    location: [{type: Number}]
+   //[Long,Lat]
+    localizacion:[{
+        type: Number
+    }]
+    
 });
 
-ActividadSchema.index({ location: "2dsphere" });
+//ActividadSchema.index({ loc: "2dsphere" });
 
 
 export default model('Actividade', ActividadSchema);

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+const { Point } = require('mongoose-geojson-schemas');
 const ActividadSchema = new mongoose_1.Schema({
     createdAt: Date,
     updateAt: Date,
@@ -29,13 +30,25 @@ const ActividadSchema = new mongoose_1.Schema({
         type: String
     },
     /*
-    location:{
-        tipo: {type: String},
+    location: {
+        type: Point,
         coordinates: [{type: Number}]
     }
+    
+    geo:{
+        lat: {type: Number},
+        lng: {type: Number}
+    }
+    loc: {
+        type: {type:String},
+        coordinates: []
+    }
     */
-    location: [{ type: Number }]
+    //[Long,Lat]
+    localizacion: [{
+            type: Number
+        }]
 });
-ActividadSchema.index({ location: "2dsphere" });
+//ActividadSchema.index({ loc: "2dsphere" });
 exports.default = mongoose_1.model('Actividade', ActividadSchema);
 //# sourceMappingURL=Actividad.js.map
