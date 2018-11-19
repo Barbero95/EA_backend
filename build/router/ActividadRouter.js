@@ -82,14 +82,16 @@ class ActividadRouter {
         });
         */
         //intento 3
-        Actividad_1.default.find({ 'localizacion': { $within: { $centerSphere: [[41.3818, 3],] } } })
+        Actividad_1.default.find({ 'localizacion': { $within: { $centerSphere: [[51.678418, 7.809007], 100 / 3963.192] } } })
             .then((data) => {
-            let status = 200;
             if (data == null) {
-                status = 404;
+                res.statusCode = 404;
+                res.json(data);
             }
-            res.statusCode = status;
-            res.json(data);
+            else {
+                res.statusCode = 200;
+                res.json(data);
+            }
         })
             .catch((err) => {
             res.statusCode = 500;
@@ -157,7 +159,7 @@ class ActividadRouter {
         const tags = req.body.tags;
         const propietario = req.body.propietario;
         const ubicacion = req.body.ubicacion;
-        const locatio = req.body.location;
+        const localizacion = req.body.localizacion;
         //const geo: number [] = [ req.body.lat, req.body.lng ];
         //const coordinates = 
         //const geo = req.body.geo;
@@ -170,7 +172,7 @@ class ActividadRouter {
             estrellas,
             tags,
             ubicacion,
-            locatio
+            localizacion
         });
         Actividad_1.default.findOne({ "titulo": titulo, "propietario": propietario })
             .then((data) => {
@@ -266,7 +268,7 @@ class ActividadRouter {
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
         /////busqueda 
-        this.router.get('/search', this.BusquedaGeo);
+        this.router.get('/busqueda/:GPS', this.BusquedaGeo);
     }
 }
 //export

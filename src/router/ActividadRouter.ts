@@ -102,16 +102,19 @@ class ActividadRouter{
         });
         */
        //intento 3
-       Actividad.find({'localizacion': {$within: {$centerSphere:[[41.3818,3],]}}})
+       Actividad.find({'localizacion': {$within: {$centerSphere:[[51.678418,7.809007],100/3963.192]}}})
         .then((data) => {
-            let status = 200;
             if(data==null){
-                status=404;
+                res.statusCode=404;
+                res.json(
+                    data
+                );
+            }else{
+                res.statusCode=200;
+                res.json(
+                    data
+                );
             }
-            res.statusCode=status;
-            res.json(
-                data
-            );
         })
         .catch((err) => {
             res.statusCode = 500;
@@ -200,7 +203,7 @@ class ActividadRouter{
         const tags: string [] = req.body.tags;
         const propietario: string = req.body.propietario;
         const ubicacion: string = req.body.ubicacion;
-        const locatio: number [] = req.body.location;
+        const localizacion: number [] = req.body.localizacion;
 
         //const geo: number [] = [ req.body.lat, req.body.lng ];
         //const coordinates = 
@@ -215,7 +218,7 @@ class ActividadRouter{
             estrellas,
             tags,
             ubicacion,
-            locatio
+            localizacion
         });
         Actividad.findOne({ "titulo": titulo, "propietario": propietario})
         .then((data) => {
@@ -332,6 +335,7 @@ class ActividadRouter{
     //@ts-ignore
     routes(){
         //@ts-ignore
+        
         this.router.get('/', this.GetActividades);
         this.router.get('/:titulo', this.GetActividad);
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
@@ -341,7 +345,7 @@ class ActividadRouter{
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
 
         /////busqueda 
-        this.router.get('/search', this.BusquedaGeo);
+        this.router.get('/busqueda/:GPS', this.BusquedaGeo);
     }
 }
 
