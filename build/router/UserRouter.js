@@ -40,29 +40,24 @@ class UserRouter {
             res.json(err);
         });
     }
+    /// fucnion para loggearse
     GetLogin(req, res) {
         const nick = req.params.username;
         const password = req.params.password;
-        User_1.default.findOne({ "nick": nick })
+        const password2 = "";
+        User_1.default.findOne({ "nick": nick }).select("password -_id")
             .then((data) => {
-            var status = 200;
+            console.log(data);
+            console.log(password2);
+            let status = 200;
             if (data == null) {
                 status = 404;
             }
             else {
-                User_1.default.findOne({ "nick": nick, "password": password }, {})
-                    .then((data2) => {
-                    status = 300;
-                    if (data2 == null) {
-                        console.log("ha ntrat");
-                        status = 409;
-                    }
-                })
-                    .catch((err) => {
-                    const status = 500;
-                    res.json(err);
-                });
-                res.statusCode = status;
+                console.log(data.toString());
+                if (data.toString() != password) {
+                    status = 410;
+                }
             }
             console.log(status);
             res.statusCode = status;

@@ -62,32 +62,21 @@ public GetUser(req: Request, res: Response): void{
 public GetLogin(req: Request, res: Response): void{
     const nick: string = req.params.username;
     const password: string = req.params.password;
+    var password2:string ="";
+    var user = new User;
 
-    User.findOne({ "nick": nick })
+    User.findOne({ "nick": nick }).select("password -_id" )
     .then((data) => {
-        
-        var status = 200;
+        console.log(data);
+        let status = 200;
         if(data==null){
             status=404;
         }
         else  {
-
-            User.findOne({ "nick": nick  , "password":password},{})
-            .then((data2) => {
-                status = 200;     
-                if(data2==null){
-                    console.log("ha entrado");
-                    status=409;   //no se que numero hay que poner aqui
-                    
-                }
-            })
-            .catch((err) => {
-                const status = 500;
-                res.json(
-                    err
-                );
-            })
-
+            console.log(data.toString())
+            if(data.toString() !=password ){
+                status=410;
+            }
         }
         console.log(status);
         res.statusCode=status;
