@@ -82,7 +82,7 @@ class ActividadRouter {
         });
         */
         //intento 3
-        Actividad_1.default.find({ 'localizacion': { $within: { $centerSphere: [[51.678418, 7.809007], 100 / 3963.192] } } })
+        Actividad_1.default.find({ 'localizacion': { $within: { $centerSphere: [[51.678418, 7.809007], 100000000000000000 / 3963.192] } } })
             .then((data) => {
             if (data == null) {
                 res.statusCode = 404;

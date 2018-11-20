@@ -44,11 +44,11 @@ class UserRouter {
     GetLogin(req, res) {
         const nick = req.params.username;
         const password = req.params.password;
-        const password2 = "";
+        var password2 = "";
+        var user = new User_1.default;
         User_1.default.findOne({ "nick": nick }).select("password -_id")
             .then((data) => {
             console.log(data);
-            console.log(password2);
             let status = 200;
             if (data == null) {
                 status = 404;
