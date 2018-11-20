@@ -62,12 +62,21 @@ class ActividadRouter{
     }
     /// buscamos por ubicación
     public BusquedaGeo (req: Request, res: Response){
+        // para el get 
+        /*
         //const radio: number = req.body.radio;
-        const distance = 1000;
+        let distance = 1000000000;
         //const geo: number[] = req.body.geo;
-        const lat: number = 124;
-        const long: number = 124;
-
+        let lat: number = 41.4059693;
+        let long: number = 2.1763453;
+        */
+        
+        //para el post 
+        let distance = req.body.distance;
+        let lat = req.body.latitude;
+        let long = req.body.longitude;
+        let tag = req.body.tag;
+        
         //Intento 1s
         /*
         Actividad.findOne({'locatio': {$near: [long,lat], $maxDistance: distance}})
@@ -102,7 +111,8 @@ class ActividadRouter{
         });
         */
        //intento 3
-       Actividad.find({'localizacion': {$within: {$centerSphere:[[51.678418,7.809007],100000000000000000/3963.192]}}})
+       Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, 'tags': tag})
+       //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}})
         .then((data) => {
             if(data==null){
                 res.statusCode=404;
@@ -346,6 +356,7 @@ class ActividadRouter{
 
         /////busqueda 
         this.router.get('/busqueda/:GPS', this.BusquedaGeo);
+        this.router.post('/busqueda/:GPS', this.BusquedaGeo);
     }
 }
 
