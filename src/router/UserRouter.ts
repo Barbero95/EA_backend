@@ -62,9 +62,9 @@ public GetUser(req: Request, res: Response): void{
 public GetLogin(req: Request, res: Response): void{
     const nick: string = req.params.username;
     const password: string = req.params.password;
-    var password2:string ="";
-    var user = new User;
-        User.findOne({ "nick": nick, "password": password}).select("_id" )
+
+        User.findOne({ "nick": nick, "password": password})
+        //.select("_id" )
         .then((data) => {
             if(data==null){
                 res.statusCode = 404;
@@ -175,6 +175,23 @@ public CreateUser(req: Request, res: Response): void{
         })
 }
 
+public validarUsuario(req: Request, res: Response): void{
+    
+    User.findOne({ "nick": req.body.nick, "password": req.body.password})
+    .then((data) => {
+        console.log("He llegado hasta la validación");
+         console.log(req.body.nick);
+         console.log(req.body.password);
+         console.log(data);
+            res.statusCode = 200;
+            res.json(
+                data
+            );
+        })
+}
+
+
+
 //modificar usuario
 public UpdateUser(req: Request, res: Response): void{
 
@@ -236,6 +253,7 @@ public DeleteUser(req: Request, res: Response): void{
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/:username', this.DeleteUser);
+        this.router.post('/validacion', this.validarUsuario);
     }
 
 }

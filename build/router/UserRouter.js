@@ -44,29 +44,53 @@ class UserRouter {
     GetLogin(req, res) {
         const nick = req.params.username;
         const password = req.params.password;
-        var password2 = "";
-        var user = new User_1.default;
-        User_1.default.findOne({ "nick": nick }).select("password -_id")
+        User_1.default.findOne({ "nick": nick, "password": password })
+            //.select("_id" )
             .then((data) => {
-            console.log(data);
-            let status = 200;
             if (data == null) {
-                status = 404;
+                res.statusCode = 404;
+                res.json({
+                    data: null
+                });
             }
             else {
-                console.log(data.toString());
-                if (data.toString() != password) {
-                    status = 410;
+                res.statusCode = 200;
+                res.json({
+                    data
+                });
+            }
+        })
+            .catch((err) => {
+            res.statusCode = 404;
+            res.json(err);
+        });
+        /*
+        User.findOne({ "nick": nick }).select("password -_id" )
+        .then((data) => {
+            console.log(data);
+            let status = 200;
+            if(data==null){
+                status=404;
+            }
+            else  {
+                console.log(data.toString())
+                if(data.toString() !=password ){
+                    status=410;
                 }
             }
             console.log(status);
-            res.statusCode = status;
-            res.json(data);
+            res.statusCode=status;
+            res.json(
+                data
+            );
         })
-            .catch((err) => {
+        .catch((err) => {
             const status = 500;
-            res.json(err);
-        });
+            res.json(
+                err
+            );
+        })
+        */
     }
     //crear usuario
     CreateUser(req, res) {
@@ -118,6 +142,17 @@ class UserRouter {
             res.json(err);
         });
     }
+    validarUsuario(req, res) {
+        User_1.default.findOne({ "nick": req.body.nick, "password": req.body.password })
+            .then((data) => {
+            console.log("He llegado hasta la validación");
+            console.log(req.body.nick);
+            console.log(req.body.password);
+            console.log(data);
+            res.statusCode = 200;
+            res.json(data);
+        });
+    }
     //modificar usuario
     UpdateUser(req, res) {
         const username = req.params.username;
@@ -163,6 +198,7 @@ class UserRouter {
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/:username', this.DeleteUser);
+        this.router.post('/validacion', this.validarUsuario);
     }
 }
 //export
