@@ -64,7 +64,29 @@ public GetLogin(req: Request, res: Response): void{
     const password: string = req.params.password;
     var password2:string ="";
     var user = new User;
+        User.findOne({ "nick": nick, "password": password}).select("_id" )
+        .then((data) => {
+            if(data==null){
+                res.statusCode = 404;
+                res.json({
+                    data: null
+                }) 
+            }else{
+                res.statusCode = 200;
+                res.json({
+                    data
+                })
+            }
+        })
+        .catch((err) => {
+            res.statusCode = 404;
+            res.json(
+                err
+                );
+        })
+    
 
+    /*
     User.findOne({ "nick": nick }).select("password -_id" )
     .then((data) => {
         console.log(data);
@@ -90,7 +112,7 @@ public GetLogin(req: Request, res: Response): void{
             err
         );
     })
-
+    */
 
 }
 
