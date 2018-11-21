@@ -10,25 +10,28 @@
 #Para Actividad
 #http://localhost:3000/actividades/
 {
-    "titulo": "EA",
-    "descripcion": "La vida es dura en ea",
-    "estrellas": [4,2],
-    "tags": ["xxx","yyy"],
-    "propietario": "TimexTime"
+    "titulo": string,
+    "descripcion": string,
+    "estrellas": number,
+    "tags": string[],
+    "propietario": string,
+    "clientes": number[] referencia a tabla User
+    "ubicacion": string,
+    localizacion: number[]
 }
 
 #Para Usuario
 #http://localhost:3000/users/
 {
-    "nombre": "Time",
-    "apellido": "xTime",
-    "nick": "TimexTime",
-    "email": "timextime@ea.es",
-    "estrellas": [1,4,3],
-    "password": "xxx",
-    "imagen": "timextime",
-    "tags": ["deporte","mates"],
-    "actividadesPropietario": [1,4],
-    "actividadesCliente": [1,4]
+    "nombre": string,
+    "apellido": string,
+    "nick": string,
+    "email": string,
+    "estrellas": number,
+    "password": string,
+    "imagen": path string,
+    "tags": string[],
+    "actividadesPropietario": [] de id referencia a Actividad,
+    "actividadesCliente": [] de id referencia a Actividad
 }
 
