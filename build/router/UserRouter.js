@@ -143,6 +143,17 @@ class UserRouter {
             res.json(err);
         });
     }
+    validarUsuario(req, res) {
+        User_1.default.findOne({ "nick": req.body.nick, "password": req.body.password })
+            .then((data) => {
+            console.log("He llegado hasta la validación");
+            console.log(req.body.nick);
+            console.log(req.body.password);
+            console.log(data);
+            res.statusCode = 200;
+            res.json(data);
+        });
+    }
     //modificar usuario
     UpdateUser(req, res) {
         const username = req.params.username;
@@ -188,6 +199,7 @@ class UserRouter {
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/:username', this.DeleteUser);
+        this.router.post('/validacion', this.validarUsuario);
     }
 }
 //export
