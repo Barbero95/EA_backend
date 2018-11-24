@@ -44,9 +44,8 @@ class UserRouter {
     GetLogin(req, res) {
         const nick = req.params.username;
         const password = req.params.password;
-        var password2 = "";
-        var user = new User_1.default;
-        User_1.default.findOne({ "nick": nick, "password": password }).select("_id")
+        User_1.default.findOne({ "nick": nick, "password": password })
+            //.select("_id" )
             .then((data) => {
             if (data == null) {
                 res.statusCode = 404;
@@ -179,13 +178,14 @@ class UserRouter {
     }
     //borrar usuario
     DeleteUser(req, res) {
-        const username = req.params.username;
+        const username = req.params.nick;
         User_1.default.findOneAndRemove({ username })
             .then((data) => {
             const status = 200;
             res.json(data);
         })
             .catch((err) => {
+            console.log("intentando borrar" + req.params.nick);
             const status = 404;
             res.json(err);
         });
