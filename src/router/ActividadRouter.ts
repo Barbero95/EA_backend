@@ -35,6 +35,25 @@ class ActividadRouter{
         })
 
     }
+    //get de actividades por tags de preferencia del perfil
+    public GetActividadesPorTagDePerfil(req: Request, res: Response): void{
+        const tag: string = req.params.tagperfil;
+
+        Actividad.find({"tags": tag})
+        .then((data) => {
+            res.statusCode=200;
+            res.json(
+                data
+            );
+        })
+        .catch((err) => {
+            res.statusCode=500;
+            res.json(
+                err
+            );
+        })
+
+    }
 
 
     //ver actividad segun propietario
@@ -60,56 +79,15 @@ class ActividadRouter{
             );
         })
     }
+
     /// buscamos por ubicación
     public BusquedaGeo (req: Request, res: Response){
-        // para el get 
-        /*
-        //const radio: number = req.body.radio;
-        let distance = 1000000000;
-        //const geo: number[] = req.body.geo;
-        let lat: number = 41.4059693;
-        let long: number = 2.1763453;
-        */
-        
         //para el post 
         let distance = req.body.distance;
         let lat = req.body.latitude;
         let long = req.body.longitude;
         let tag = req.body.tag;
         
-        //Intento 1s
-        /*
-        Actividad.findOne({'locatio': {$near: [long,lat], $maxDistance: distance}})
-        .then((data) => {
-            let status = 200;
-            if(data==null){
-                status=404;
-            }
-            res.statusCode=status;
-            res.json(
-                data
-            );
-        })
-        .catch((err) => {
-            res.statusCode = 500;
-            res.json(
-                err
-            );
-        })
-        */
-        /*
-       //Intento 2
-       var query = Actividad.find({});
-       query = query.where('locatio').near({ center: {type: 'Point', coordinates: [long, lat]},
-                maxDistance: distance * 1609.34, spherical:true});
-
-        query.exec(function(err, actividades){
-            if(err)
-                res.send(err);
-            else
-                res.json(actividades)
-        });
-        */
        //intento 3
        Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, 'tags': tag})
        //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}})
@@ -173,11 +151,7 @@ class ActividadRouter{
 
         Actividad.findOne({ "titulo": titulo, "propietario": propietario })
         .then((data) => {
-            let status = 200;
-            if(data==null){
-                status=404;
-            }
-            res.statusCode=status;
+            res.statusCode=200;
             res.json(
                 data
             );
@@ -326,13 +300,13 @@ class ActividadRouter{
         
     Actividad.findOneAndDelete({ "titulo": titulo,"propietario": propietario})
     .then((data) => {
-        const status = 200;
+        res.statusCode = 200;
         res.json(
             data
         );
     })
     .catch((err) => {
-        const status = 404;
+        res.statusCode = 500;
         res.json(
             err
         );
@@ -354,6 +328,7 @@ class ActividadRouter{
         this.router.get('/:titulo', this.GetActividad);
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
+        this.router.get('/porPerfil/:tagperfil', this.GetActividadesPorTagDePerfil)
         this.router.post('/', this.CrearActividad);
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);

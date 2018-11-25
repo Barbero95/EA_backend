@@ -39,11 +39,7 @@ public GetUser(req: Request, res: Response): void{
 
     User.findOne({ "nick": nick })
     .then((data) => {
-        let status = 200;
-        if(data==null){
-            status=404;
-        }
-        res.statusCode=status;
+        res.statusCode=200;
         res.json(
             data
         );
@@ -162,9 +158,9 @@ public CreateUser(req: Request, res: Response): void{
                 })
             }else{
                 res.statusCode = 404;
-                res.json({
-                    data: null
-                })
+                res.json(
+                    data = null
+                )
             }
         })
         .catch((err) => {
@@ -178,15 +174,21 @@ public CreateUser(req: Request, res: Response): void{
 public validarUsuario(req: Request, res: Response): void{
     
     User.findOne({ "nick": req.body.nick, "password": req.body.password})
-    .then((data) => {
-        console.log("He llegado hasta la validación");
-         console.log(req.body.nick);
-         console.log(req.body.password);
-         console.log(data);
-            res.statusCode = 200;
+        .then((data) => {
+            console.log("He llegado hasta la validación");
+            console.log(req.body.nick);
+            console.log(req.body.password);
+            console.log(data);
+                res.statusCode = 200;
+                res.json(
+                    data
+                );
+        })
+        .catch((err) => {
+            res.statusCode = 404;
             res.json(
-                data
-            );
+                err
+                );
         })
 }
 

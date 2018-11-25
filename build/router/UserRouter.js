@@ -28,11 +28,7 @@ class UserRouter {
         const nick = req.params.nick;
         User_1.default.findOne({ "nick": nick })
             .then((data) => {
-            let status = 200;
-            if (data == null) {
-                status = 404;
-            }
-            res.statusCode = status;
+            res.statusCode = 200;
             res.json(data);
         })
             .catch((err) => {
@@ -44,9 +40,8 @@ class UserRouter {
     GetLogin(req, res) {
         const nick = req.params.username;
         const password = req.params.password;
-        var password2 = "";
-        var user = new User_1.default;
-        User_1.default.findOne({ "nick": nick, "password": password }).select("_id")
+        User_1.default.findOne({ "nick": nick, "password": password })
+            //.select("_id" )
             .then((data) => {
             if (data == null) {
                 res.statusCode = 404;
@@ -133,9 +128,7 @@ class UserRouter {
             }
             else {
                 res.statusCode = 404;
-                res.json({
-                    data: null
-                });
+                res.json(data = null);
             }
         })
             .catch((err) => {
@@ -152,6 +145,10 @@ class UserRouter {
             console.log(data);
             res.statusCode = 200;
             res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 404;
+            res.json(err);
         });
     }
     //modificar usuario
