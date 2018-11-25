@@ -179,6 +179,27 @@ public validarUsuario(req: Request, res: Response): void{
     
     User.findOne({ "nick": req.body.nick, "password": req.body.password})
     .then((data) => {
+        if(data==null){
+            res.statusCode = 404;
+            res.json({
+                data: null
+            }) 
+        }else{
+            res.statusCode = 200;
+            res.json({
+                data
+            })
+        }
+    })
+    .catch((err) => {
+        res.statusCode = 404;
+        res.json(
+            err
+            );
+    })
+    
+    /*
+    .then((data) => {
         console.log("He llegado hasta la validación");
          console.log(req.body.nick);
          console.log(req.body.password);
@@ -188,6 +209,7 @@ public validarUsuario(req: Request, res: Response): void{
                 data
             );
         })
+    */
 }
 
 

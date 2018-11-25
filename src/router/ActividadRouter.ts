@@ -173,14 +173,18 @@ class ActividadRouter{
 
         Actividad.findOne({ "titulo": titulo, "propietario": propietario })
         .then((data) => {
-            let status = 200;
             if(data==null){
-                status=404;
+                res.statusCode=404;
+                res.json(
+                    data=null
+                );
+            }else{
+                res.statusCode=200;
+                res.json(
+                    data
+                );
             }
-            res.statusCode=status;
-            res.json(
-                data
-            );
+            
         })
         .catch((err) => {
             res.statusCode = 500;

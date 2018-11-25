@@ -145,13 +145,35 @@ class UserRouter {
     validarUsuario(req, res) {
         User_1.default.findOne({ "nick": req.body.nick, "password": req.body.password })
             .then((data) => {
-            console.log("He llegado hasta la validación");
-            console.log(req.body.nick);
-            console.log(req.body.password);
-            console.log(data);
-            res.statusCode = 200;
-            res.json(data);
+            if (data == null) {
+                res.statusCode = 404;
+                res.json({
+                    data: null
+                });
+            }
+            else {
+                res.statusCode = 200;
+                res.json({
+                    data
+                });
+            }
+        })
+            .catch((err) => {
+            res.statusCode = 404;
+            res.json(err);
         });
+        /*
+        .then((data) => {
+            console.log("He llegado hasta la validación");
+             console.log(req.body.nick);
+             console.log(req.body.password);
+             console.log(data);
+                res.statusCode = 200;
+                res.json(
+                    data
+                );
+            })
+        */
     }
     //modificar usuario
     UpdateUser(req, res) {
@@ -178,14 +200,15 @@ class UserRouter {
     }
     //borrar usuario
     DeleteUser(req, res) {
-        const username = req.params.nick;
-        User_1.default.findOneAndRemove({ username })
+        const username = req.body.nick;
+        User_1.default.findOneAndDelete({ username })
             .then((data) => {
+            console.log("intentando borrar" + req.params.nombre);
             const status = 200;
             res.json(data);
         })
             .catch((err) => {
-            console.log("intentando borrar" + req.params.nick);
+            console.log("intentando borrar pero error" + req.params.nick);
             const status = 404;
             res.json(err);
         });
@@ -198,7 +221,7 @@ class UserRouter {
         this.router.get('/:nick', this.GetUser);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
-        this.router.delete('/:username', this.DeleteUser);
+        this.router.delete('/borrar', this.DeleteUser);
         this.router.post('/validacion', this.validarUsuario);
     }
 }
