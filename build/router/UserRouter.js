@@ -176,13 +176,15 @@ class UserRouter {
     }
     //borrar usuario
     DeleteUser(req, res) {
-        const username = req.params.username;
-        User_1.default.findOneAndRemove({ username })
+        const username = req.body.nick;
+        User_1.default.findOneAndDelete({ username })
             .then((data) => {
+            console.log("intentando borrar" + req.params.nombre);
             const status = 200;
             res.json(data);
         })
             .catch((err) => {
+            console.log("intentando borrar pero error" + req.params.nick);
             const status = 404;
             res.json(err);
         });
@@ -195,7 +197,7 @@ class UserRouter {
         this.router.get('/:nick', this.GetUser);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
-        this.router.delete('/:username', this.DeleteUser);
+        this.router.delete('/borrar', this.DeleteUser);
         this.router.post('/validacion', this.validarUsuario);
     }
 }

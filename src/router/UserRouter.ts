@@ -186,10 +186,12 @@ public validarUsuario(req: Request, res: Response): void{
         })
         .catch((err) => {
             res.statusCode = 404;
+
             res.json(
                 err
                 );
         })
+    
 }
 
 
@@ -228,16 +230,18 @@ public UpdateUser(req: Request, res: Response): void{
 //borrar usuario
 public DeleteUser(req: Request, res: Response): void{
 
-    const username: string = req.params.username;
+    const username: string = req.body.nick;
 
-    User.findOneAndRemove({ username })
+    User.findOneAndDelete({ username })
     .then((data) => {
+        console.log("intentando borrar" + req.params.nombre);
         const status = 200;
         res.json(
             data
         );
     })
     .catch((err) => {
+        console.log("intentando borrar pero error" + req.params.nick);
         const status = 404;
         res.json(
             err
@@ -254,7 +258,7 @@ public DeleteUser(req: Request, res: Response): void{
         this.router.get('/:nick', this.GetUser);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
-        this.router.delete('/:username', this.DeleteUser);
+        this.router.delete('/borrar', this.DeleteUser);
         this.router.post('/validacion', this.validarUsuario);
     }
 

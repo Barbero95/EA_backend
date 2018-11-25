@@ -155,6 +155,7 @@ class ActividadRouter{
             res.json(
                 data
             );
+
         })
         .catch((err) => {
             res.statusCode = 500;
