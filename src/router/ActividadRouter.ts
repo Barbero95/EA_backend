@@ -193,11 +193,8 @@ class ActividadRouter{
         const propietario: string = req.body.propietario;
         const ubicacion: string = req.body.ubicacion;
         const localizacion: number [] = req.body.localizacion;
-
-        //const geo: number [] = [ req.body.lat, req.body.lng ];
-        //const coordinates = 
-        //const geo = req.body.geo;
-        //let loc: { type:'Point', coordinates: [179.9, 0.0]};
+        const horasActividad: number = req.body.horasActividad;
+        const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
 
         console.log(req.body.location);
         const actividad = new Actividad({
@@ -207,7 +204,9 @@ class ActividadRouter{
             estrellas,
             tags,
             ubicacion,
-            localizacion
+            localizacion,
+            horasActividad,
+            contadorEstrellasActividad
         });
         Actividad.findOne({ "titulo": titulo, "propietario": propietario})
         .then((data) => {
@@ -272,11 +271,13 @@ class ActividadRouter{
         const estrellas: number = req.body.estrellas;
         const tags: string [] = req.body.tags;
         const propietario: string = req.body.propietario;
+        const horasActividad: number = req.body.horasActividad;
+        const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
        console.log(titulo);
        console.log(title);
 
        console.log(propietario);
-        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario}})
+        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad}})
         .then((data) => {
             res.statusCode = 200;
             res.json(

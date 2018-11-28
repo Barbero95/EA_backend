@@ -30,26 +30,16 @@ const ActividadSchema: Schema = new Schema({
     ubicacion:{
         type: String
     },
-    /*
-    location: {
-        type: Point,
-        coordinates: [{type: Number}]
-    }
-    
-    geo:{
-        lat: {type: Number},
-        lng: {type: Number}
-    }
-    loc: {
-        type: {type:String},
-        coordinates: []
-    }
-    */
-   //[Long,Lat]
+    //[lati, long]
     localizacion:[{
         type: Number
-    }]
-    
+    }],
+    horasActividad:{
+        type: Number
+    },
+    contadorEstrellasActividad:{
+        type: Number
+    } 
 });
 
 //ActividadSchema.index({ loc: "2dsphere" });

@@ -124,6 +124,8 @@ public CreateUser(req: Request, res: Response): void{
     const tags: string[] = req.body.tags;
     const actividadesPropietario: number[] = req.body.actividadesPropietario;
     const actividadesCliente: number[] = req.body.actividadesCliente;
+    const horasUsuario: number = req.body.horasUsuario;
+    const contadorEstrellasUsuario: number = req.body.contadorEstrellasUsuario;
     
     const user = new User({
         nombre, 
@@ -135,7 +137,9 @@ public CreateUser(req: Request, res: Response): void{
         imagen, 
         tags, 
         actividadesPropietario, 
-        actividadesCliente
+        actividadesCliente,
+        horasUsuario,
+        contadorEstrellasUsuario
 
     });
 
@@ -208,10 +212,12 @@ public UpdateUser(req: Request, res: Response): void{
     const password: string = req.body.password; 
     const imagen: string = req.body.imagen;
     const tags: string[] = req.body.tags;
+    const horasUsuario: number = req.body.horasUsuario;
+    const contadorEstrellasUsuario: number = req.body.contadorEstrellasUsuario;
     //const actividadesPropietario: number = req.body.actividadesPropietario;
     //const actividadesCliente: number = req.body.actividadesCliente;
 
-    User.findOneAndUpdate({"nick": username}, { $set: {"nombre": nombre, "apellido" :apellido, "email": email, "tags": tags, "password": password, "imagen": imagen}})
+    User.findOneAndUpdate({"nick": username}, { $set: {"nombre": nombre, "apellido" :apellido, "email": email, "tags": tags, "password": password, "imagen": imagen, "horasUsuario": horasUsuario, "contadorEstrellasUsuario": contadorEstrellasUsuario}})
         .then((data) => {
             res.statusCode = 200;
             res.json(
