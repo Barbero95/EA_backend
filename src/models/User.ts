@@ -29,19 +29,20 @@ const UserSchema: Schema = new Schema({
         type: String
         
     }], 
+    horasUsuario:{
+        type: Number
+    },
+    contadorEstrellasUsuario:{
+        type: Number
+    } ,
     actividadesPropietario:[{
         type: Schema.Types.ObjectId, ref: 'Actividad'
         
     }],
     actividadesCliente:[{
        type: Schema.Types.ObjectId, ref: 'Actividad'
-    }],
-    horasUsuario:{
-        type: Number
-    },
-    contadorEstrellasUsuario:{
-        type: Number
-    } 
+    }]
+
 });
 
 export default model('User', UserSchema);

@@ -26,28 +26,19 @@ const ActividadSchema = new mongoose_1.Schema({
             type: mongoose_1.Schema.Types.ObjectId, ref: 'User',
             estado: Number
         }],
+    horasActividad: {
+        type: Number
+    },
+    contadorEstrellasActividad: {
+        type: Number
+    },
     ubicacion: {
         type: String
     },
-    /*
-    location: {
-        type: Point,
-        coordinates: [{type: Number}]
-    }
-    
-    geo:{
-        lat: {type: Number},
-        lng: {type: Number}
-    }
-    loc: {
-        type: {type:String},
-        coordinates: []
-    }
-    */
-    //[Long,Lat]
+    //[lati, long]
     localizacion: [{
             type: Number
-        }]
+        }],
 });
 //ActividadSchema.index({ loc: "2dsphere" });
 exports.default = mongoose_1.model('Actividade', ActividadSchema);

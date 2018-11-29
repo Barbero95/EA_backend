@@ -100,6 +100,8 @@ class UserRouter {
         const tags = req.body.tags;
         const actividadesPropietario = req.body.actividadesPropietario;
         const actividadesCliente = req.body.actividadesCliente;
+        const horasUsuario = req.body.horasUsuario;
+        const contadorEstrellasUsuario = req.body.contadorEstrellasUsuario;
         const user = new User_1.default({
             nombre,
             apellido,
@@ -109,6 +111,8 @@ class UserRouter {
             password,
             imagen,
             tags,
+            horasUsuario,
+            contadorEstrellasUsuario,
             actividadesPropietario,
             actividadesCliente
         });
@@ -162,9 +166,11 @@ class UserRouter {
         const password = req.body.password;
         const imagen = req.body.imagen;
         const tags = req.body.tags;
+        const horasUsuario = req.body.horasUsuario;
+        const contadorEstrellasUsuario = req.body.contadorEstrellasUsuario;
         //const actividadesPropietario: number = req.body.actividadesPropietario;
         //const actividadesCliente: number = req.body.actividadesCliente;
-        User_1.default.findOneAndUpdate({ "nick": username }, { $set: { "nombre": nombre, "apellido": apellido, "email": email, "tags": tags, "password": password, "imagen": imagen } })
+        User_1.default.findOneAndUpdate({ "nick": username }, { $set: { "nombre": nombre, "apellido": apellido, "email": email, "tags": tags, "password": password, "imagen": imagen, "horasUsuario": horasUsuario, "contadorEstrellasUsuario": contadorEstrellasUsuario } })
             .then((data) => {
             res.statusCode = 200;
             res.json(data);

@@ -135,12 +135,11 @@ public CreateUser(req: Request, res: Response): void{
         estrellas,
         password,
         imagen, 
-        tags, 
-        actividadesPropietario, 
-        actividadesCliente,
+        tags,
         horasUsuario,
-        contadorEstrellasUsuario
-
+        contadorEstrellasUsuario,
+        actividadesPropietario, 
+        actividadesCliente
     });
 
     console.log(user);

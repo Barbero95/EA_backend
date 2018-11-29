@@ -165,25 +165,6 @@ class ActividadRouter{
         })
     }
 
-
-
-    /*
-    //ver si esta actividad ya existe para el mismo ususario
-    //miramos si hay ya una 
-    public ComprobarActividad(titulo:String, propietario: String, callback:(Error,Actividad)=>void): void{
-        //p=:promise<err,Actividad>
-        //p.then(........) dentro pongo lo que quiero ejecutar
-        //p.catch(......) para error
-        Actividad.findOne({ "titulo": titulo, "propietario": propietario})
-        .then((data) => {
-            callback(null,data);
-            return;
-        })
-        .catch((err) => {
-            return callback(err,null);
-        })
-    }
-    */
     //crear una actividad
     public CrearActividad(req: Request, res: Response): void{
         const titulo: string = req.body.titulo;
@@ -203,10 +184,10 @@ class ActividadRouter{
             propietario,
             estrellas,
             tags,
-            ubicacion,
-            localizacion,
             horasActividad,
-            contadorEstrellasActividad
+            contadorEstrellasActividad,
+            ubicacion,
+            localizacion
         });
         Actividad.findOne({ "titulo": titulo, "propietario": propietario})
         .then((data) => {
@@ -232,9 +213,9 @@ class ActividadRouter{
                 })
             }else{
                 //Actividad ya existe
-                res.json({
-                    data: null
-                })
+                res.json(
+                    data= null
+                )
             }
         })
         .catch((err) => {
@@ -245,22 +226,6 @@ class ActividadRouter{
                 );
         })
         
-        //este funciona sin comprobar, va creando el mismo tantas veces como quieres
-        /*
-        actividad.save()
-                    .then((data) => {
-                        res.statusCode = 200;
-                        res.json({
-                            data
-                        });
-                    })
-                    .catch((err) => {
-                        res.statusCode = 404;
-                        res.json({
-                            err
-                        });
-                    })
-        */
     }
     //modificar actividad
     public ModificarActividad(req: Request, res: Response): void{

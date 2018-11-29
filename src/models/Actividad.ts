@@ -27,6 +27,12 @@ const ActividadSchema: Schema = new Schema({
         type: Schema.Types.ObjectId, ref: 'User',
         estado: Number
     }],
+    horasActividad:{
+        type: Number
+    },
+    contadorEstrellasActividad:{
+        type: Number
+    },
     ubicacion:{
         type: String
     },
@@ -34,12 +40,7 @@ const ActividadSchema: Schema = new Schema({
     localizacion:[{
         type: Number
     }],
-    horasActividad:{
-        type: Number
-    },
-    contadorEstrellasActividad:{
-        type: Number
-    } 
+    
 });
 
 //ActividadSchema.index({ loc: "2dsphere" });
