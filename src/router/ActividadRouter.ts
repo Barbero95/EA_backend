@@ -90,7 +90,38 @@ class ActividadRouter{
         
        //intento 3
        Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, 'tags': tag})
+       //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, $text:{$search: tag}})
+       //Actividad.find({$text:{$search: tag}})
        //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}})
+        .then((data) => {
+            if(data==null){
+                res.statusCode=404;
+                res.json(
+                    data
+                );
+            }else{
+                res.statusCode=200;
+                res.json(
+                    data
+                );
+            }
+        })
+        .catch((err) => {
+            res.statusCode = 500;
+            res.json(
+                err
+            );
+        })
+    }
+    public BusquedaGeoEnDescripcion (req: Request, res: Response){
+        //para el post 
+        let distance = req.body.distance;
+        let lat = req.body.latitude;
+        let long = req.body.longitude;
+        let tag = req.body.tag;
+        
+       Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, $text:{$search: tag}})
+
         .then((data) => {
             if(data==null){
                 res.statusCode=404;
@@ -303,6 +334,7 @@ class ActividadRouter{
         /////busqueda 
         this.router.get('/busqueda/:GPS', this.BusquedaGeo);
         this.router.post('/busqueda/:GPS', this.BusquedaGeo);
+        this.router.post('/busqueda/En/Descripcion',this.BusquedaGeoEnDescripcion);
     }
 }
 
