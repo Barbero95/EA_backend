@@ -261,27 +261,9 @@ public DeleteUser(req: Request, res: Response): void{
 public GetImgUser(req: Request, res: Response): void{
     const id: string = req.params.id;
     const upload = multer ({dest: 'uploads/'})
-    res.json(upload.single("pitufo"));
-    /*
-    Image.find({ "_id": id})
-    //Image.findById({ id })
-    .then((data) => {
-        let status = 200;
-        if(data==null){
-            status=404;
-        }
-        res.statusCode=status;
-        res.json(
-            data
-        );
-    })
-    .catch((err) => {
-        const status = 500;
-        res.json(
-            err
-        );
-    })
-    */
+    //res.json(upload.single("id"));
+    res.json("./uploads/dav.png");
+    
     }
     //añadir por primera vez la foto de un usuario
 
