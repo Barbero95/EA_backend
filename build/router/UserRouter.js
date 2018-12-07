@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const User_1 = require("../models/User");
+const multer = require("multer");
 class UserRouter {
     constructor() {
         this.router = express_1.Router();
@@ -195,6 +196,58 @@ class UserRouter {
             res.json(err);
         });
     }
+    //ver una sola foto
+    GetImgUser(req, res) {
+        const id = req.params.id;
+        const upload = multer({ dest: 'uploads/' });
+        res.json(upload.single("pitufo"));
+        /*
+        Image.find({ "_id": id})
+        //Image.findById({ id })
+        .then((data) => {
+            let status = 200;
+            if(data==null){
+                status=404;
+            }
+            res.statusCode=status;
+            res.json(
+                data
+            );
+        })
+        .catch((err) => {
+            const status = 500;
+            res.json(
+                err
+            );
+        })
+        */
+    }
+    //añadir por primera vez la foto de un usuario
+    CreateNewImg(req, res) {
+        //const upload = multer ({dest: 'uploads/'})
+        let path = req.file.path;
+        if (req.file) {
+            console.log("file!!!");
+        }
+        /*
+        user.save()
+            .then((data) => {
+                res.statusCode = 200;
+                res.json(
+                    data
+                );
+            })
+            .catch((err) => {
+                res.statusCode = 404;
+                res.json(
+                    err
+                );
+            })
+        */
+    }
+    //modificar usuario
+    UpdateImgUser(req, res) {
+    }
     //@ts-ignore
     routes() {
         //@ts-ignore
@@ -205,6 +258,40 @@ class UserRouter {
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/borrar', this.DeleteUser);
         this.router.post('/validacion', this.validarUsuario);
+        const storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+                cb(null, './uploads/');
+                //usado en la version anterior
+                //cb(null, '../fotosproyectoea/');
+                //prueba
+                cb(null, '../frontendapp/src/assets/images');
+            },
+            filename: function (req, file, cb) {
+                console.log(" Guardamos el nombre del avatar");
+                //cb(null, file.originalname);
+                cb(null, file.originalname + ".png");
+            }
+        });
+        const fileFilter = (req, file, cb) => {
+            // reject a file
+            if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+                cb(null, true);
+            }
+            else {
+                cb(null, false);
+            }
+        };
+        const upload = multer({
+            storage: storage,
+            limits: {
+                fileSize: 1024 * 1024 * 5
+            },
+            fileFilter: fileFilter
+        });
+        this.router.post('/foto/perfil/:avatar', upload.single('avatar'), this.CreateNewImg);
+        //@ts-ignore
+        this.router.get('/foto/perfil/:id', this.GetImgUser);
+        //this.router.put('/:id', this.UpdateImgUser);
     }
 }
 //export

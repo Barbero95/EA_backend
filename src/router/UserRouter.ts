@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import User from '../models/User';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
+import * as multer from 'multer';
 
 
 class UserRouter{
@@ -255,6 +256,68 @@ public DeleteUser(req: Request, res: Response): void{
         
 }
 
+//ver una sola foto
+
+public GetImgUser(req: Request, res: Response): void{
+    const id: string = req.params.id;
+    const upload = multer ({dest: 'uploads/'})
+    res.json(upload.single("pitufo"));
+    /*
+    Image.find({ "_id": id})
+    //Image.findById({ id })
+    .then((data) => {
+        let status = 200;
+        if(data==null){
+            status=404;
+        }
+        res.statusCode=status;
+        res.json(
+            data
+        );
+    })
+    .catch((err) => {
+        const status = 500;
+        res.json(
+            err
+        );
+    })
+    */
+    }
+    //añadir por primera vez la foto de un usuario
+
+public CreateNewImg(req: Request, res: Response): void{
+
+    //const upload = multer ({dest: 'uploads/'})
+
+    let path = req.file.path;
+    
+    if (req.file) {
+        console.log("file!!!")
+    }
+    /*
+    user.save()
+        .then((data) => {
+            res.statusCode = 200;
+            res.json(
+                data
+            );
+        })
+        .catch((err) => {
+            res.statusCode = 404;
+            res.json(
+                err
+            );
+        })
+    */
+}
+//modificar usuario
+public UpdateImgUser(req: Request, res: Response): void{
+
+        
+}
+
+
+
     //@ts-ignore
     routes(){
         //@ts-ignore
@@ -265,6 +328,40 @@ public DeleteUser(req: Request, res: Response): void{
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/borrar', this.DeleteUser);
         this.router.post('/validacion', this.validarUsuario);
+
+        const storage = multer.diskStorage({
+            destination: function(req, file, cb) {
+            cb(null, './uploads/');
+            //usado en la version anterior
+            //cb(null, '../fotosproyectoea/');
+            //prueba
+            cb(null, '../frontendapp/src/assets/images');
+            },
+            filename: function(req, file, cb) {
+                console.log(" Guardamos el nombre del avatar");
+            //cb(null, file.originalname);
+            cb(null, file.originalname + ".png");
+            }
+        });
+        const fileFilter = (req, file, cb) => {
+            // reject a file
+            if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+            cb(null, true);
+            } else {
+            cb(null, false);
+            }
+        };
+        const upload = multer({
+            storage: storage,
+            limits: {
+            fileSize: 1024 * 1024 * 5
+            },
+            fileFilter: fileFilter
+        });
+        this.router.post('/foto/perfil/:avatar',upload.single('avatar'), this.CreateNewImg);
+        //@ts-ignore
+        this.router.get('/foto/perfil/:id', this.GetImgUser);
+        //this.router.put('/:id', this.UpdateImgUser);
     }
 
 }
