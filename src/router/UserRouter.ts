@@ -256,41 +256,15 @@ public DeleteUser(req: Request, res: Response): void{
         
 }
 
-//ver una sola foto
 
-public GetImgUser(req: Request, res: Response): void{
-    const id: string = req.params.id;
-    const upload = multer ({dest: 'uploads/'})
-    //res.sendFile("../uploads/dav.png");
-    res.json("hola");
-    
-    }
-    //añadir por primera vez la foto de un usuario
-
+//añadir por primera vez la foto de un usuario
 public CreateNewImg(req: Request, res: Response): void{
 
     //const upload = multer ({dest: 'uploads/'})
-
     let path = req.file.path;
-    
     if (req.file) {
         console.log("file!!!")
     }
-    /*
-    user.save()
-        .then((data) => {
-            res.statusCode = 200;
-            res.json(
-                data
-            );
-        })
-        .catch((err) => {
-            res.statusCode = 404;
-            res.json(
-                err
-            );
-        })
-    */
 }
 //modificar usuario
 public UpdateImgUser(req: Request, res: Response): void{
@@ -317,7 +291,7 @@ public UpdateImgUser(req: Request, res: Response): void{
             //usado en la version anterior
             //cb(null, '../fotosproyectoea/');
             //prueba
-            cb(null, '../frontendapp/src/assets/images');
+            //cb(null, '../frontendapp/src/assets/images');
             },
             filename: function(req, file, cb) {
                 console.log(" Guardamos el nombre del avatar");
