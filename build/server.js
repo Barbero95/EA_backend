@@ -31,6 +31,7 @@ class Server {
         this.app.use(compression());
         this.app.use(helmet());
         this.app.use(cors());
+        this.app.use('/uploads', express.static('uploads'));
     }
     routes() {
         let router;
