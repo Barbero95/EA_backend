@@ -200,27 +200,8 @@ class UserRouter {
     GetImgUser(req, res) {
         const id = req.params.id;
         const upload = multer({ dest: 'uploads/' });
-        res.json(upload.single("pitufo"));
-        /*
-        Image.find({ "_id": id})
-        //Image.findById({ id })
-        .then((data) => {
-            let status = 200;
-            if(data==null){
-                status=404;
-            }
-            res.statusCode=status;
-            res.json(
-                data
-            );
-        })
-        .catch((err) => {
-            const status = 500;
-            res.json(
-                err
-            );
-        })
-        */
+        //res.sendFile("../uploads/dav.png");
+        res.json("hola");
     }
     //añadir por primera vez la foto de un usuario
     CreateNewImg(req, res) {

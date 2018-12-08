@@ -261,8 +261,8 @@ public DeleteUser(req: Request, res: Response): void{
 public GetImgUser(req: Request, res: Response): void{
     const id: string = req.params.id;
     const upload = multer ({dest: 'uploads/'})
-    //res.json(upload.single("id"));
-    res.json("./uploads/dav.png");
+    //res.sendFile("../uploads/dav.png");
+    res.json("hola");
     
     }
     //añadir por primera vez la foto de un usuario
