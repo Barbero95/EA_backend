@@ -255,7 +255,14 @@ public DeleteUser(req: Request, res: Response): void{
     })
         
 }
-
+//ver una sola foto
+public GetImgUser(req: Request, res: Response): void{
+    const id: string = req.params.id;
+    const upload = multer ({dest: 'uploads/'})
+    //res.sendFile("../uploads/dav.png");
+    res.json("hola");
+    
+}
 
 //añadir por primera vez la foto de un usuario
 public CreateNewImg(req: Request, res: Response): void{

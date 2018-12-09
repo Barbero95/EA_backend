@@ -210,21 +210,6 @@ class UserRouter {
         if (req.file) {
             console.log("file!!!");
         }
-        /*
-        user.save()
-            .then((data) => {
-                res.statusCode = 200;
-                res.json(
-                    data
-                );
-            })
-            .catch((err) => {
-                res.statusCode = 404;
-                res.json(
-                    err
-                );
-            })
-        */
     }
     //modificar usuario
     UpdateImgUser(req, res) {
@@ -245,7 +230,7 @@ class UserRouter {
                 //usado en la version anterior
                 //cb(null, '../fotosproyectoea/');
                 //prueba
-                cb(null, '../frontendapp/src/assets/images');
+                //cb(null, '../frontendapp/src/assets/images');
             },
             filename: function (req, file, cb) {
                 console.log(" Guardamos el nombre del avatar");
