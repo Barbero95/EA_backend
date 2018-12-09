@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import User from '../models/User';
+import Notificacion from '../models/Notificacion';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
 import * as multer from 'multer';
@@ -54,6 +55,80 @@ public GetUser(req: Request, res: Response): void{
 
 
 }
+
+
+//Recibo avisos de notificaciones
+public getEnvioNotificaciones(req: Request, res: Response): void{
+    const dueñoActividad: string = req.params.dueñoActividad;
+    const participanteActividad: string = req.params.participanteActividad;
+    const flag: number = req.params.flag;
+    console.log(dueñoActividad);
+    console.log(participanteActividad);
+    console.log(flag);
+
+    const notif = new Notificacion({
+       dueñoActividad,
+       participanteActividad,
+       flag
+    });
+    Notificacion.findOne({ "dueñoActividad":dueñoActividad, "participanteActividad":participanteActividad, "flag":flag})
+    .then((data) => {
+        if(data==null){
+            console.log(dueñoActividad);
+            notif.save()
+            .then((data) => {
+                console.log("1"+dueñoActividad);
+                res.statusCode = 200;
+                res.json(
+                    data
+                );
+            })
+            .catch((err) => {
+                console.log("2"+dueñoActividad);
+                res.statusCode = 403;
+                res.json(
+                    err
+                );
+            })
+        }else{
+            console.log("3"+dueñoActividad);
+            res.statusCode = 402;
+            res.json(
+                data = null
+            )
+        }
+    })
+    .catch((err) => {
+        console.log("4"+dueñoActividad);
+        res.statusCode = 401;
+        res.json(
+            err
+            );
+    })
+
+}
+
+public getReciboNotificaciones(req: Request, res: Response): void{
+    const dueñoActividad: string = req.params.dueñoActividad;
+
+
+    Notificacion.find({ "dueñoActividad":dueñoActividad, "flag":1})
+    .then((data) => {
+        res.statusCode=200;
+        res.json(
+            data
+        );
+    })
+    .catch((err) => {
+        const status = 500;
+        res.json(
+            err
+        );
+    })
+
+}
+
+
 
 /// fucnion para loggearse
 public GetLogin(req: Request, res: Response): void{
@@ -287,6 +362,8 @@ public UpdateImgUser(req: Request, res: Response): void{
         this.router.get('/', this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
         this.router.get('/:nick', this.GetUser);
+        this.router.get('Enotificaciones/:dueñoActividad/:participanteActividad/:flag',this.getEnvioNotificaciones);
+        this.router.get('Rnotificaciones/:dueñoActividad',this.getReciboNotificaciones);
         this.router.post('/', this.CreateUser);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/borrar', this.DeleteUser);
