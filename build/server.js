@@ -10,6 +10,7 @@ const cors = require("cors");
 // import routers
 const ActividadRouter_1 = require("./router/ActividadRouter");
 const UserRouter_1 = require("./router/UserRouter");
+const ChatRouter_1 = require("./router/ChatRouter");
 //server class
 //@ts-ignore
 class Server {
@@ -23,7 +24,12 @@ class Server {
     config() {
         //set up mongoose
         const MONGO_URI = 'mongodb://localhost/timextime';
-        mongoose.connect(MONGO_URI || process.env.MONGODB_URI, { useNewUrlParser: true });
+        mongoose.connect(MONGO_URI || process.env.MONGODB_URI, {
+            useNewUrlParser: true,
+            socketTimeoutMS: 300000,
+            keepAlive: 300000,
+            reconnectTries: 300000
+        });
         //config
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,6 +46,7 @@ class Server {
         this.app.use('/', router);
         this.app.use('/actividades', ActividadRouter_1.default);
         this.app.use('/users', UserRouter_1.default);
+        this.app.use('/chat', ChatRouter_1.default);
     }
 }
 //export 

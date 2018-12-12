@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const debug = require("debug");
 const http = require("http");
 const server_1 = require("./server");
+const chat_server_1 = require("./chat-server");
 debug('ts-express:server');
 //const port = normalizePort(process.env.PORT || 3000);
 const port = 3000;
@@ -13,6 +14,8 @@ const server = http.createServer(server_1.default);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+let app = new chat_server_1.ChatServer().getApp();
+exports.app = app;
 function normalizePort(val) {
     const port = typeof val === 'string' ? parseInt(val, 10) : val;
     if (isNaN(port)) {

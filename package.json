@@ -11,6 +11,7 @@
   "dependencies": {
     "@lykmapipo/env": "^0.3.2",
     "@types/cors": "^2.8.4",
+    "@types/socket.io": "1.4.31",
     "async": "^2.6.1",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
@@ -25,13 +26,14 @@
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
     "nodemon": "^1.18.4",
+    "socket.io": "^2.1.1",
     "yarn": "^1.12.3"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",
     "@types/mongoose": "^5.2.17",
-    "@types/node": "^10.11.3",
     "@types/multer": "^1.3.6",
+    "@types/node": "^10.11.3",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1"
   },
