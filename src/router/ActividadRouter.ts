@@ -120,9 +120,9 @@ class ActividadRouter{
         let long = req.body.longitude;
         let tag = req.body.tag;
         
-       Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, $text:{$search: tag}})
-
-        .then((data) => {
+       //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, $text:{$search: tag}})
+       Actividad.find({$text:{$search: tag}}) 
+       .then((data) => {
             if(data==null){
                 res.statusCode=404;
                 res.json(
