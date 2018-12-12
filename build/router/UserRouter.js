@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const User_1 = require("../models/User");
-const Notificacion_1 = require("../models/Notificacion");
 const multer = require("multer");
 class UserRouter {
     constructor() {
@@ -38,53 +37,17 @@ class UserRouter {
             res.json(err);
         });
     }
-    //Recibo avisos de notificaciones
-    getEnvioNotificaciones(req, res) {
-        const dueñoActividad = req.params.dueñoActividad;
-        const participanteActividad = req.params.participanteActividad;
-        const flag = req.params.flag;
-        console.log(dueñoActividad);
-        console.log(participanteActividad);
-        console.log(flag);
-        const notif = new Notificacion_1.default({
-            dueñoActividad,
-            participanteActividad,
-            flag
-        });
-        Notificacion_1.default.findOne({ "dueñoActividad": dueñoActividad, "participanteActividad": participanteActividad, "flag": flag })
-            .then((data) => {
-            if (data == null) {
-                console.log(dueñoActividad);
-                notif.save()
-                    .then((data) => {
-                    console.log("1" + dueñoActividad);
-                    res.statusCode = 200;
-                    res.json(data);
-                })
-                    .catch((err) => {
-                    console.log("2" + dueñoActividad);
-                    res.statusCode = 403;
-                    res.json(err);
-                });
-            }
-            else {
-                console.log("3" + dueñoActividad);
-                res.statusCode = 402;
-                res.json(data = null);
-            }
-        })
-            .catch((err) => {
-            console.log("4" + dueñoActividad);
-            res.statusCode = 401;
-            res.json(err);
-        });
-    }
     getReciboNotificaciones(req, res) {
-        const dueñoActividad = req.params.dueñoActividad;
-        Notificacion_1.default.find({ "dueñoActividad": dueñoActividad, "flag": 1 })
+        const dueñoActividad = req.params.duenoActividad;
+        console.log(req.params.duenoActividad);
+        User_1.default.find({ "notificaciones": dueñoActividad })
             .then((data) => {
-            res.statusCode = 200;
-            res.json(data);
+            if (data != null) {
+                res.statusCode = 200;
+                res.json(data);
+            }
+            else
+                res.json();
         })
             .catch((err) => {
             const status = 500;
@@ -210,6 +173,46 @@ class UserRouter {
             res.json(err);
         });
     }
+    postEnvioNotificaciones(req, res) {
+        const nombre = req.body.nombre;
+        const apellido = req.body.apellido;
+        const nick = req.body.nick;
+        const email = req.body.email;
+        const estrellas = req.body.estrellas;
+        const password = req.body.password;
+        const imagen = req.body.imagen;
+        const tags = req.body.tags;
+        const notificaciones = req.body.notificaciones;
+        const actividadesPropietario = req.body.actividadesPropietario;
+        const actividadesCliente = req.body.actividadesCliente;
+        const horasUsuario = req.body.horasUsuario;
+        const contadorEstrellasUsuario = req.body.contadorEstrellasUsuario;
+        const user = new User_1.default({
+            nombre,
+            apellido,
+            nick,
+            email,
+            estrellas,
+            password,
+            imagen,
+            tags,
+            notificaciones,
+            horasUsuario,
+            contadorEstrellasUsuario,
+            actividadesPropietario,
+            actividadesCliente
+        });
+        console.log(req.body.nick);
+        User_1.default.findOne({ "nick": req.body.nick, "notificaciones": req.body.notificaciones })
+            .then((data) => {
+            user.save(req.body.nick);
+            res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 404;
+            res.json(err);
+        });
+    }
     //modificar usuario
     UpdateUser(req, res) {
         const username = req.params.username;
@@ -274,9 +277,9 @@ class UserRouter {
         this.router.get('/', this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
         this.router.get('/:nick', this.GetUser);
-        this.router.get('Enotificaciones/:dueñoActividad/:participanteActividad/:flag', this.getEnvioNotificaciones);
-        this.router.get('Rnotificaciones/:dueñoActividad', this.getReciboNotificaciones);
+        this.router.get('Rnotificaciones/:duenoActividad', this.getReciboNotificaciones);
         this.router.post('/', this.CreateUser);
+        this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/borrar', this.DeleteUser);
         this.router.post('/validacion', this.validarUsuario);

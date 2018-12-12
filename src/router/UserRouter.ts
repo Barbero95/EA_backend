@@ -57,67 +57,19 @@ public GetUser(req: Request, res: Response): void{
 }
 
 
-//Recibo avisos de notificaciones
-public getEnvioNotificaciones(req: Request, res: Response): void{
-    const dueñoActividad: string = req.params.dueñoActividad;
-    const participanteActividad: string = req.params.participanteActividad;
-    const flag: number = req.params.flag;
-    console.log(dueñoActividad);
-    console.log(participanteActividad);
-    console.log(flag);
-
-    const notif = new Notificacion({
-       dueñoActividad,
-       participanteActividad,
-       flag
-    });
-    Notificacion.findOne({ "dueñoActividad":dueñoActividad, "participanteActividad":participanteActividad, "flag":flag})
-    .then((data) => {
-        if(data==null){
-            console.log(dueñoActividad);
-            notif.save()
-            .then((data) => {
-                console.log("1"+dueñoActividad);
-                res.statusCode = 200;
-                res.json(
-                    data
-                );
-            })
-            .catch((err) => {
-                console.log("2"+dueñoActividad);
-                res.statusCode = 403;
-                res.json(
-                    err
-                );
-            })
-        }else{
-            console.log("3"+dueñoActividad);
-            res.statusCode = 402;
-            res.json(
-                data = null
-            )
-        }
-    })
-    .catch((err) => {
-        console.log("4"+dueñoActividad);
-        res.statusCode = 401;
-        res.json(
-            err
-            );
-    })
-
-}
-
 public getReciboNotificaciones(req: Request, res: Response): void{
-    const dueñoActividad: string = req.params.dueñoActividad;
+    const dueñoActividad: string = req.params.duenoActividad;
+    console.log(req.params.duenoActividad);
 
-
-    Notificacion.find({ "dueñoActividad":dueñoActividad, "flag":1})
+    User.find({"nick":dueñoActividad})
     .then((data) => {
+        if(data != null){
         res.statusCode=200;
         res.json(
             data
-        );
+        );}
+        else
+        res.json();
     })
     .catch((err) => {
         const status = 500;
@@ -273,6 +225,56 @@ public validarUsuario(req: Request, res: Response): void{
     
 }
 
+public postEnvioNotificaciones(req: Request, res: Response): void{
+    
+
+    const nombre: string = req.body.nombre;
+    const apellido: string = req.body.apellido;
+    const nick: string = req.body.nick;
+    const email: string = req.body.email;
+    const estrellas: number = req.body.estrellas;
+    const password: string = req.body.password; 
+    const imagen: string = req.body.imagen;
+    const tags: string[] = req.body.tags;
+    const notificaciones: string[] = req.body.notificaciones;
+    const actividadesPropietario: number[] = req.body.actividadesPropietario;
+    const actividadesCliente: number[] = req.body.actividadesCliente;
+    const horasUsuario: number = req.body.horasUsuario;
+    const contadorEstrellasUsuario: number = req.body.contadorEstrellasUsuario;
+    
+    const user = new User({
+        nombre, 
+        apellido, 
+        nick,
+        email, 
+        estrellas,
+        password,
+        imagen, 
+        tags,
+        notificaciones,
+        horasUsuario,
+        contadorEstrellasUsuario,
+        actividadesPropietario, 
+        actividadesCliente
+    });
+    console.log(req.body.nick);
+    User.findOne({ "nick": req.body.nick, "notificaciones": req.body.notificaciones})
+        .then((data) => {
+            user.save(req.body.nick);
+                res.json(
+                    data
+                );
+        })
+        .catch((err) => {
+            res.statusCode = 404;
+
+            res.json(
+                err
+                );
+        })
+    
+}
+
 
 
 //modificar usuario
@@ -362,9 +364,9 @@ public UpdateImgUser(req: Request, res: Response): void{
         this.router.get('/', this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
         this.router.get('/:nick', this.GetUser);
-        this.router.get('Enotificaciones/:dueñoActividad/:participanteActividad/:flag',this.getEnvioNotificaciones);
-        this.router.get('Rnotificaciones/:dueñoActividad',this.getReciboNotificaciones);
+        this.router.get('Rnotificaciones/:duenoActividad',this.getReciboNotificaciones);
         this.router.post('/', this.CreateUser);
+        this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/borrar', this.DeleteUser);
         this.router.post('/validacion', this.validarUsuario);

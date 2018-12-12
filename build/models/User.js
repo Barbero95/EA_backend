@@ -28,6 +28,9 @@ const UserSchema = new mongoose_1.Schema({
     tags: [{
             type: String
         }],
+    notificaciones: [{
+            type: String
+        }],
     horasUsuario: {
         type: Number
     },

@@ -14,5 +14,5 @@ const NotificacionSchema = new mongoose_1.Schema({
         type: Number
     }
 });
-exports.default = mongoose_1.model('Notificacione', NotificacionSchema);
+exports.default = mongoose_1.model('Notificacion', NotificacionSchema);
 //# sourceMappingURL=Notificacion.js.map

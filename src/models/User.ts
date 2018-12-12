@@ -29,6 +29,10 @@ const UserSchema: Schema = new Schema({
         type: String
         
     }], 
+    notificaciones: [{
+        type: String
+        
+    }], 
     horasUsuario:{
         type: Number
     },

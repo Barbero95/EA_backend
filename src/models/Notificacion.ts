@@ -16,4 +16,4 @@ const NotificacionSchema: Schema = new Schema({
 
 });
 
-export default model('Notificacione', NotificacionSchema);
+export default model('Notificacion', NotificacionSchema);
