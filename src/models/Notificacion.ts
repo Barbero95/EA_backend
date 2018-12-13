@@ -5,10 +5,10 @@ const NotificacionSchema: Schema = new Schema({
     createdAt: Date, 
     updateAt: Date, 
     dueñoActividad:{
-        type: String
+        type: Schema.Types.ObjectId, ref: 'User'
     },
     participanteActividad:{
-        type: String
+        type: Schema.Types.ObjectId, ref: 'User'
     },
     flag:{
         type: Number

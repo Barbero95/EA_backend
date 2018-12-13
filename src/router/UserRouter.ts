@@ -59,9 +59,13 @@ public GetUser(req: Request, res: Response): void{
 
 public getReciboNotificaciones(req: Request, res: Response): void{
     const dueñoActividad: string = req.params.duenoActividad;
-    console.log(req.params.duenoActividad);
 
-    User.find({"nick":dueñoActividad})
+    const duenoAct = new User();
+    duenoAct._id = dueñoActividad;
+    
+
+
+    Notificacion.find({"dueñoActividad._id":duenoAct._id})
     .then((data) => {
         if(data != null){
         res.statusCode=200;
@@ -227,45 +231,53 @@ public validarUsuario(req: Request, res: Response): void{
 
 public postEnvioNotificaciones(req: Request, res: Response): void{
     
+    console.log("participanteActividad",req.body.participanteActividad);
 
-    const nombre: string = req.body.nombre;
-    const apellido: string = req.body.apellido;
-    const nick: string = req.body.nick;
-    const email: string = req.body.email;
-    const estrellas: number = req.body.estrellas;
-    const password: string = req.body.password; 
-    const imagen: string = req.body.imagen;
-    const tags: string[] = req.body.tags;
-    const notificaciones: string[] = req.body.notificaciones;
-    const actividadesPropietario: number[] = req.body.actividadesPropietario;
-    const actividadesCliente: number[] = req.body.actividadesCliente;
-    const horasUsuario: number = req.body.horasUsuario;
-    const contadorEstrellasUsuario: number = req.body.contadorEstrellasUsuario;
+    const duenoActividad: string = req.body.dueñoActividad;
+    const participanteActividad: string = req.body.participanteActividad;
+    const flag: string = req.body.flag;
+
+    const participanteAct = new User();
+    participanteAct._id = participanteActividad;
+
+    const duenoAct = new User();
+    duenoAct._id = duenoActividad;
     
-    const user = new User({
-        nombre, 
-        apellido, 
-        nick,
-        email, 
-        estrellas,
-        password,
-        imagen, 
-        tags,
-        notificaciones,
-        horasUsuario,
-        contadorEstrellasUsuario,
-        actividadesPropietario, 
-        actividadesCliente
+    const notificacion = new Notificacion({
+        dueñoActividad: duenoAct,
+        participanteActividad: participanteAct,
+        flag: flag
     });
-    console.log(req.body.nick);
-    User.findOne({ "nick": req.body.nick, "notificaciones": req.body.notificaciones})
+
+    console.log("notificacion", notificacion);
+    Notificacion.findOne({ "dueñoActividad._id": duenoActividad, "participanteActividad._id": participanteActividad, "flag": 1})
         .then((data) => {
-            user.save(req.body.nick);
+            if (data != null) {
+                console.log("POSTENotif::data!null", data);
                 res.json(
                     data
                 );
+            }
+            else {
+                console.log("POSTENotif::data==null", data);
+                notificacion.save().then((data) => {
+                    console.log("save!!!!!!");
+                    res.statusCode = 200;
+                    res.json(
+                        data
+                    );
+                })
+                .catch((err) => {
+                    console.log("err: ", err);
+                    res.statusCode = 404;
+                    res.json(
+                        err
+                    );
+                })
+            }
         })
         .catch((err) => {
+            console.log("err", err);
             res.statusCode = 404;
 
             res.json(

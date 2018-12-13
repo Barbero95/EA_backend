@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const User_1 = require("../models/User");
+const Notificacion_1 = require("../models/Notificacion");
 const multer = require("multer");
 class UserRouter {
     constructor() {
@@ -39,8 +40,7 @@ class UserRouter {
     }
     getReciboNotificaciones(req, res) {
         const dueñoActividad = req.params.duenoActividad;
-        console.log(req.params.duenoActividad);
-        User_1.default.find({ "nick": dueñoActividad })
+        Notificacion_1.default.find({ "dueñoActividad._id": dueñoActividad })
             .then((data) => {
             if (data != null) {
                 res.statusCode = 200;
@@ -174,41 +174,42 @@ class UserRouter {
         });
     }
     postEnvioNotificaciones(req, res) {
-        const nombre = req.body.nombre;
-        const apellido = req.body.apellido;
-        const nick = req.body.nick;
-        const email = req.body.email;
-        const estrellas = req.body.estrellas;
-        const password = req.body.password;
-        const imagen = req.body.imagen;
-        const tags = req.body.tags;
-        const notificaciones = req.body.notificaciones;
-        const actividadesPropietario = req.body.actividadesPropietario;
-        const actividadesCliente = req.body.actividadesCliente;
-        const horasUsuario = req.body.horasUsuario;
-        const contadorEstrellasUsuario = req.body.contadorEstrellasUsuario;
-        const user = new User_1.default({
-            nombre,
-            apellido,
-            nick,
-            email,
-            estrellas,
-            password,
-            imagen,
-            tags,
-            notificaciones,
-            horasUsuario,
-            contadorEstrellasUsuario,
-            actividadesPropietario,
-            actividadesCliente
+        console.log("participanteActividad", req.body.participanteActividad);
+        const duenoActividad = req.body.dueñoActividad;
+        const participanteActividad = req.body.participanteActividad;
+        const flag = req.body.flag;
+        const participanteAct = new User_1.default();
+        participanteAct._id = participanteActividad;
+        const duenoAct = new User_1.default();
+        duenoAct._id = duenoActividad;
+        const notificacion = new Notificacion_1.default({
+            dueñoActividad: duenoAct,
+            participanteActividad: participanteAct,
+            flag: flag
         });
-        console.log(req.body.nick);
-        User_1.default.findOne({ "nick": req.body.nick, "notificaciones": req.body.notificaciones })
+        console.log("notificacion", notificacion);
+        Notificacion_1.default.findOne({ "dueñoActividad._id": duenoActividad, "participanteActividad._id": participanteActividad, "flag": 1 })
             .then((data) => {
-            user.save(req.body.nick);
-            res.json(data);
+            if (data != null) {
+                console.log("POSTENotif::data!null", data);
+                res.json(data);
+            }
+            else {
+                console.log("POSTENotif::data==null", data);
+                notificacion.save().then((data) => {
+                    console.log("save!!!!!!");
+                    res.statusCode = 200;
+                    res.json(data);
+                })
+                    .catch((err) => {
+                    console.log("err: ", err);
+                    res.statusCode = 404;
+                    res.json(err);
+                });
+            }
         })
             .catch((err) => {
+            console.log("err", err);
             res.statusCode = 404;
             res.json(err);
         });

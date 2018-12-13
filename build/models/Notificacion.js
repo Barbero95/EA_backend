@@ -5,10 +5,10 @@ const NotificacionSchema = new mongoose_1.Schema({
     createdAt: Date,
     updateAt: Date,
     dueñoActividad: {
-        type: String
+        type: mongoose_1.Schema.Types.ObjectId, ref: 'User'
     },
     participanteActividad: {
-        type: String
+        type: mongoose_1.Schema.Types.ObjectId, ref: 'User'
     },
     flag: {
         type: Number
