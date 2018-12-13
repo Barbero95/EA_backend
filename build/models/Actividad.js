@@ -22,6 +22,9 @@ const ActividadSchema = new mongoose_1.Schema({
     propietario: {
         type: String
     },
+    rooms: [{
+            type: String
+        }],
     clientes: [{
             type: mongoose_1.Schema.Types.ObjectId, ref: 'User',
             estado: Number

@@ -23,6 +23,9 @@ const ActividadSchema: Schema = new Schema({
     propietario:{
         type: String
     },
+    rooms: [{
+      type: String
+    }],
     clientes:[{
         type: Schema.Types.ObjectId, ref: 'User',
         estado: Number

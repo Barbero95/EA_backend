@@ -14,6 +14,8 @@ const socketIo = require("socket.io");
 const Chat_1 = require("./models/Chat");
 const User_1 = require("./models/User");
 const Message_1 = require("./models/Message");
+const Actividad_1 = require("./models/Actividad");
+let ObjectId = require('mongodb').ObjectID;
 class ChatServer {
     constructor() {
         this.createApp();
@@ -42,8 +44,9 @@ class ChatServer {
             socket.on('subscribe', function (users) {
                 return __awaiter(this, void 0, void 0, function* () {
                     let room;
-                    if (users.userFrom.name && users.userTo.name) {
-                        if (users.userFrom.name.toLowerCase() < users.userTo.name.toLowerCase()) {
+                    console.log(users);
+                    if (users.userFrom.nick && users.userTo.nick) {
+                        if (users.userFrom.nick.toLowerCase() < users.userTo.nick.toLowerCase()) {
                             room = "" + users.userFrom._id + "" + users.userTo._id;
                         }
                         else {
@@ -53,7 +56,6 @@ class ChatServer {
                     let checkChat = yield Chat_1.default.findOne({ room: room });
                     if (checkChat) {
                         checkChat.users.find(user => {
-                            console.log('err usuari', user);
                             if (user.userId === users.userFrom._id) {
                                 user.lastView = Date.now();
                             }
@@ -68,17 +70,24 @@ class ChatServer {
                         newChat.created = Date.now();
                         newChat.users.push({
                             userId: users.userFrom._id,
-                            userName: users.userFrom.name,
+                            userName: users.userFrom.nick,
                             userConnected: users.userFrom.connected,
                             lastView: Date.now()
                         });
                         newChat.users.push({
                             userId: users.userTo._id,
-                            userName: users.userTo.name,
+                            userName: users.userTo.nick,
                             userConnected: users.userTo.connected,
                             lastView: null
                         });
                         yield newChat.save();
+                        console.log('holaaa', room, typeof room);
+                        yield Actividad_1.default.update({ _id: users.actividad }, {
+                            $push: {
+                                rooms: room
+                            }
+                        });
+                        console.log('holaaa', yield Actividad_1.default.findOne({ _id: users.actividad }));
                         console.log('joining room', room);
                         socket.join(room);
                     }
@@ -104,7 +113,7 @@ class ChatServer {
             socket.on('add-message', (message) => __awaiter(this, void 0, void 0, function* () {
                 let msg = new Message_1.default(message);
                 let msgSaved = yield msg.save();
-                yield Chat_1.default.update({ room: message.room }, {
+                yield Chat_1.default.updateOne({ room: message.room }, {
                     $push: {
                         messages: msgSaved._id
                     },

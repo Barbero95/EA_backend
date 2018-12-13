@@ -33,6 +33,14 @@ class ChatRouter {
             room: room
         });
     }
+    getChatRoomById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let room = req.body.room;
+            let chat = yield Chat_1.default.find({ room: room });
+            console.log('hoola', chat);
+            res.status(200).send(chat);
+        });
+    }
     getMessages(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let body = req.body;
@@ -116,6 +124,7 @@ class ChatRouter {
     routes() {
         //@ts-ignore
         this.router.post('/getRoom', this.getChatRoom);
+        this.router.post('/getRoomById', this.getChatRoomById);
         this.router.post('/getMessages', this.getMessages);
         this.router.post('/lastView', this.lastView);
         this.router.post('/getChats', this.getChats);
