@@ -4,6 +4,8 @@ import * as socketIo from 'socket.io';
 import Chat from "./models/Chat";
 import User from "./models/User";
 import Message from "./models/Message";
+import Actividad from "./models/Actividad";
+let ObjectId = require('mongodb').ObjectID;
 
 
 export class ChatServer {
@@ -44,20 +46,19 @@ export class ChatServer {
 
     this.io.on('connection', function(socket: any){
       socket.on('subscribe', async function(users) {
-        let room;
-        if(users.userFrom.name && users.userTo.name) {
-          if (users.userFrom.name.toLowerCase() < users.userTo.name.toLowerCase()) {
+        let room : string;
+        console.log(users);
+        if(users.userFrom.nick && users.userTo.nick) {
+          if (users.userFrom.nick.toLowerCase() < users.userTo.nick.toLowerCase()) {
             room = "" + users.userFrom._id + "" + users.userTo._id;
           } else {
             room = "" + users.userTo._id + "" + users.userFrom._id;
           }
         }
-
         let checkChat : any = await Chat.findOne({ room: room });
 
         if(checkChat) {
           checkChat.users.find(user => {
-            console.log('err usuari', user);
             if(user.userId === users.userFrom._id) {
               user.lastView = Date.now();
             }
@@ -72,17 +73,25 @@ export class ChatServer {
           newChat.created = Date.now();
           newChat.users.push({
             userId: users.userFrom._id,
-            userName: users.userFrom.name,
+            userName: users.userFrom.nick,
             userConnected: users.userFrom.connected,
             lastView: Date.now()
           });
           newChat.users.push({
             userId: users.userTo._id,
-            userName: users.userTo.name,
+            userName: users.userTo.nick,
             userConnected: users.userTo.connected,
             lastView: null
           });
           await newChat.save();
+          console.log('holaaa', room, typeof room);
+          await Actividad.update({ _id: users.actividad }, {
+            $push: {
+              rooms: room
+            }
+          });
+          console.log('holaaa', await Actividad.findOne({ _id: users.actividad }));
+
           console.log('joining room', room);
           socket.join(room);
         }
@@ -105,7 +114,7 @@ export class ChatServer {
       socket.on('add-message', async (message) => {
         let msg = new Message(message);
         let msgSaved : any = await msg.save();
-        await Chat.update({ room: message.room }, {
+        await Chat.updateOne({ room: message.room }, {
           $push: {
             messages: msgSaved._id
           },

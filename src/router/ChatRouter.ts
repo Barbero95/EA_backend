@@ -29,6 +29,16 @@ class ChatRouter {
     });
   }
 
+  async getChatRoomById(req: Request, res: Response) {
+    let room = req.body.room;
+
+    let chat = await Chat.find({room: room});
+
+    console.log('hoola', chat);
+
+    res.status(200).send(chat);
+  }
+
   async getMessages(req: Request, res: Response) {
     let body = req.body;
     let msgs: any = await Chat.findOne({ room: body.room }, { messages: 1 });
@@ -110,6 +120,7 @@ class ChatRouter {
     //@ts-ignore
 
     this.router.post('/getRoom', this.getChatRoom);
+    this.router.post('/getRoomById', this.getChatRoomById);
     this.router.post('/getMessages', this.getMessages);
     this.router.post('/lastView', this.lastView);
     this.router.post('/getChats', this.getChats);
