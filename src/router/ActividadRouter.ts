@@ -202,6 +202,7 @@ class ActividadRouter{
         const descripcion: string = req.body.descripcion;
         let estrellas: number = req.body.estrellas;
         const tags: string [] = req.body.tags;
+        const clientes: [] = [];
         const propietario: string = req.body.propietario;
         const ubicacion: string = req.body.ubicacion;
         const localizacion: number [] = req.body.localizacion;
@@ -215,6 +216,7 @@ class ActividadRouter{
             propietario,
             estrellas,
             tags,
+            clientes,
             horasActividad,
             contadorEstrellasActividad,
             ubicacion,
@@ -266,14 +268,18 @@ class ActividadRouter{
         const descripcion: string = req.body.descripcion;
         const estrellas: number = req.body.estrellas;
         const tags: string [] = req.body.tags;
+        const clientes: [] = req.body.clientes;
         const propietario: string = req.body.propietario;
         const horasActividad: number = req.body.horasActividad;
         const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
+        
+        console.log(req.body.clientes);
        console.log(titulo);
        console.log(title);
 
        console.log(propietario);
-        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad}})
+       console.log(clientes);
+        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "clientes":clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad}})
         .then((data) => {
             res.statusCode = 200;
             res.json(

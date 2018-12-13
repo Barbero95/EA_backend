@@ -144,6 +144,7 @@ class ActividadRouter {
         const descripcion = req.body.descripcion;
         let estrellas = req.body.estrellas;
         const tags = req.body.tags;
+        const clientes = [];
         const propietario = req.body.propietario;
         const ubicacion = req.body.ubicacion;
         const localizacion = req.body.localizacion;
@@ -156,6 +157,7 @@ class ActividadRouter {
             propietario,
             estrellas,
             tags,
+            clientes,
             horasActividad,
             contadorEstrellasActividad,
             ubicacion,
@@ -198,13 +200,16 @@ class ActividadRouter {
         const descripcion = req.body.descripcion;
         const estrellas = req.body.estrellas;
         const tags = req.body.tags;
+        const clientes = req.body.clientes;
         const propietario = req.body.propietario;
         const horasActividad = req.body.horasActividad;
         const contadorEstrellasActividad = req.body.contadorEstrellasActividad;
+        console.log(req.body.clientes);
         console.log(titulo);
         console.log(title);
         console.log(propietario);
-        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad } })
+        console.log(clientes);
+        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "clientes": clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad } })
             .then((data) => {
             res.statusCode = 200;
             res.json(data);

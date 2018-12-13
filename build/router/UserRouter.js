@@ -40,7 +40,7 @@ class UserRouter {
     getReciboNotificaciones(req, res) {
         const dueñoActividad = req.params.duenoActividad;
         console.log(req.params.duenoActividad);
-        User_1.default.find({ "notificaciones": dueñoActividad })
+        User_1.default.find({ "nick": dueñoActividad })
             .then((data) => {
             if (data != null) {
                 res.statusCode = 200;
