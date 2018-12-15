@@ -41,9 +41,8 @@ class UserRouter {
     }
     getReciboNotificaciones(req, res) {
         const dueñoActividad = req.params.duenoActividad;
-        const duenoAct = new User_1.default();
-        duenoAct._id = dueñoActividad;
-        Notificacion_1.default.find({ "dueñoActividad._id": duenoAct._id })
+        console.log("el dueño", dueñoActividad);
+        Notificacion_1.default.find({ "dueñoActividad": dueñoActividad })
             .then((data) => {
             if (data != null) {
                 res.statusCode = 200;
@@ -282,7 +281,7 @@ class UserRouter {
         this.router.get('/', this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
         this.router.get('/:nick', this.GetUser);
-        this.router.get('Rnotificaciones/:duenoActividad', this.getReciboNotificaciones);
+        this.router.get('/Rnotificaciones/:duenoActividad', this.getReciboNotificaciones);
         this.router.post('/', this.CreateUser);
         this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
         this.router.put('/:username', this.UpdateUser);

@@ -61,12 +61,9 @@ public GetUser(req: Request, res: Response): void{
 public getReciboNotificaciones(req: Request, res: Response): void{
     const dueñoActividad: string = req.params.duenoActividad;
 
-    const duenoAct = new User();
-    duenoAct._id = dueñoActividad;
-    
 
-
-    Notificacion.find({"dueñoActividad._id":duenoAct._id})
+    console.log("el dueño", dueñoActividad);
+    Notificacion.find({"dueñoActividad":dueñoActividad})
     .then((data) => {
         if(data != null){
         res.statusCode=200;
@@ -378,7 +375,7 @@ public UpdateImgUser(req: Request, res: Response): void{
         this.router.get('/', this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
         this.router.get('/:nick', this.GetUser);
-        this.router.get('Rnotificaciones/:duenoActividad',this.getReciboNotificaciones);
+        this.router.get('/Rnotificaciones/:duenoActividad',this.getReciboNotificaciones);
         this.router.post('/', this.CreateUser);
         this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
         this.router.put('/:username', this.UpdateUser);
