@@ -4,7 +4,6 @@ const express_1 = require("express");
 const User_1 = require("../models/User");
 const Notificacion_1 = require("../models/Notificacion");
 const multer = require("multer");
-const Actividad_1 = require("../models/Actividad");
 class UserRouter {
     constructor() {
         this.router = express_1.Router();
@@ -183,16 +182,16 @@ class UserRouter {
         const participanteActividad = req.body.participanteActividad;
         const tituloActividad = req.body.tituloActividad;
         const flag = req.body.flag;
-        const participanteAct = new User_1.default();
-        participanteAct._id = participanteActividad;
+        //  const participanteAct = new User();
+        //  participanteAct._id= participanteActividad;
         //const duenoAct = new Actividad();
         //duenoAct.propietario = duenoActividad;
-        const tituloAct = new Actividad_1.default();
-        tituloAct._id = tituloActividad;
+        // const tituloAct = new Actividad();
+        // tituloAct._id = tituloActividad;
         const notificacion = new Notificacion_1.default({
             dueñoActividad: duenoActividad,
-            participanteActividad: participanteAct,
-            tituloActividad: tituloAct,
+            participanteActividad: participanteActividad,
+            tituloActividad: tituloActividad,
             flag: flag
         });
         console.log("titulo de la actividad", tituloActividad);

@@ -238,25 +238,25 @@ public postEnvioNotificaciones(req: Request, res: Response): void{
     const tituloActividad: string = req.body.tituloActividad;
     const flag: string = req.body.flag;
 
-    const participanteAct = new User();
-    participanteAct._id = participanteActividad;
+  //  const participanteAct = new User();
+  //  participanteAct._id= participanteActividad;
 
     //const duenoAct = new Actividad();
     //duenoAct.propietario = duenoActividad;
 
-   const tituloAct = new Actividad();
-    tituloAct._id = tituloActividad;
+  // const tituloAct = new Actividad();
+   // tituloAct._id = tituloActividad;
     
     const notificacion = new Notificacion({
         dueñoActividad: duenoActividad,
-        participanteActividad: participanteAct,
-        tituloActividad: tituloAct,
+        participanteActividad: participanteActividad,
+        tituloActividad: tituloActividad,
         flag: flag
     });
 
     console.log("titulo de la actividad", tituloActividad);
     console.log("notificacion", notificacion);
-    Notificacion.find({ "dueñoActividad._id": duenoActividad, "participanteActividad._id": participanteActividad, "tituloActividad._id": tituloActividad, "flag": 1})
+    Notificacion.find({ "dueñoActividad": duenoActividad, "participanteActividad": participanteActividad, "tituloActividad": tituloActividad, "flag": 1})
         .then((data) => {
                 console.log("POSTENotif::data==null", data);
                 notificacion.save().then((data) => {

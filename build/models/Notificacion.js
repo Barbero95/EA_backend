@@ -8,10 +8,10 @@ const NotificacionSchema = new mongoose_1.Schema({
         type: String
     },
     participanteActividad: {
-        type: mongoose_1.Schema.Types.ObjectId, ref: 'User'
+        type: String
     },
     tituloActividad: {
-        type: mongoose_1.Schema.Types.ObjectId, ref: 'Actividade'
+        type: String
     },
     flag: {
         type: Number
