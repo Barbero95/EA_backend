@@ -4,6 +4,7 @@ import Notificacion from '../models/Notificacion';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
 import * as multer from 'multer';
+import Actividad from '../models/Actividad';
 
 
 class UserRouter{
@@ -231,34 +232,35 @@ public validarUsuario(req: Request, res: Response): void{
 
 public postEnvioNotificaciones(req: Request, res: Response): void{
     
-    console.log("participanteActividad",req.body.participanteActividad);
+    console.log(req.body.dueñoActividad);
+    console.log(req.body.participanteActividad);
+    console.log(req.body.tituloActividad);
 
     const duenoActividad: string = req.body.dueñoActividad;
     const participanteActividad: string = req.body.participanteActividad;
+    const tituloActividad: string = req.body.tituloActividad;
     const flag: string = req.body.flag;
 
     const participanteAct = new User();
     participanteAct._id = participanteActividad;
 
-    const duenoAct = new User();
-    duenoAct._id = duenoActividad;
+    //const duenoAct = new Actividad();
+    //duenoAct.propietario = duenoActividad;
+
+   const tituloAct = new Actividad();
+    tituloAct._id = tituloActividad;
     
     const notificacion = new Notificacion({
-        dueñoActividad: duenoAct,
+        dueñoActividad: duenoActividad,
         participanteActividad: participanteAct,
+        tituloActividad: tituloAct,
         flag: flag
     });
 
+    console.log("titulo de la actividad", tituloActividad);
     console.log("notificacion", notificacion);
-    Notificacion.findOne({ "dueñoActividad._id": duenoActividad, "participanteActividad._id": participanteActividad, "flag": 1})
+    Notificacion.find({ "dueñoActividad._id": duenoActividad, "participanteActividad._id": participanteActividad, "tituloActividad._id": tituloActividad, "flag": 1})
         .then((data) => {
-            if (data != null) {
-                console.log("POSTENotif::data!null", data);
-                res.json(
-                    data
-                );
-            }
-            else {
                 console.log("POSTENotif::data==null", data);
                 notificacion.save().then((data) => {
                     console.log("save!!!!!!");
@@ -274,7 +276,7 @@ public postEnvioNotificaciones(req: Request, res: Response): void{
                         err
                     );
                 })
-            }
+            
         })
         .catch((err) => {
             console.log("err", err);
