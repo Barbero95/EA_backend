@@ -19,10 +19,9 @@ class ChatRouter {
     }
     getChatRoom(req, res) {
         let users = req.body;
-        console.log(users);
         let room;
-        if (users.userFrom.name && users.userTo.name) {
-            if (users.userFrom.name.toLowerCase() < users.userTo.name.toLowerCase()) {
+        if (users.userFrom.nick && users.userTo.nick) {
+            if (users.userFrom.nick.toLowerCase() < users.userTo.nick.toLowerCase()) {
                 room = "" + users.userFrom._id + "" + users.userTo._id;
             }
             else {
