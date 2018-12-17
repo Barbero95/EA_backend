@@ -64,6 +64,10 @@ class ChatRouter {
         "users.$.lastView": body.lastView
       }
     });
+    console.log('ieep', body);
+
+    await Message.updateMany({room: body.room, to: body.user, seen: false}, {seen: true});
+
     res.status(200).send({okey: 'ok'});
   }
 
@@ -114,6 +118,15 @@ class ChatRouter {
     }
   }
 
+  async getMessagesNotSeen(req: Request, res: Response) {
+    let user : any = req.body;
+    console.log(user);
+
+    let messages = await Message.find({to: user._id, seen: false});
+    res.status(200).send({number: messages.length});
+  }
+
+
   //@ts-ignore
   routes(){
     //@ts-ignore
@@ -121,6 +134,7 @@ class ChatRouter {
     this.router.post('/getRoom', this.getChatRoom);
     this.router.post('/getRoomById', this.getChatRoomById);
     this.router.post('/getMessages', this.getMessages);
+    this.router.post('/messagesNotSeen', this.getMessagesNotSeen);
     this.router.post('/lastView', this.lastView);
     this.router.post('/getChats', this.getChats);
     this.router.post('/newChat', this.createChat);
