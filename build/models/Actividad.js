@@ -35,13 +35,16 @@ const ActividadSchema = new mongoose_1.Schema({
     contadorEstrellasActividad: {
         type: Number
     },
+    valoraciones: [{
+            type: String
+        }],
     ubicacion: {
         type: String
     },
     //[lati, long]
     localizacion: [{
             type: Number
-        }],
+        }]
 });
 //ActividadSchema.index({ loc: "2dsphere" });
 exports.default = mongoose_1.model('Actividade', ActividadSchema);
