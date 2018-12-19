@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import Actividad from '../models/Actividad';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
+import Valoracion from "../models/Valoracion";
 //const {Point} = require('mongoose-geojson-schemas');
 
 class ActividadRouter{
@@ -292,6 +293,29 @@ class ActividadRouter{
             
     }
 
+    public Valorar (req: Request, res: Response): void{
+
+        const titulo: string = req.body.titulo;
+        const tituloActividad: string = req.body.tituloActividad;
+        const descripcion: string = req.body.descripcion;
+        const propietario: string = req.body.propietario;
+        const estrellas: number = req.body.estrellas;
+
+        console.log(propietario);
+        console.log(titulo);
+        console.log(tituloActividad);
+
+        const valoracion = new Valoracion({
+            titulo,
+            tituloActividad,
+            descripcion,
+            propietario,
+            estrellas
+
+        });
+
+}
+
         //Borrar actividad
     public BorrarActividad(req: Request, res: Response): void{
 
@@ -333,6 +357,7 @@ class ActividadRouter{
         this.router.post('/', this.CrearActividad);
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
+        this.router.post('/valorar', this.Valorar);
 
         /////busqueda 
         this.router.get('/busqueda/:GPS', this.BusquedaGeo);
