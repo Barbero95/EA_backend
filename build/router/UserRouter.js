@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const User_1 = require("../models/User");
+const Notificacion_1 = require("../models/Notificacion");
 const multer = require("multer");
+const Actividad_1 = require("../models/Actividad");
 class UserRouter {
     constructor() {
         this.router = express_1.Router();
@@ -39,8 +41,8 @@ class UserRouter {
     }
     getReciboNotificaciones(req, res) {
         const dueñoActividad = req.params.duenoActividad;
-        console.log(req.params.duenoActividad);
-        User_1.default.find({ "nick": dueñoActividad })
+        console.log("el dueño", dueñoActividad);
+        Notificacion_1.default.find({ "dueñoActividad": dueñoActividad })
             .then((data) => {
             if (data != null) {
                 res.statusCode = 200;
@@ -174,41 +176,43 @@ class UserRouter {
         });
     }
     postEnvioNotificaciones(req, res) {
-        const nombre = req.body.nombre;
-        const apellido = req.body.apellido;
-        const nick = req.body.nick;
-        const email = req.body.email;
-        const estrellas = req.body.estrellas;
-        const password = req.body.password;
-        const imagen = req.body.imagen;
-        const tags = req.body.tags;
-        const notificaciones = req.body.notificaciones;
-        const actividadesPropietario = req.body.actividadesPropietario;
-        const actividadesCliente = req.body.actividadesCliente;
-        const horasUsuario = req.body.horasUsuario;
-        const contadorEstrellasUsuario = req.body.contadorEstrellasUsuario;
-        const user = new User_1.default({
-            nombre,
-            apellido,
-            nick,
-            email,
-            estrellas,
-            password,
-            imagen,
-            tags,
-            notificaciones,
-            horasUsuario,
-            contadorEstrellasUsuario,
-            actividadesPropietario,
-            actividadesCliente
+        console.log(req.body.dueñoActividad);
+        console.log(req.body.participanteActividad);
+        console.log(req.body.tituloActividad);
+        const duenoActividad = req.body.dueñoActividad;
+        const participanteActividad = req.body.participanteActividad;
+        const tituloActividad = req.body.tituloActividad;
+        const flag = req.body.flag;
+        const participanteAct = new User_1.default();
+        participanteAct._id = participanteActividad;
+        //const duenoAct = new Actividad();
+        //duenoAct.propietario = duenoActividad;
+        const tituloAct = new Actividad_1.default();
+        tituloAct._id = tituloActividad;
+        const notificacion = new Notificacion_1.default({
+            dueñoActividad: duenoActividad,
+            participanteActividad: participanteAct,
+            tituloActividad: tituloAct,
+            flag: flag
         });
-        console.log(req.body.nick);
-        User_1.default.findOne({ "nick": req.body.nick, "notificaciones": req.body.notificaciones })
+        console.log("titulo de la actividad", tituloActividad);
+        console.log("notificacion", notificacion);
+        Notificacion_1.default.find({ "dueñoActividad._id": duenoActividad, "participanteActividad._id": participanteActividad, "tituloActividad._id": tituloActividad, "flag": 1 })
             .then((data) => {
-            user.save(req.body.nick);
-            res.json(data);
+            console.log("POSTENotif::data==null", data);
+            notificacion.save().then((data) => {
+                console.log("save!!!!!!");
+                res.statusCode = 200;
+                res.json(data);
+            })
+                .catch((err) => {
+                console.log("err: ", err);
+                res.statusCode = 404;
+                res.json(err);
+            });
         })
             .catch((err) => {
+            console.log("err", err);
             res.statusCode = 404;
             res.json(err);
         });
@@ -277,7 +281,7 @@ class UserRouter {
         this.router.get('/', this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
         this.router.get('/:nick', this.GetUser);
-        this.router.get('Rnotificaciones/:duenoActividad', this.getReciboNotificaciones);
+        this.router.get('/Rnotificaciones/:duenoActividad', this.getReciboNotificaciones);
         this.router.post('/', this.CreateUser);
         this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
         this.router.put('/:username', this.UpdateUser);

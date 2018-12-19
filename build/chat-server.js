@@ -44,7 +44,6 @@ class ChatServer {
             socket.on('subscribe', function (users) {
                 return __awaiter(this, void 0, void 0, function* () {
                     let room;
-                    console.log(users);
                     if (users.userFrom.nick && users.userTo.nick) {
                         if (users.userFrom.nick.toLowerCase() < users.userTo.nick.toLowerCase()) {
                             room = "" + users.userFrom._id + "" + users.userTo._id;
@@ -81,13 +80,11 @@ class ChatServer {
                             lastView: null
                         });
                         yield newChat.save();
-                        console.log('holaaa', room, typeof room);
                         yield Actividad_1.default.update({ _id: users.actividad }, {
                             $push: {
                                 rooms: room
                             }
                         });
-                        console.log('holaaa', yield Actividad_1.default.findOne({ _id: users.actividad }));
                         console.log('joining room', room);
                         socket.join(room);
                     }

@@ -8,7 +8,10 @@ const NotificacionSchema: Schema = new Schema({
         type: String
     },
     participanteActividad:{
-        type: String
+        type: Schema.Types.ObjectId, ref: 'User'
+    },
+    tituloActividad:{
+        type: Schema.Types.ObjectId, ref: 'Actividade'
     },
     flag:{
         type: Number
