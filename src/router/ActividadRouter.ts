@@ -143,10 +143,6 @@ class ActividadRouter{
         })
     }
 
-
-
-
-
     //ver una actividad
     public GetActividad(req: Request, res: Response): void{
         //const id: number = req.params.id;
@@ -316,6 +312,7 @@ class ActividadRouter{
         );
     })
     }
+    
         
 
 
