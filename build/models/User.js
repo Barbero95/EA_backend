@@ -28,6 +28,15 @@ const UserSchema = new mongoose_1.Schema({
     tags: [{
             type: String
         }],
+    notificaciones: [{
+            type: String
+        }],
+    horasUsuario: {
+        type: Number
+    },
+    contadorEstrellasUsuario: {
+        type: Number
+    },
     actividadesPropietario: [{
             type: mongoose_1.Schema.Types.ObjectId, ref: 'Actividad'
         }],

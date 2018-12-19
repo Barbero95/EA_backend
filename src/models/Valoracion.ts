@@ -7,7 +7,7 @@ const ValoracionSchema: Schema = new Schema({
     titulo:{
         type: String
     },
-    tituloActividad:{
+    idAct:{
         type: String
     },
     descripcion:{
@@ -16,7 +16,7 @@ const ValoracionSchema: Schema = new Schema({
     propietario:{
         type: String
     },
-    estrella:{
+    estrellas:{
         type: Number
     }
 }

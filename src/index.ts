@@ -6,7 +6,7 @@ import * as http from 'http';
 
 import Server from './server';
 import { pipeline } from 'stream';
-
+import { ChatServer } from './chat-server';
 
 
 debug('ts-express:server');
@@ -32,7 +32,8 @@ server.on('error', onError);
 
 server.on('listening', onListening);
 
-
+let app = new ChatServer().getApp();
+export { app };
 
 function normalizePort(val: number | string): number | string | boolean {
 

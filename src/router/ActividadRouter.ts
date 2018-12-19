@@ -91,6 +91,8 @@ class ActividadRouter{
         
        //intento 3
        Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, 'tags': tag})
+       //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, $text:{$search: tag}})
+       //Actividad.find({$text:{$search: tag}})
        //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}})
         .then((data) => {
             if(data==null){
@@ -112,10 +114,35 @@ class ActividadRouter{
             );
         })
     }
-
-
-
-
+    public BusquedaGeoEnDescripcion (req: Request, res: Response){
+        //para el post 
+        let distance = req.body.distance;
+        let lat = req.body.latitude;
+        let long = req.body.longitude;
+        let tag = req.body.tag;
+        
+       //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, $text:{$search: tag}})
+       Actividad.find({$text:{$search: tag}}) 
+       .then((data) => {
+            if(data==null){
+                res.statusCode=404;
+                res.json(
+                    data
+                );
+            }else{
+                res.statusCode=200;
+                res.json(
+                    data
+                );
+            }
+        })
+        .catch((err) => {
+            res.statusCode = 500;
+            res.json(
+                err
+            );
+        })
+    }
 
     //ver una actividad
     public GetActividad(req: Request, res: Response): void{
@@ -166,39 +193,37 @@ class ActividadRouter{
         })
     }
 
+    public GetValoracion(req: Request, res: Response): void{
+        const idValoracion: string = req.params.idValoracion;
 
+        Actividad.findOne({ "_id": idValoracion})
+            .then((data) => {
+                res.statusCode=200;
+                res.json(
+                    data
+                );
 
-    /*
-    //ver si esta actividad ya existe para el mismo ususario
-    //miramos si hay ya una 
-    public ComprobarActividad(titulo:String, propietario: String, callback:(Error,Actividad)=>void): void{
-        //p=:promise<err,Actividad>
-        //p.then(........) dentro pongo lo que quiero ejecutar
-        //p.catch(......) para error
-        Actividad.findOne({ "titulo": titulo, "propietario": propietario})
-        .then((data) => {
-            callback(null,data);
-            return;
-        })
-        .catch((err) => {
-            return callback(err,null);
-        })
+            })
+            .catch((err) => {
+                res.statusCode = 500;
+                res.json(
+                    err
+                );
+            })
     }
-    */
+
     //crear una actividad
     public CrearActividad(req: Request, res: Response): void{
         const titulo: string = req.body.titulo;
         const descripcion: string = req.body.descripcion;
         let estrellas: number = req.body.estrellas;
         const tags: string [] = req.body.tags;
+        const clientes: [] = [];
         const propietario: string = req.body.propietario;
         const ubicacion: string = req.body.ubicacion;
         const localizacion: number [] = req.body.localizacion;
-
-        //const geo: number [] = [ req.body.lat, req.body.lng ];
-        //const coordinates = 
-        //const geo = req.body.geo;
-        //let loc: { type:'Point', coordinates: [179.9, 0.0]};
+        const horasActividad: number = req.body.horasActividad;
+        const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
 
         console.log(req.body.location);
         const actividad = new Actividad({
@@ -207,6 +232,9 @@ class ActividadRouter{
             propietario,
             estrellas,
             tags,
+            clientes,
+            horasActividad,
+            contadorEstrellasActividad,
             ubicacion,
             localizacion
         });
@@ -234,9 +262,9 @@ class ActividadRouter{
                 })
             }else{
                 //Actividad ya existe
-                res.json({
-                    data: null
-                })
+                res.json(
+                    data= null
+                )
             }
         })
         .catch((err) => {
@@ -247,23 +275,50 @@ class ActividadRouter{
                 );
         })
         
-        //este funciona sin comprobar, va creando el mismo tantas veces como quieres
-        /*
-        actividad.save()
-                    .then((data) => {
-                        res.statusCode = 200;
-                        res.json({
-                            data
-                        });
-                    })
-                    .catch((err) => {
-                        res.statusCode = 404;
-                        res.json({
-                            err
-                        });
-                    })
-        */
     }
+
+    // Crear valoración
+    public Valorar (req: Request, res: Response): void{
+
+        const titulo: string = req.body.titulo;
+        const idAct: string = req.body.idAct;
+        const descripcion: string = req.body.descripcion;
+        const propietario: string = req.body.propietario;
+        const estrellas: number = req.body.estrellas;
+
+        console.log(propietario);
+        console.log(titulo);
+        console.log(idAct);
+
+        const valoracion = new Valoracion({
+            titulo,
+            idAct,
+            descripcion,
+            propietario,
+            estrellas
+        });
+
+        valoracion.save()
+            .then((data) => {
+                //hemos podido crear la actividad
+                console.log("ha entrado 200");
+                res.statusCode = 200;
+                res.json(
+                    data
+                );
+            })
+            .catch((err) => {
+                //error al crear
+                console.log("ha entrado 404");
+                res.statusCode = 404;
+                res.json(
+                    err
+                );
+            })
+
+    }
+
+
     //modificar actividad
     public ModificarActividad(req: Request, res: Response): void{
         const title: string = req.params.title;
@@ -272,12 +327,18 @@ class ActividadRouter{
         const descripcion: string = req.body.descripcion;
         const estrellas: number = req.body.estrellas;
         const tags: string [] = req.body.tags;
+        const clientes: [] = req.body.clientes;
         const propietario: string = req.body.propietario;
+        const horasActividad: number = req.body.horasActividad;
+        const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
+        
+        console.log(req.body.clientes);
        console.log(titulo);
        console.log(title);
 
        console.log(propietario);
-        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario}})
+       console.log(clientes);
+        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "clientes":clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad}})
         .then((data) => {
             res.statusCode = 200;
             res.json(
@@ -293,28 +354,6 @@ class ActividadRouter{
             
     }
 
-    public Valorar (req: Request, res: Response): void{
-
-        const titulo: string = req.body.titulo;
-        const tituloActividad: string = req.body.tituloActividad;
-        const descripcion: string = req.body.descripcion;
-        const propietario: string = req.body.propietario;
-        const estrellas: number = req.body.estrellas;
-
-        console.log(propietario);
-        console.log(titulo);
-        console.log(tituloActividad);
-
-        const valoracion = new Valoracion({
-            titulo,
-            tituloActividad,
-            descripcion,
-            propietario,
-            estrellas
-
-        });
-
-}
 
         //Borrar actividad
     public BorrarActividad(req: Request, res: Response): void{
@@ -337,6 +376,7 @@ class ActividadRouter{
         );
     })
     }
+    
         
 
 
@@ -353,15 +393,17 @@ class ActividadRouter{
         this.router.get('/:titulo', this.GetActividad);
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
-        this.router.get('/porPerfil/:tagperfil', this.GetActividadesPorTagDePerfil)
+        this.router.get('/porPerfil/:tagperfil', this.GetActividadesPorTagDePerfil);
+        this.router.get('/get/valoracion/:idValoracion',this.GetValoracion);
         this.router.post('/', this.CrearActividad);
+        this.router.post('/valorar', this.Valorar);
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
-        this.router.post('/valorar', this.Valorar);
 
         /////busqueda 
         this.router.get('/busqueda/:GPS', this.BusquedaGeo);
         this.router.post('/busqueda/:GPS', this.BusquedaGeo);
+        this.router.post('/busqueda/En/Descripcion',this.BusquedaGeoEnDescripcion);
     }
 }
 

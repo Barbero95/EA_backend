@@ -23,32 +23,26 @@ const ActividadSchema: Schema = new Schema({
     propietario:{
         type: String
     },
+    rooms: [{
+      type: String
+    }],
     clientes:[{
-        type: Schema.Types.ObjectId, ref: 'User',
+        idCliente: {type: Schema.Types.ObjectId, ref: 'User'},
         estado: Number
     }],
+    horasActividad:{
+        type: Number
+    },
+    contadorEstrellasActividad:{
+        type: Number
+    },
     ubicacion:{
         type: String
     },
-    /*
-    location: {
-        type: Point,
-        coordinates: [{type: Number}]
-    }
-    
-    geo:{
-        lat: {type: Number},
-        lng: {type: Number}
-    }
-    loc: {
-        type: {type:String},
-        coordinates: []
-    }
-    */
-   //[Long,Lat]
+    //[lati, long]
     localizacion:[{
         type: Number
-    }]
+    }],
     
 });
 

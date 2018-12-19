@@ -29,6 +29,16 @@ const UserSchema: Schema = new Schema({
         type: String
         
     }], 
+    notificaciones: [{
+        type: String
+        
+    }], 
+    horasUsuario:{
+        type: Number
+    },
+    contadorEstrellasUsuario:{
+        type: Number
+    } ,
     actividadesPropietario:[{
         type: Schema.Types.ObjectId, ref: 'Actividad'
         
@@ -36,6 +46,7 @@ const UserSchema: Schema = new Schema({
     actividadesCliente:[{
        type: Schema.Types.ObjectId, ref: 'Actividad'
     }]
+
 });
 
 export default model('User', UserSchema);

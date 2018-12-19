@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Actividad_1 = require("../models/Actividad");
+const Valoracion_1 = require("../models/Valoracion");
 //const {Point} = require('mongoose-geojson-schemas');
 class ActividadRouter {
     constructor() {
@@ -63,7 +64,32 @@ class ActividadRouter {
         let tag = req.body.tag;
         //intento 3
         Actividad_1.default.find({ 'localizacion': { $within: { $centerSphere: [[lat, long], distance / 3963.192] } }, 'tags': tag })
+            //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, $text:{$search: tag}})
+            //Actividad.find({$text:{$search: tag}})
             //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}})
+            .then((data) => {
+            if (data == null) {
+                res.statusCode = 404;
+                res.json(data);
+            }
+            else {
+                res.statusCode = 200;
+                res.json(data);
+            }
+        })
+            .catch((err) => {
+            res.statusCode = 500;
+            res.json(err);
+        });
+    }
+    BusquedaGeoEnDescripcion(req, res) {
+        //para el post 
+        let distance = req.body.distance;
+        let lat = req.body.latitude;
+        let long = req.body.longitude;
+        let tag = req.body.tag;
+        //Actividad.find({'localizacion': {$within: {$centerSphere:[[lat,long],distance/3963.192]}}, $text:{$search: tag}})
+        Actividad_1.default.find({ $text: { $search: tag } })
             .then((data) => {
             if (data == null) {
                 res.statusCode = 404;
@@ -113,36 +139,30 @@ class ActividadRouter {
             res.json(err);
         });
     }
-    /*
-    //ver si esta actividad ya existe para el mismo ususario
-    //miramos si hay ya una
-    public ComprobarActividad(titulo:String, propietario: String, callback:(Error,Actividad)=>void): void{
-        //p=:promise<err,Actividad>
-        //p.then(........) dentro pongo lo que quiero ejecutar
-        //p.catch(......) para error
-        Actividad.findOne({ "titulo": titulo, "propietario": propietario})
-        .then((data) => {
-            callback(null,data);
-            return;
+    GetValoracion(req, res) {
+        const idValoracion = req.params.idValoracion;
+        Actividad_1.default.findOne({ "_id": idValoracion })
+            .then((data) => {
+            res.statusCode = 200;
+            res.json(data);
         })
-        .catch((err) => {
-            return callback(err,null);
-        })
+            .catch((err) => {
+            res.statusCode = 500;
+            res.json(err);
+        });
     }
-    */
     //crear una actividad
     CrearActividad(req, res) {
         const titulo = req.body.titulo;
         const descripcion = req.body.descripcion;
         let estrellas = req.body.estrellas;
         const tags = req.body.tags;
+        const clientes = [];
         const propietario = req.body.propietario;
         const ubicacion = req.body.ubicacion;
         const localizacion = req.body.localizacion;
-        //const geo: number [] = [ req.body.lat, req.body.lng ];
-        //const coordinates = 
-        //const geo = req.body.geo;
-        //let loc: { type:'Point', coordinates: [179.9, 0.0]};
+        const horasActividad = req.body.horasActividad;
+        const contadorEstrellasActividad = req.body.contadorEstrellasActividad;
         console.log(req.body.location);
         const actividad = new Actividad_1.default({
             titulo,
@@ -150,6 +170,9 @@ class ActividadRouter {
             propietario,
             estrellas,
             tags,
+            clientes,
+            horasActividad,
+            contadorEstrellasActividad,
             ubicacion,
             localizacion
         });
@@ -174,9 +197,7 @@ class ActividadRouter {
             }
             else {
                 //Actividad ya existe
-                res.json({
-                    data: null
-                });
+                res.json(data = null);
             }
         })
             .catch((err) => {
@@ -184,22 +205,37 @@ class ActividadRouter {
             res.statusCode = 404;
             res.json(err);
         });
-        //este funciona sin comprobar, va creando el mismo tantas veces como quieres
-        /*
-        actividad.save()
-                    .then((data) => {
-                        res.statusCode = 200;
-                        res.json({
-                            data
-                        });
-                    })
-                    .catch((err) => {
-                        res.statusCode = 404;
-                        res.json({
-                            err
-                        });
-                    })
-        */
+    }
+    // Crear valoración
+    Valorar(req, res) {
+        const titulo = req.body.titulo;
+        const idAct = req.body.idAct;
+        const descripcion = req.body.descripcion;
+        const propietario = req.body.propietario;
+        const estrellas = req.body.estrellas;
+        console.log(propietario);
+        console.log(titulo);
+        console.log(idAct);
+        const valoracion = new Valoracion_1.default({
+            titulo,
+            idAct,
+            descripcion,
+            propietario,
+            estrellas
+        });
+        valoracion.save()
+            .then((data) => {
+            //hemos podido crear la actividad
+            console.log("ha entrado 200");
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            //error al crear
+            console.log("ha entrado 404");
+            res.statusCode = 404;
+            res.json(err);
+        });
     }
     //modificar actividad
     ModificarActividad(req, res) {
@@ -208,11 +244,16 @@ class ActividadRouter {
         const descripcion = req.body.descripcion;
         const estrellas = req.body.estrellas;
         const tags = req.body.tags;
+        const clientes = req.body.clientes;
         const propietario = req.body.propietario;
+        const horasActividad = req.body.horasActividad;
+        const contadorEstrellasActividad = req.body.contadorEstrellasActividad;
+        console.log(req.body.clientes);
         console.log(titulo);
         console.log(title);
         console.log(propietario);
-        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "propietario": propietario } })
+        console.log(clientes);
+        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "clientes": clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad } })
             .then((data) => {
             res.statusCode = 200;
             res.json(data);
@@ -244,12 +285,15 @@ class ActividadRouter {
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
         this.router.get('/porPerfil/:tagperfil', this.GetActividadesPorTagDePerfil);
+        this.router.get('/get/valoracion/:idValoracion', this.GetValoracion);
         this.router.post('/', this.CrearActividad);
+        this.router.post('/valorar', this.Valorar);
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
         /////busqueda 
         this.router.get('/busqueda/:GPS', this.BusquedaGeo);
         this.router.post('/busqueda/:GPS', this.BusquedaGeo);
+        this.router.post('/busqueda/En/Descripcion', this.BusquedaGeoEnDescripcion);
     }
 }
 //export

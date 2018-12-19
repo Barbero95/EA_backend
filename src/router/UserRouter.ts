@@ -1,7 +1,10 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import User from '../models/User';
+import Notificacion from '../models/Notificacion';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
+import * as multer from 'multer';
+import Actividad from '../models/Actividad';
 
 
 class UserRouter{
@@ -53,6 +56,33 @@ public GetUser(req: Request, res: Response): void{
 
 
 }
+
+
+public getReciboNotificaciones(req: Request, res: Response): void{
+    const dueñoActividad: string = req.params.duenoActividad;
+
+
+    console.log("el dueño", dueñoActividad);
+    Notificacion.find({"dueñoActividad":dueñoActividad})
+    .then((data) => {
+        if(data != null){
+        res.statusCode=200;
+        res.json(
+            data
+        );}
+        else
+        res.json();
+    })
+    .catch((err) => {
+        const status = 500;
+        res.json(
+            err
+        );
+    })
+
+}
+
+
 
 /// fucnion para loggearse
 public GetLogin(req: Request, res: Response): void{
@@ -124,6 +154,8 @@ public CreateUser(req: Request, res: Response): void{
     const tags: string[] = req.body.tags;
     const actividadesPropietario: number[] = req.body.actividadesPropietario;
     const actividadesCliente: number[] = req.body.actividadesCliente;
+    const horasUsuario: number = req.body.horasUsuario;
+    const contadorEstrellasUsuario: number = req.body.contadorEstrellasUsuario;
     
     const user = new User({
         nombre, 
@@ -133,10 +165,11 @@ public CreateUser(req: Request, res: Response): void{
         estrellas,
         password,
         imagen, 
-        tags, 
+        tags,
+        horasUsuario,
+        contadorEstrellasUsuario,
         actividadesPropietario, 
         actividadesCliente
-
     });
 
     console.log(user);
@@ -194,6 +227,65 @@ public validarUsuario(req: Request, res: Response): void{
     
 }
 
+public postEnvioNotificaciones(req: Request, res: Response): void{
+    
+    console.log(req.body.dueñoActividad);
+    console.log(req.body.participanteActividad);
+    console.log(req.body.tituloActividad);
+
+    const duenoActividad: string = req.body.dueñoActividad;
+    const participanteActividad: string = req.body.participanteActividad;
+    const tituloActividad: string = req.body.tituloActividad;
+    const flag: string = req.body.flag;
+
+    const participanteAct = new User();
+    participanteAct._id = participanteActividad;
+
+    //const duenoAct = new Actividad();
+    //duenoAct.propietario = duenoActividad;
+
+   const tituloAct = new Actividad();
+    tituloAct._id = tituloActividad;
+    
+    const notificacion = new Notificacion({
+        dueñoActividad: duenoActividad,
+        participanteActividad: participanteAct,
+        tituloActividad: tituloAct,
+        flag: flag
+    });
+
+    console.log("titulo de la actividad", tituloActividad);
+    console.log("notificacion", notificacion);
+    Notificacion.find({ "dueñoActividad._id": duenoActividad, "participanteActividad._id": participanteActividad, "tituloActividad._id": tituloActividad, "flag": 1})
+        .then((data) => {
+                console.log("POSTENotif::data==null", data);
+                notificacion.save().then((data) => {
+                    console.log("save!!!!!!");
+                    res.statusCode = 200;
+                    res.json(
+                        data
+                    );
+                })
+                .catch((err) => {
+                    console.log("err: ", err);
+                    res.statusCode = 404;
+                    res.json(
+                        err
+                    );
+                })
+            
+        })
+        .catch((err) => {
+            console.log("err", err);
+            res.statusCode = 404;
+
+            res.json(
+                err
+                );
+        })
+    
+}
+
 
 
 //modificar usuario
@@ -208,10 +300,12 @@ public UpdateUser(req: Request, res: Response): void{
     const password: string = req.body.password; 
     const imagen: string = req.body.imagen;
     const tags: string[] = req.body.tags;
+    const horasUsuario: number = req.body.horasUsuario;
+    const contadorEstrellasUsuario: number = req.body.contadorEstrellasUsuario;
     //const actividadesPropietario: number = req.body.actividadesPropietario;
     //const actividadesCliente: number = req.body.actividadesCliente;
 
-    User.findOneAndUpdate({"nick": username}, { $set: {"nombre": nombre, "apellido" :apellido, "email": email, "tags": tags, "password": password, "imagen": imagen}})
+    User.findOneAndUpdate({"nick": username}, { $set: {"nombre": nombre, "apellido" :apellido, "email": email, "tags": tags, "password": password, "imagen": imagen, "horasUsuario": horasUsuario, "contadorEstrellasUsuario": contadorEstrellasUsuario}})
         .then((data) => {
             res.statusCode = 200;
             res.json(
@@ -249,6 +343,31 @@ public DeleteUser(req: Request, res: Response): void{
     })
         
 }
+//ver una sola foto
+public GetImgUser(req: Request, res: Response): void{
+    const id: string = req.params.id;
+    const upload = multer ({dest: 'uploads/'})
+    //res.sendFile("../uploads/dav.png");
+    res.json("hola");
+    
+}
+
+//añadir por primera vez la foto de un usuario
+public CreateNewImg(req: Request, res: Response): void{
+
+    //const upload = multer ({dest: 'uploads/'})
+    let path = req.file.path;
+    if (req.file) {
+        console.log("file!!!")
+    }
+}
+//modificar usuario
+public UpdateImgUser(req: Request, res: Response): void{
+
+        
+}
+
+
 
     //@ts-ignore
     routes(){
@@ -256,10 +375,46 @@ public DeleteUser(req: Request, res: Response): void{
         this.router.get('/', this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
         this.router.get('/:nick', this.GetUser);
+        this.router.get('/Rnotificaciones/:duenoActividad',this.getReciboNotificaciones);
         this.router.post('/', this.CreateUser);
+        this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
         this.router.put('/:username', this.UpdateUser);
         this.router.delete('/borrar', this.DeleteUser);
         this.router.post('/validacion', this.validarUsuario);
+
+        const storage = multer.diskStorage({
+            destination: function(req, file, cb) {
+            cb(null, './uploads/');
+            //usado en la version anterior
+            //cb(null, '../fotosproyectoea/');
+            //prueba
+            //cb(null, '../frontendapp/src/assets/images');
+            },
+            filename: function(req, file, cb) {
+                console.log(" Guardamos el nombre del avatar");
+            //cb(null, file.originalname);
+            cb(null, file.originalname + ".png");
+            }
+        });
+        const fileFilter = (req, file, cb) => {
+            // reject a file
+            if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+            cb(null, true);
+            } else {
+            cb(null, false);
+            }
+        };
+        const upload = multer({
+            storage: storage,
+            limits: {
+            fileSize: 1024 * 1024 * 5
+            },
+            fileFilter: fileFilter
+        });
+        this.router.post('/foto/perfil/:avatar',upload.single('avatar'), this.CreateNewImg);
+        //@ts-ignore
+        this.router.get('/foto/perfil/:id', this.GetImgUser);
+        //this.router.put('/:id', this.UpdateImgUser);
     }
 
 }
