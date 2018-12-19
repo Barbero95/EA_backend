@@ -3,6 +3,7 @@ import Actividad from '../models/Actividad';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
 import Valoracion from "../models/Valoracion";
+import {Types} from "mongoose";
 //const {Point} = require('mongoose-geojson-schemas');
 
 class ActividadRouter{
@@ -195,8 +196,9 @@ class ActividadRouter{
 
     public GetValoracion(req: Request, res: Response): void{
         const idValoracion: string = req.params.idValoracion;
+        console.log ("id valoració: " + idValoracion);
 
-        Actividad.findOne({ "_id": idValoracion})
+        Valoracion.findOne({ "_id" : idValoracion})
             .then((data) => {
                 res.statusCode=200;
                 res.json(
@@ -224,6 +226,7 @@ class ActividadRouter{
         const localizacion: number [] = req.body.localizacion;
         const horasActividad: number = req.body.horasActividad;
         const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
+        const valoraciones: string[] = req.body.valoraciones;
 
         console.log(req.body.location);
         const actividad = new Actividad({
@@ -236,7 +239,8 @@ class ActividadRouter{
             horasActividad,
             contadorEstrellasActividad,
             ubicacion,
-            localizacion
+            localizacion,
+            valoraciones
         });
         Actividad.findOne({ "titulo": titulo, "propietario": propietario})
         .then((data) => {
@@ -331,14 +335,16 @@ class ActividadRouter{
         const propietario: string = req.body.propietario;
         const horasActividad: number = req.body.horasActividad;
         const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
+        const valoraciones: string[] = req.body.valoraciones;
         
         console.log(req.body.clientes);
+        console.log(req.body.valoraciones);
        console.log(titulo);
        console.log(title);
 
        console.log(propietario);
        console.log(clientes);
-        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "clientes":clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad}})
+        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "valoraciones": valoraciones,"clientes":clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad}})
         .then((data) => {
             res.statusCode = 200;
             res.json(
