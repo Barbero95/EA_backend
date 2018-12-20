@@ -5,6 +5,7 @@ import { default_type } from 'mime';
 import bodyParser = require('body-parser');
 import * as multer from 'multer';
 import Actividad from '../models/Actividad';
+import { ObjectId } from 'bson';
 
 
 class UserRouter{
@@ -57,6 +58,49 @@ public GetUser(req: Request, res: Response): void{
 
 }
 
+//encontrar usuario por id
+public getUsuarioById(req: Request, res: Response): void{
+    const id: string = req.body.id;
+    console.log(id);
+    User.findOne({ "_id": id })
+    .then((data) => {
+        res.statusCode=200;
+        res.json(
+            data
+        );
+    })
+    .catch((err) => {
+        const status = 500;
+        res.json(
+            err
+        );
+    })
+
+
+}
+
+//encontrar usuario por referencia
+public getUsuarioByIdRef(req: Request, res: Response): void{
+    const refId: string = req.body.idRef;
+    console.log(refId)
+    User.findOne({ "user.$id": refId })
+    .then((data) => {
+        res.statusCode=200;
+        res.json(
+            data
+        );
+    })
+    .catch((err) => {
+        const status = 500;
+        res.json(
+            err
+        );
+    })
+
+
+}
+
+
 
 public getReciboNotificaciones(req: Request, res: Response): void{
     const dueñoActividad: string = req.params.duenoActividad;
@@ -81,8 +125,50 @@ public getReciboNotificaciones(req: Request, res: Response): void{
     })
 
 }
+public GetUserById(req: Request, res: Response): void{
+
+    const idusuario: string = req.params.idCliente;
+    console.log(idusuario);
+
+    User.findOne({ "_id": idusuario })
+    .then((data) => {
+        console.log("la data es: " + data)
+        res.statusCode=200;
+        res.json(
+            data
+        );
+    })
+    .catch((err) => {
+        const status = 500;
+        res.json(
+            err
+        );
+    })
 
 
+}
+public GetUserByRef(req: Request, res: Response): void{
+
+    const ref: string = req.params.ref;
+    console.log(ref);
+
+    User.findOne({ "user.$id": ref })
+    .then((data) => {
+        console.log("la data es: " + data)
+        res.statusCode=200;
+        res.json(
+            data
+        );
+    })
+    .catch((err) => {
+        const status = 500;
+        res.json(
+            err
+        );
+    })
+
+
+}
 
 /// fucnion para loggearse
 public GetLogin(req: Request, res: Response): void{
@@ -204,6 +290,9 @@ public CreateUser(req: Request, res: Response): void{
         })
 }
 
+
+
+
 public validarUsuario(req: Request, res: Response): void{
     
     User.findOne({ "nick": req.body.nick, "password": req.body.password})
@@ -226,6 +315,8 @@ public validarUsuario(req: Request, res: Response): void{
         })
     
 }
+
+
 
 public postEnvioNotificaciones(req: Request, res: Response): void{
     
@@ -374,8 +465,12 @@ public UpdateImgUser(req: Request, res: Response): void{
         //@ts-ignore
         this.router.get('/', this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
+        this.router.get('/userByRef/:ref', this.GetUserByRef);
+        this.router.get('/userById/:idCliente', this.GetUserById);
         this.router.get('/:nick', this.GetUser);
         this.router.get('/Rnotificaciones/:duenoActividad',this.getReciboNotificaciones);
+        this.router.post('/getUserById', this.getUsuarioById);
+        this.router.post('/getUserByRef', this.getUsuarioByIdRef);
         this.router.post('/', this.CreateUser);
         this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
         this.router.put('/:username', this.UpdateUser);

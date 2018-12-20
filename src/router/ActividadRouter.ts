@@ -79,6 +79,27 @@ class ActividadRouter{
             );
         })
     }
+    public GetActividadesCliente(req: Request, res: Response): void{
+        const cliente: string = req.params.cliente;
+        console.log("el cliente de la actividad es : "+cliente);
+        Actividad.find({clientes:{$elemMatch:{idCliente: cliente}}})
+        .then((data) => {
+            let status = 200;
+            if(data==null){
+                status=404;
+            }
+            res.statusCode=status;
+            res.json(
+                data
+            );
+        })
+        .catch((err) => {
+            res.statusCode = 500;
+            res.json(
+                err
+            );
+        })
+    }
 
     /// buscamos por ubicación
     public BusquedaGeo (req: Request, res: Response){
@@ -177,6 +198,7 @@ class ActividadRouter{
 
     public GetActividadPropietario(req: Request, res: Response): void{
         //const id: number = req.params.id;
+        console.log(req.params.titulo);
         const titulo: string = req.params.titulo;
         const propietario: string = req.params.propietario;
 
@@ -331,6 +353,7 @@ class ActividadRouter{
         this.router.get('/', this.GetActividades);
         this.router.get('/:titulo', this.GetActividad);
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
+        this.router.get('/cliente/:cliente', this.GetActividadesCliente);
         this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
         this.router.get('/porPerfil/:tagperfil', this.GetActividadesPorTagDePerfil)
         this.router.post('/', this.CrearActividad);

@@ -39,6 +39,34 @@ class UserRouter {
             res.json(err);
         });
     }
+    //encontrar usuario por id
+    getUsuarioById(req, res) {
+        const id = req.body.id;
+        console.log(id);
+        User_1.default.findOne({ "_id": id })
+            .then((data) => {
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            const status = 500;
+            res.json(err);
+        });
+    }
+    //encontrar usuario por referencia
+    getUsuarioByIdRef(req, res) {
+        const refId = req.body.idRef;
+        console.log(refId);
+        User_1.default.findOne({ "user.$id": refId })
+            .then((data) => {
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            const status = 500;
+            res.json(err);
+        });
+    }
     getReciboNotificaciones(req, res) {
         const dueñoActividad = req.params.duenoActividad;
         console.log("el dueño", dueñoActividad);
@@ -50,6 +78,34 @@ class UserRouter {
             }
             else
                 res.json();
+        })
+            .catch((err) => {
+            const status = 500;
+            res.json(err);
+        });
+    }
+    GetUserById(req, res) {
+        const idusuario = req.params.idCliente;
+        console.log(idusuario);
+        User_1.default.findOne({ "_id": idusuario })
+            .then((data) => {
+            console.log("la data es: " + data);
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            const status = 500;
+            res.json(err);
+        });
+    }
+    GetUserByRef(req, res) {
+        const ref = req.params.ref;
+        console.log(ref);
+        User_1.default.findOne({ "user.$id": ref })
+            .then((data) => {
+            console.log("la data es: " + data);
+            res.statusCode = 200;
+            res.json(data);
         })
             .catch((err) => {
             const status = 500;
@@ -280,8 +336,12 @@ class UserRouter {
         //@ts-ignore
         this.router.get('/', this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
+        this.router.get('/userByRef/:ref', this.GetUserByRef);
+        this.router.get('/userById/:idCliente', this.GetUserById);
         this.router.get('/:nick', this.GetUser);
         this.router.get('/Rnotificaciones/:duenoActividad', this.getReciboNotificaciones);
+        this.router.post('/getUserById', this.getUsuarioById);
+        this.router.post('/getUserByRef', this.getUsuarioByIdRef);
         this.router.post('/', this.CreateUser);
         this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
         this.router.put('/:username', this.UpdateUser);

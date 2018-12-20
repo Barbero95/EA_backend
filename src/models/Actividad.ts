@@ -27,7 +27,8 @@ const ActividadSchema: Schema = new Schema({
       type: String
     }],
     clientes:[{
-        idCliente: {type: Schema.Types.ObjectId, ref: 'User'},
+        //idCliente: {type: Schema.Types.ObjectId, ref: 'User'},
+        idCliente: String,
         estado: Number
     }],
     horasActividad:{

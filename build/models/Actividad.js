@@ -26,7 +26,8 @@ const ActividadSchema = new mongoose_1.Schema({
             type: String
         }],
     clientes: [{
-            idCliente: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },
+            //idCliente: {type: Schema.Types.ObjectId, ref: 'User'},
+            idCliente: String,
             estado: Number
         }],
     horasActividad: {
