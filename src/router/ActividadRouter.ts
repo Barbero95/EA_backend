@@ -2,6 +2,8 @@ import { Router, Request, Response, NextFunction } from 'express';
 import Actividad from '../models/Actividad';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
+import Valoracion from "../models/Valoracion";
+import {Types} from "mongoose";
 //const {Point} = require('mongoose-geojson-schemas');
 
 class ActividadRouter{
@@ -164,10 +166,6 @@ class ActividadRouter{
         })
     }
 
-
-
-
-
     //ver una actividad
     public GetActividad(req: Request, res: Response): void{
         //const id: number = req.params.id;
@@ -218,6 +216,26 @@ class ActividadRouter{
         })
     }
 
+    public GetValoracion(req: Request, res: Response): void{
+        const idValoracion: string = req.params.idValoracion;
+        console.log ("id valoració: " + idValoracion);
+
+        Valoracion.findOne({ "_id" : idValoracion})
+            .then((data) => {
+                res.statusCode=200;
+                res.json(
+                    data
+                );
+
+            })
+            .catch((err) => {
+                res.statusCode = 500;
+                res.json(
+                    err
+                );
+            })
+    }
+
     //crear una actividad
     public CrearActividad(req: Request, res: Response): void{
         const titulo: string = req.body.titulo;
@@ -230,6 +248,7 @@ class ActividadRouter{
         const localizacion: number [] = req.body.localizacion;
         const horasActividad: number = req.body.horasActividad;
         const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
+        const valoraciones: string[] = req.body.valoraciones;
 
         console.log(req.body.location);
         const actividad = new Actividad({
@@ -242,7 +261,8 @@ class ActividadRouter{
             horasActividad,
             contadorEstrellasActividad,
             ubicacion,
-            localizacion
+            localizacion,
+            valoraciones
         });
         Actividad.findOne({ "titulo": titulo, "propietario": propietario})
         .then((data) => {
@@ -282,6 +302,49 @@ class ActividadRouter{
         })
         
     }
+
+    // Crear valoración
+    public Valorar (req: Request, res: Response): void{
+
+        const titulo: string = req.body.titulo;
+        const idAct: string = req.body.idAct;
+        const descripcion: string = req.body.descripcion;
+        const propietario: string = req.body.propietario;
+        const estrellas: number = req.body.estrellas;
+
+        console.log(propietario);
+        console.log(titulo);
+        console.log(idAct);
+
+        const valoracion = new Valoracion({
+            titulo,
+            idAct,
+            descripcion,
+            propietario,
+            estrellas
+        });
+
+        valoracion.save()
+            .then((data) => {
+                //hemos podido crear la actividad
+                console.log("ha entrado 200");
+                res.statusCode = 200;
+                res.json(
+                    data
+                );
+            })
+            .catch((err) => {
+                //error al crear
+                console.log("ha entrado 404");
+                res.statusCode = 404;
+                res.json(
+                    err
+                );
+            })
+
+    }
+
+
     //modificar actividad
     public ModificarActividad(req: Request, res: Response): void{
         const title: string = req.params.title;
@@ -294,14 +357,16 @@ class ActividadRouter{
         const propietario: string = req.body.propietario;
         const horasActividad: number = req.body.horasActividad;
         const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
+        const valoraciones: string[] = req.body.valoraciones;
         
         console.log(req.body.clientes);
+        console.log(req.body.valoraciones);
        console.log(titulo);
        console.log(title);
 
        console.log(propietario);
        console.log(clientes);
-        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "clientes":clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad}})
+        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "valoraciones": valoraciones,"clientes":clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad}})
         .then((data) => {
             res.statusCode = 200;
             res.json(
@@ -316,6 +381,7 @@ class ActividadRouter{
         })
             
     }
+
 
         //Borrar actividad
     public BorrarActividad(req: Request, res: Response): void{
@@ -338,6 +404,7 @@ class ActividadRouter{
         );
     })
     }
+    
         
 
 
@@ -355,8 +422,10 @@ class ActividadRouter{
         this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
         this.router.get('/cliente/:cliente', this.GetActividadesCliente);
         this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
-        this.router.get('/porPerfil/:tagperfil', this.GetActividadesPorTagDePerfil)
+        this.router.get('/porPerfil/:tagperfil', this.GetActividadesPorTagDePerfil);
+        this.router.get('/get/valoracion/:idValoracion',this.GetValoracion);
         this.router.post('/', this.CrearActividad);
+        this.router.post('/valorar', this.Valorar);
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
 

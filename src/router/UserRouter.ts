@@ -107,7 +107,7 @@ public getReciboNotificaciones(req: Request, res: Response): void{
 
 
     console.log("el dueño", dueñoActividad);
-    Notificacion.find({"dueñoActividad":dueñoActividad})
+    Notificacion.find({"dueñoActividad":dueñoActividad, "flag":1})
     .then((data) => {
         if(data != null){
         res.statusCode=200;
@@ -329,25 +329,25 @@ public postEnvioNotificaciones(req: Request, res: Response): void{
     const tituloActividad: string = req.body.tituloActividad;
     const flag: string = req.body.flag;
 
-    const participanteAct = new User();
-    participanteAct._id = participanteActividad;
+  //  const participanteAct = new User();
+  //  participanteAct._id= participanteActividad;
 
     //const duenoAct = new Actividad();
     //duenoAct.propietario = duenoActividad;
 
-   const tituloAct = new Actividad();
-    tituloAct._id = tituloActividad;
+  // const tituloAct = new Actividad();
+   // tituloAct._id = tituloActividad;
     
     const notificacion = new Notificacion({
         dueñoActividad: duenoActividad,
-        participanteActividad: participanteAct,
-        tituloActividad: tituloAct,
+        participanteActividad: participanteActividad,
+        tituloActividad: tituloActividad,
         flag: flag
     });
 
     console.log("titulo de la actividad", tituloActividad);
     console.log("notificacion", notificacion);
-    Notificacion.find({ "dueñoActividad._id": duenoActividad, "participanteActividad._id": participanteActividad, "tituloActividad._id": tituloActividad, "flag": 1})
+    Notificacion.find({ "dueñoActividad": duenoActividad, "participanteActividad": participanteActividad, "tituloActividad": tituloActividad, "flag": 1})
         .then((data) => {
                 console.log("POSTENotif::data==null", data);
                 notificacion.save().then((data) => {
@@ -412,6 +412,78 @@ public UpdateUser(req: Request, res: Response): void{
         
 }
 
+
+public putNotificacion(req: Request, res: Response): void{
+
+    const tituloActividad: string = req.params.tituloActividad;
+    const participanteActividad: string = req.params.participanteActividad;
+    const dueñoActividad: string = req.params.dueñoActividad;
+   
+    console.log("llega aqui");
+    Notificacion.findOneAndUpdate({ "tituloActividad": tituloActividad,"participanteActividad":participanteActividad,"dueñoActividad":dueñoActividad}, { $set: {"flag": 0}})
+   .then((data) => {
+    res.statusCode = 200;
+    res.json(
+        data
+    );
+})
+.catch((err) => {
+    res.statusCode = 500;
+    res.json(
+        err
+    );
+})
+}
+
+public postRechazoNotificaciones(req: Request, res: Response): void{
+
+    const tituloActividad: string = req.params.tituloActividad;
+    const participanteActividad: string = req.params.participanteActividad;
+    const dueñoActividad: string = req.params.dueñoActividad;
+   
+    console.log("llega aqui");
+    Notificacion.findOneAndUpdate({ "tituloActividad": tituloActividad,"participanteActividad":participanteActividad}, { $set: {"flag": 0}})
+   .then((data) => {
+    res.statusCode = 200;
+    res.json(
+        data
+    );
+})
+.catch((err) => {
+    res.statusCode = 500;
+    res.json(
+        err
+    );
+})
+}
+
+
+
+public deleteNotificacion(req: Request, res: Response): void{
+
+    const tituloActividad: string = req.params.tituloActividad;
+    const participanteActividad: string = req.params.participanteActividad;
+    const dueñoActividad: string = req.params.dueñoActividad;
+   
+    console.log("llega aqui");
+Notificacion.deleteMany({ "tituloActividad": tituloActividad,"participanteActividad":participanteActividad,"dueñoActividad":dueñoActividad})
+.then((data) => {
+    res.statusCode = 200;
+    res.json(
+        data
+    );
+})
+.catch((err) => {
+    res.statusCode = 500;
+    res.json(
+        err
+    );
+})
+}
+
+
+
+
 //borrar usuario
 public DeleteUser(req: Request, res: Response): void{
 
@@ -473,8 +545,11 @@ public UpdateImgUser(req: Request, res: Response): void{
         this.router.post('/getUserByRef', this.getUsuarioByIdRef);
         this.router.post('/', this.CreateUser);
         this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
+        this.router.post('/RechazoNotificaciones/:participanteActividad/:tituloActividad', this.postRechazoNotificaciones);
         this.router.put('/:username', this.UpdateUser);
+        this.router.put('/Unotificacion', this.putNotificacion);
         this.router.delete('/borrar', this.DeleteUser);
+        this.router.delete('/borrarnotificacion/:dueñoActividad/:participanteActividad/:tituloActividad', this.deleteNotificacion);
         this.router.post('/validacion', this.validarUsuario);
 
         const storage = multer.diskStorage({

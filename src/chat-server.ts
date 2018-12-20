@@ -47,7 +47,6 @@ export class ChatServer {
     this.io.on('connection', function(socket: any){
       socket.on('subscribe', async function(users) {
         let room : string;
-        console.log(users);
         if(users.userFrom.nick && users.userTo.nick) {
           if (users.userFrom.nick.toLowerCase() < users.userTo.nick.toLowerCase()) {
             room = "" + users.userFrom._id + "" + users.userTo._id;
@@ -84,13 +83,11 @@ export class ChatServer {
             lastView: null
           });
           await newChat.save();
-          console.log('holaaa', room, typeof room);
           await Actividad.update({ _id: users.actividad }, {
             $push: {
               rooms: room
             }
           });
-          console.log('holaaa', await Actividad.findOne({ _id: users.actividad }));
 
           console.log('joining room', room);
           socket.join(room);

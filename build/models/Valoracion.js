@@ -1,21 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const NotificacionSchema = new mongoose_1.Schema({
+const ValoracionSchema = new mongoose_1.Schema({
     createdAt: Date,
     updateAt: Date,
-    dueñoActividad: {
+    titulo: {
         type: String
     },
-    participanteActividad: {
+    idAct: {
         type: String
     },
-    tituloActividad: {
+    descripcion: {
         type: String
     },
-    flag: {
+    propietario: {
+        type: String
+    },
+    estrellas: {
         type: Number
     }
 });
-exports.default = mongoose_1.model('Notificacion', NotificacionSchema);
-//# sourceMappingURL=Notificacion.js.map
+exports.default = mongoose_1.model('Valoracion', ValoracionSchema);
+//# sourceMappingURL=Valoracion.js.map

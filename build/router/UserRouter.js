@@ -4,7 +4,6 @@ const express_1 = require("express");
 const User_1 = require("../models/User");
 const Notificacion_1 = require("../models/Notificacion");
 const multer = require("multer");
-const Actividad_1 = require("../models/Actividad");
 class UserRouter {
     constructor() {
         this.router = express_1.Router();
@@ -70,7 +69,7 @@ class UserRouter {
     getReciboNotificaciones(req, res) {
         const dueñoActividad = req.params.duenoActividad;
         console.log("el dueño", dueñoActividad);
-        Notificacion_1.default.find({ "dueñoActividad": dueñoActividad })
+        Notificacion_1.default.find({ "dueñoActividad": dueñoActividad, "flag": 1 })
             .then((data) => {
             if (data != null) {
                 res.statusCode = 200;
@@ -239,21 +238,21 @@ class UserRouter {
         const participanteActividad = req.body.participanteActividad;
         const tituloActividad = req.body.tituloActividad;
         const flag = req.body.flag;
-        const participanteAct = new User_1.default();
-        participanteAct._id = participanteActividad;
+        //  const participanteAct = new User();
+        //  participanteAct._id= participanteActividad;
         //const duenoAct = new Actividad();
         //duenoAct.propietario = duenoActividad;
-        const tituloAct = new Actividad_1.default();
-        tituloAct._id = tituloActividad;
+        // const tituloAct = new Actividad();
+        // tituloAct._id = tituloActividad;
         const notificacion = new Notificacion_1.default({
             dueñoActividad: duenoActividad,
-            participanteActividad: participanteAct,
-            tituloActividad: tituloAct,
+            participanteActividad: participanteActividad,
+            tituloActividad: tituloActividad,
             flag: flag
         });
         console.log("titulo de la actividad", tituloActividad);
         console.log("notificacion", notificacion);
-        Notificacion_1.default.find({ "dueñoActividad._id": duenoActividad, "participanteActividad._id": participanteActividad, "tituloActividad._id": tituloActividad, "flag": 1 })
+        Notificacion_1.default.find({ "dueñoActividad": duenoActividad, "participanteActividad": participanteActividad, "tituloActividad": tituloActividad, "flag": 1 })
             .then((data) => {
             console.log("POSTENotif::data==null", data);
             notificacion.save().then((data) => {
@@ -295,6 +294,51 @@ class UserRouter {
         })
             .catch((err) => {
             res.statusCode = 404;
+            res.json(err);
+        });
+    }
+    putNotificacion(req, res) {
+        const tituloActividad = req.params.tituloActividad;
+        const participanteActividad = req.params.participanteActividad;
+        const dueñoActividad = req.params.dueñoActividad;
+        console.log("llega aqui");
+        Notificacion_1.default.findOneAndUpdate({ "tituloActividad": tituloActividad, "participanteActividad": participanteActividad, "dueñoActividad": dueñoActividad }, { $set: { "flag": 0 } })
+            .then((data) => {
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 500;
+            res.json(err);
+        });
+    }
+    postRechazoNotificaciones(req, res) {
+        const tituloActividad = req.params.tituloActividad;
+        const participanteActividad = req.params.participanteActividad;
+        const dueñoActividad = req.params.dueñoActividad;
+        console.log("llega aqui");
+        Notificacion_1.default.findOneAndUpdate({ "tituloActividad": tituloActividad, "participanteActividad": participanteActividad }, { $set: { "flag": 0 } })
+            .then((data) => {
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 500;
+            res.json(err);
+        });
+    }
+    deleteNotificacion(req, res) {
+        const tituloActividad = req.params.tituloActividad;
+        const participanteActividad = req.params.participanteActividad;
+        const dueñoActividad = req.params.dueñoActividad;
+        console.log("llega aqui");
+        Notificacion_1.default.deleteMany({ "tituloActividad": tituloActividad, "participanteActividad": participanteActividad, "dueñoActividad": dueñoActividad })
+            .then((data) => {
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 500;
             res.json(err);
         });
     }
@@ -344,8 +388,11 @@ class UserRouter {
         this.router.post('/getUserByRef', this.getUsuarioByIdRef);
         this.router.post('/', this.CreateUser);
         this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
+        this.router.post('/RechazoNotificaciones/:participanteActividad/:tituloActividad', this.postRechazoNotificaciones);
         this.router.put('/:username', this.UpdateUser);
+        this.router.put('/Unotificacion', this.putNotificacion);
         this.router.delete('/borrar', this.DeleteUser);
+        this.router.delete('/borrarnotificacion/:dueñoActividad/:participanteActividad/:tituloActividad', this.deleteNotificacion);
         this.router.post('/validacion', this.validarUsuario);
         const storage = multer.diskStorage({
             destination: function (req, file, cb) {

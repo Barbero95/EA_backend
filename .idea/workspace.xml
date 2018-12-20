@@ -1,68 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="fba70ec8-29fa-4038-b60a-d642a8c53157" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/models/Valoracion.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
     <list default="true" id="43e1dfd9-fa46-44c3-8a84-6a5324eab437" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/chat-server.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/chat-server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/chat-server.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/build/chat-server.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/models/Actividad.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/models/Actividad.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/models/Actividad.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/build/models/Actividad.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/router/ChatRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/router/ChatRouter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/router/ChatRouter.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/build/router/ChatRouter.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chat-server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat-server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Actividad.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Actividad.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/ChatRouter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/ChatRouter.ts" afterDir="false" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+<<<<<<< HEAD
+=======
     <option name="TRACKING_ENABLED" value="true" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
+  <component name="FUSProjectUsageTrigger">
+    <session id="2130403151">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="8" />
+          <entry key="project.open.time.1" value="3" />
+          <entry key="project.open.time.16" value="2" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.open.time.7" value="2" />
+          <entry key="project.opened" value="9" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="ts" value="9" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="TypeScript" value="9" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.js.language.service.starts">
+        <counts>
+          <entry key="TypeScriptServerServiceImpl" value="8" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="ts" value="73" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="TypeScript" value="73" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/models/Valoracion.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="21" lean-forward="true" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
+=======
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="server.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/server.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-495">
+            <state relative-caret-position="646">
               <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
                 <element signature="e#280#335#0" expanded="true" />
               </folding>
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package.json">
+<<<<<<< HEAD
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
+            <state>
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+=======
       <file leaf-file-name="UserRouter.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/router/UserRouter.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="94">
-              <caret line="362" column="69" selection-start-line="362" selection-start-column="69" selection-end-line="362" selection-end-column="69" />
+            <state>
+              <caret column="7" selection-start-column="7" selection-end-column="7" />
               <folding>
                 <element signature="e#0#66#0" expanded="true" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/index.ts">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/router/ActividadRouter.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="324" column="13" selection-start-line="324" selection-start-column="13" selection-end-line="324" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#66#0" expanded="true" />
+                <element signature="n#!!block;n#GetActividades#0;n#ActividadRouter#0" />
+                <element signature="n#!!block;n#GetActividadesPorTagDePerfil#0;n#ActividadRouter#0" />
+                <element signature="n#!!block;n#GetActividadesPropietario#0;n#ActividadRouter#0" />
+                <element signature="n#!!block;n#BusquedaGeo#0;n#ActividadRouter#0" />
+                <element signature="n#!!block;n#GetActividad#0;n#ActividadRouter#0" />
+                <element signature="n#!!block;n#GetActividadPropietario#0;n#ActividadRouter#0" />
+                <element signature="e#4149#4738#0" />
+                <element signature="n#!!block;n#CrearActividad#0;n#ActividadRouter#0" />
+                <element signature="n#!!block;n#ModificarActividad#0;n#ActividadRouter#0" />
+                <element signature="e#8633#8716#0" />
+                <element signature="e#8738#8820#0" />
+=======
       <file leaf-file-name="ActividadRouter.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/router/ActividadRouter.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3287">
+            <state relative-caret-position="38">
               <caret line="2" selection-start-line="2" selection-end-line="2" />
             </state>
           </provider>
@@ -71,17 +149,17 @@
       <file leaf-file-name="index.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/index.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1665">
+            <state relative-caret-position="152">
               <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="chat-server.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="chat-server.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/chat-server.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1919">
-              <caret line="7" column="23" lean-forward="true" selection-start-line="7" selection-end-line="8" />
+            <state relative-caret-position="-1040">
+              <caret line="49" selection-start-line="49" selection-end-line="49" />
               <folding>
                 <element signature="e#0#44#0" expanded="true" />
               </folding>
@@ -89,20 +167,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.d.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/@types/node/index.d.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="1345" column="13" selection-start-line="1345" selection-start-column="13" selection-end-line="1345" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChatRouter.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ChatRouter.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/router/ChatRouter.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="32" column="29" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
+            <state relative-caret-position="176">
+              <caret line="122" column="16" selection-start-line="122" selection-start-column="16" selection-end-line="122" selection-end-column="16" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
               </folding>
@@ -110,23 +179,46 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="index.d.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/@types/mongoose/index.d.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3292">
+              <caret line="2965" column="24" selection-start-line="2965" selection-start-column="22" selection-end-line="2965" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Message.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/models/Message.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="209">
+              <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Chat.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/models/Chat.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
+            <state relative-caret-position="266">
               <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
               <folding>
                 <element signature="e#0#49#0" expanded="true" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+    </leaf>
+  </component>
+=======
       <file leaf-file-name="Actividad.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/models/Actividad.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="26" column="16" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="16" />
+            <state relative-caret-position="551">
+              <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -145,12 +237,16 @@
       <find>ObjectI</find>
     </findStrings>
   </component>
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/src/models/Valoracion.ts" />
+=======
         <option value="$PROJECT_DIR$/src/models/Message.ts" />
         <option value="$PROJECT_DIR$/src/router/ActividadRouter.ts" />
         <option value="$PROJECT_DIR$/src/models/Chat.ts" />
@@ -160,6 +256,7 @@
         <option value="$PROJECT_DIR$/src/models/Actividad.ts" />
         <option value="$PROJECT_DIR$/src/chat-server.ts" />
         <option value="$PROJECT_DIR$/src/router/ChatRouter.ts" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
       </list>
     </option>
   </component>
@@ -180,9 +277,15 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="978" />
-    <option name="width" value="941" />
-    <option name="height" value="1031" />
+<<<<<<< HEAD
+    <option name="y" value="23" />
+    <option name="width" value="1280" />
+    <option name="height" value="777" />
+=======
+    <option name="x" value="630" />
+    <option name="width" value="981" />
+    <option name="height" value="1020" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -202,6 +305,8 @@
               <item name="EA_backend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
+<<<<<<< HEAD
+=======
             <path>
               <item name="EA_backend" type="b2602c69:ProjectViewProjectNode" />
               <item name="EA_backend" type="462c0819:PsiDirectoryNode" />
@@ -214,6 +319,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="router" type="462c0819:PsiDirectoryNode" />
             </path>
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
           </expand>
           <select />
         </subPane>
@@ -222,6 +328,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+<<<<<<< HEAD
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+    <property name="typescript-compiler-editor-notification" value="false" />
+=======
     <property name="last_opened_file_path" value="C:/Program Files (x86)/Yarn" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -229,6 +343,7 @@
     <property name="nodejs_package_manager_path" value="C:/Program Files (x86)/Yarn" />
     <property name="settings.editor.selected.configurable" value="settings.github" />
     <property name="ts.external.directory.path" value="C:\Users\aleixce\Documents\Bruno\proyecto\EA_backend\node_modules\typescript\lib" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -247,40 +362,98 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< HEAD
+      <changelist id="fba70ec8-29fa-4038-b60a-d642a8c53157" name="Default Changelist" comment="" />
+      <created>1543425397265</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1543425397265</updated>
+      <workItem from="1543425398763" duration="534000" />
+      <workItem from="1543498216089" duration="1854000" />
+      <workItem from="1543509078340" duration="1716000" />
+      <workItem from="1543517687470" duration="166000" />
+      <workItem from="1543849549688" duration="1578000" />
+      <workItem from="1544710659887" duration="2957000" />
+      <workItem from="1544754861188" duration="1547000" />
+      <workItem from="1544802575325" duration="595000" />
+      <workItem from="1545225057082" duration="1460000" />
+=======
       <changelist id="43e1dfd9-fa46-44c3-8a84-6a5324eab437" name="Default" comment="" />
       <created>1544530249187</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1544530249187</updated>
       <workItem from="1544530251033" duration="23999000" />
+      <workItem from="1544709409715" duration="3833000" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23999000" />
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="12407000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="695" extended-state="7" />
+    <frame x="0" y="23" width="1280" height="777" extended-state="6" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32954547" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info id="npm" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.38619402" />
-      <window_info anchor="bottom" id="TypeScript" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12241653" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19936457" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.329927" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" side_tool="true" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.3240876" />
+      <window_info anchor="bottom" id="TypeScript" order="11" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+=======
+    <option name="totallyTimeSpent" value="35181000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info anchor="bottom" id="TypeScript" order="7" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24960254" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32954547" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3283582" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="TypeScript" order="7" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32954547" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24960254" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3283582" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -289,12 +462,70 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+<<<<<<< HEAD
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/models/Actividad.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="28" column="7" lean-forward="true" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
+=======
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <option name="time" value="1" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chat-server.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="20" column="24" lean-forward="true" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/node/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25555">
+          <caret line="1345" column="13" selection-start-line="1345" selection-start-column="13" selection-end-line="1345" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Chat.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Actividad.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/ChatRouter.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="798">
+          <caret line="42" column="24" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/models/Notificacion.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-115">
@@ -365,21 +596,49 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="26" column="16" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="16" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/server.ts">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state>
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+=======
         <state relative-caret-position="-495">
           <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
             <element signature="e#280#335#0" expanded="true" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/index.ts">
+<<<<<<< HEAD
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/ActividadRouter.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="324" column="13" selection-start-line="324" selection-start-column="13" selection-end-line="324" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+            <element signature="n#!!block;n#GetActividades#0;n#ActividadRouter#0" />
+            <element signature="n#!!block;n#GetActividadesPorTagDePerfil#0;n#ActividadRouter#0" />
+            <element signature="n#!!block;n#GetActividadesPropietario#0;n#ActividadRouter#0" />
+            <element signature="n#!!block;n#BusquedaGeo#0;n#ActividadRouter#0" />
+            <element signature="n#!!block;n#GetActividad#0;n#ActividadRouter#0" />
+            <element signature="n#!!block;n#GetActividadPropietario#0;n#ActividadRouter#0" />
+            <element signature="e#4149#4738#0" />
+            <element signature="n#!!block;n#CrearActividad#0;n#ActividadRouter#0" />
+            <element signature="n#!!block;n#ModificarActividad#0;n#ActividadRouter#0" />
+            <element signature="e#8633#8716#0" />
+            <element signature="e#8738#8820#0" />
+=======
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1665">
           <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
@@ -413,6 +672,256 @@
           <folding>
             <element signature="e#0#44#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Actividad.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="37">
+          <caret line="42" column="4" selection-end-line="42" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Notificacion.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-115">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/ActividadRouter.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Message.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Chat.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/User.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="38" column="29" selection-start-line="37" selection-start-column="27" selection-end-line="40" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/UserRouter.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="94">
+          <caret line="362" column="69" selection-start-line="362" selection-start-column="69" selection-end-line="362" selection-end-column="69" />
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
+          </folding>
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/src/models/Valoracion.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="21" lean-forward="true" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
+=======
+    <entry file="file://$PROJECT_DIR$/yarn.lock">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2432">
+          <caret line="98" column="5" selection-start-line="98" selection-start-column="5" selection-end-line="98" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/mongoose/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="109">
+          <caret line="342" column="4" selection-start-line="342" selection-start-column="4" selection-end-line="342" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#280#335#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/node/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="109">
+          <caret line="1345" column="13" selection-start-line="1345" selection-start-column="13" selection-end-line="1345" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chat-server.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1406">
+          <caret line="89" column="44" selection-start-line="89" selection-start-column="44" selection-end-line="89" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/ChatRouter.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Notificacion.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-115">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/User.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="38" column="29" selection-start-line="37" selection-start-column="27" selection-end-line="40" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yarn.lock">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2432">
+          <caret line="98" column="5" selection-start-line="98" selection-start-column="5" selection-end-line="98" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/node/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24852">
+          <caret line="1345" column="13" selection-start-line="1345" selection-start-column="13" selection-end-line="1345" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/ActividadRouter.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Actividad.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#280#335#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Chat.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Message.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/mongoose/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3292">
+          <caret line="2965" column="24" selection-start-line="2965" selection-start-column="22" selection-end-line="2965" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chat-server.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1040">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/UserRouter.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="7" selection-start-column="7" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/ChatRouter.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="122" column="16" selection-start-line="122" selection-start-column="16" selection-end-line="122" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+>>>>>>> 8cbea71a0e14743ed0d2f4daa4cbde30b2bc00e6
         </state>
       </provider>
     </entry>

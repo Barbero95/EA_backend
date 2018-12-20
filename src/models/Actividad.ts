@@ -37,13 +37,16 @@ const ActividadSchema: Schema = new Schema({
     contadorEstrellasActividad:{
         type: Number
     },
+    valoraciones:[{
+        type: String
+    }],
     ubicacion:{
         type: String
     },
     //[lati, long]
     localizacion:[{
         type: Number
-    }],
+    }]
     
 });
 

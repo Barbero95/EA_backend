@@ -19,10 +19,9 @@ class ChatRouter {
     }
     getChatRoom(req, res) {
         let users = req.body;
-        console.log(users);
         let room;
-        if (users.userFrom.name && users.userTo.name) {
-            if (users.userFrom.name.toLowerCase() < users.userTo.name.toLowerCase()) {
+        if (users.userFrom.nick && users.userTo.nick) {
+            if (users.userFrom.nick.toLowerCase() < users.userTo.nick.toLowerCase()) {
                 room = "" + users.userFrom._id + "" + users.userTo._id;
             }
             else {
@@ -68,6 +67,8 @@ class ChatRouter {
                     "users.$.lastView": body.lastView
                 }
             });
+            console.log('ieep', body);
+            yield Message_1.default.updateMany({ room: body.room, to: body.user, seen: false }, { seen: true });
             res.status(200).send({ okey: 'ok' });
         });
     }
@@ -120,12 +121,21 @@ class ChatRouter {
             }
         });
     }
+    getMessagesNotSeen(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let user = req.body;
+            console.log(user);
+            let messages = yield Message_1.default.find({ to: user._id, seen: false });
+            res.status(200).send({ number: messages.length });
+        });
+    }
     //@ts-ignore
     routes() {
         //@ts-ignore
         this.router.post('/getRoom', this.getChatRoom);
         this.router.post('/getRoomById', this.getChatRoomById);
         this.router.post('/getMessages', this.getMessages);
+        this.router.post('/messagesNotSeen', this.getMessagesNotSeen);
         this.router.post('/lastView', this.lastView);
         this.router.post('/getChats', this.getChats);
         this.router.post('/newChat', this.createChat);

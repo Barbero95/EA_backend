@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Actividad_1 = require("../models/Actividad");
+const Valoracion_1 = require("../models/Valoracion");
 //const {Point} = require('mongoose-geojson-schemas');
 class ActividadRouter {
     constructor() {
@@ -156,6 +157,19 @@ class ActividadRouter {
             res.json(err);
         });
     }
+    GetValoracion(req, res) {
+        const idValoracion = req.params.idValoracion;
+        console.log("id valoració: " + idValoracion);
+        Valoracion_1.default.findOne({ "_id": idValoracion })
+            .then((data) => {
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            res.statusCode = 500;
+            res.json(err);
+        });
+    }
     //crear una actividad
     CrearActividad(req, res) {
         const titulo = req.body.titulo;
@@ -168,6 +182,7 @@ class ActividadRouter {
         const localizacion = req.body.localizacion;
         const horasActividad = req.body.horasActividad;
         const contadorEstrellasActividad = req.body.contadorEstrellasActividad;
+        const valoraciones = req.body.valoraciones;
         console.log(req.body.location);
         const actividad = new Actividad_1.default({
             titulo,
@@ -179,7 +194,8 @@ class ActividadRouter {
             horasActividad,
             contadorEstrellasActividad,
             ubicacion,
-            localizacion
+            localizacion,
+            valoraciones
         });
         Actividad_1.default.findOne({ "titulo": titulo, "propietario": propietario })
             .then((data) => {
@@ -211,6 +227,37 @@ class ActividadRouter {
             res.json(err);
         });
     }
+    // Crear valoración
+    Valorar(req, res) {
+        const titulo = req.body.titulo;
+        const idAct = req.body.idAct;
+        const descripcion = req.body.descripcion;
+        const propietario = req.body.propietario;
+        const estrellas = req.body.estrellas;
+        console.log(propietario);
+        console.log(titulo);
+        console.log(idAct);
+        const valoracion = new Valoracion_1.default({
+            titulo,
+            idAct,
+            descripcion,
+            propietario,
+            estrellas
+        });
+        valoracion.save()
+            .then((data) => {
+            //hemos podido crear la actividad
+            console.log("ha entrado 200");
+            res.statusCode = 200;
+            res.json(data);
+        })
+            .catch((err) => {
+            //error al crear
+            console.log("ha entrado 404");
+            res.statusCode = 404;
+            res.json(err);
+        });
+    }
     //modificar actividad
     ModificarActividad(req, res) {
         const title = req.params.title;
@@ -222,12 +269,14 @@ class ActividadRouter {
         const propietario = req.body.propietario;
         const horasActividad = req.body.horasActividad;
         const contadorEstrellasActividad = req.body.contadorEstrellasActividad;
+        const valoraciones = req.body.valoraciones;
         console.log(req.body.clientes);
+        console.log(req.body.valoraciones);
         console.log(titulo);
         console.log(title);
         console.log(propietario);
         console.log(clientes);
-        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "clientes": clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad } })
+        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "valoraciones": valoraciones, "clientes": clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad } })
             .then((data) => {
             res.statusCode = 200;
             res.json(data);
@@ -260,7 +309,9 @@ class ActividadRouter {
         this.router.get('/cliente/:cliente', this.GetActividadesCliente);
         this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
         this.router.get('/porPerfil/:tagperfil', this.GetActividadesPorTagDePerfil);
+        this.router.get('/get/valoracion/:idValoracion', this.GetValoracion);
         this.router.post('/', this.CrearActividad);
+        this.router.post('/valorar', this.Valorar);
         this.router.put('/update/:title', this.ModificarActividad);
         this.router.delete('/:propietario/:titulo', this.BorrarActividad);
         /////busqueda 
