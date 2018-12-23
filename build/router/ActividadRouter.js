@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Actividad_1 = require("../models/Actividad");
 const Valoracion_1 = require("../models/Valoracion");
+const jsonwebtoken_1 = require("jsonwebtoken");
 //const {Point} = require('mongoose-geojson-schemas');
 class ActividadRouter {
     constructor() {
@@ -300,24 +301,50 @@ class ActividadRouter {
             res.json(err);
         });
     }
+    //extrae el token añadido a la cabecera de http
+    verifyToken(req, res, next) {
+        const bearerHeader = req.headers['authorization'];
+        if (typeof bearerHeader !== 'undefined') {
+            const bearer = bearerHeader.split(' ');
+            const bearerToken = bearer[1];
+            req.token = bearerToken;
+            jsonwebtoken_1.default.verify(req.token, 'secretkey', (err, authData) => {
+                if (err) {
+                    res.sendStatus(403);
+                }
+                else {
+                    //para descomponer la info dentro de lo encriptado es el nick del usuario
+                    /*
+                    res.json({
+                        authData
+                    });
+                    */
+                    next();
+                }
+            });
+        }
+        else {
+            res.sendStatus(403);
+        }
+    }
     //@ts-ignore
     routes() {
         //@ts-ignore
         this.router.get('/', this.GetActividades);
-        this.router.get('/:titulo', this.GetActividad);
-        this.router.get('/propietario/:propietario', this.GetActividadesPropietario);
-        this.router.get('/cliente/:cliente', this.GetActividadesCliente);
-        this.router.get('/pidiendo/:propietario/:titulo', this.GetActividadPropietario);
-        this.router.get('/porPerfil/:tagperfil', this.GetActividadesPorTagDePerfil);
-        this.router.get('/get/valoracion/:idValoracion', this.GetValoracion);
-        this.router.post('/', this.CrearActividad);
-        this.router.post('/valorar', this.Valorar);
-        this.router.put('/update/:title', this.ModificarActividad);
-        this.router.delete('/:propietario/:titulo', this.BorrarActividad);
+        this.router.get('/:titulo', this.verifyToken, this.GetActividad);
+        this.router.get('/propietario/:propietario', this.verifyToken, this.GetActividadesPropietario);
+        this.router.get('/cliente/:cliente', this.verifyToken, this.GetActividadesCliente);
+        this.router.get('/pidiendo/:propietario/:titulo', this.verifyToken, this.GetActividadPropietario);
+        this.router.get('/porPerfil/:tagperfil', this.verifyToken, this.GetActividadesPorTagDePerfil);
+        this.router.get('/get/valoracion/:idValoracion', this.verifyToken, this.GetValoracion);
+        this.router.post('/', this.verifyToken, this.CrearActividad);
+        this.router.post('/valorar', this.verifyToken, this.Valorar);
+        this.router.put('/update/:title', this.verifyToken, this.ModificarActividad);
+        this.router.delete('/:propietario/:titulo', this.verifyToken, this.BorrarActividad);
         /////busqueda 
-        this.router.get('/busqueda/:GPS', this.BusquedaGeo);
-        this.router.post('/busqueda/:GPS', this.BusquedaGeo);
-        this.router.post('/busqueda/En/Descripcion', this.BusquedaGeoEnDescripcion);
+        this.router.get('/busqueda/:GPS', this.verifyToken, this.BusquedaGeo);
+        this.router.post('/busqueda/:GPS', this.verifyToken, this.BusquedaGeo);
+        this.router.post('/busqueda/En/Descripcion', this.verifyToken, this.BusquedaGeoEnDescripcion);
     }
 }
 //export

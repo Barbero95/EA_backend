@@ -6,6 +6,10 @@ import bodyParser = require('body-parser');
 import * as multer from 'multer';
 import Actividad from '../models/Actividad';
 import { ObjectId } from 'bson';
+const jwt = require('jsonwebtoken');
+//import {config} from '../config/config';
+import jwt from 'jsonwebtoken';
+
 
 
 class UserRouter{
@@ -16,6 +20,17 @@ class UserRouter{
         this.router = Router();
         this.routes();
     }
+
+    /* para crear autentificación más currada
+    private createToken(user) {
+        return jwt.sign({ id: user.id, email: user.email }, config.jwtSecret, {
+            expiresIn: 200 // 86400 expires in 24 hours
+          });
+        
+       //const token =  "1a2b3c4d";
+       //return token;
+    }
+    */
 
 
 //ver todos los usuarios
@@ -101,10 +116,8 @@ public getUsuarioByIdRef(req: Request, res: Response): void{
 }
 
 
-
 public getReciboNotificaciones(req: Request, res: Response): void{
     const dueñoActividad: string = req.params.duenoActividad;
-
 
     console.log("el dueño", dueñoActividad);
     Notificacion.find({"dueñoActividad":dueñoActividad, "flag":1})
@@ -129,7 +142,7 @@ public GetUserById(req: Request, res: Response): void{
 
     const idusuario: string = req.params.idCliente;
     console.log(idusuario);
-
+    jwt.verifyToken
     User.findOne({ "_id": idusuario })
     .then((data) => {
         console.log("la data es: " + data)
@@ -292,8 +305,15 @@ public CreateUser(req: Request, res: Response): void{
 
 
 
-
+// yo david he añadido authentificación enviamos solo el token
+//no es necesario enviar el usuario en el frontend si llega el 200
+//se ha puesto un temporizador de validez de 3600s -> a 1h
 public validarUsuario(req: Request, res: Response): void{
+    const u = {
+        id:1,
+        username: req.body.nick,
+        password: req.body.password
+    }
     
     User.findOne({ "nick": req.body.nick, "password": req.body.password})
         .then((data) => {
@@ -302,9 +322,16 @@ public validarUsuario(req: Request, res: Response): void{
             console.log(req.body.password);
             console.log(data);
                 res.statusCode = 200;
-                res.json(
-                    data
-                );
+                jwt.sign(u, 'secretkey',{ expiresIn: '3600s' }, (err, token) => {
+                    res.json({
+                        token
+                    });
+                });
+                /*
+                res.json({
+                    //data
+                });
+                */
         })
         .catch((err) => {
             res.statusCode = 404;
@@ -530,25 +557,51 @@ public UpdateImgUser(req: Request, res: Response): void{
         
 }
 
+//extrae el token añadido a la cabecera de http
+private verifyToken (req,res,next){
+    const bearerHeader = req.headers['authorization'];
+    
+    if(typeof bearerHeader !== 'undefined'){
+        const bearer = bearerHeader.split(' ');
+        const bearerToken = bearer[1];
+        req.token = bearerToken;
+        jwt.verify(req.token, 'secretkey', (err, authData) => {
+            if(err){
+                res.sendStatus(403);
+            }else{
+                //para descomponer la info dentro de lo encriptado es el nick del usuario
+                /*
+                res.json({
+                    authData
+                });
+                */
+                next();
+            }
+        });
+    }else{
+        res.sendStatus(403);
+    }
+}
+
 
 
     //@ts-ignore
     routes(){
         //@ts-ignore
-        this.router.get('/', this.GetUsers);
+        this.router.get('/',  this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
-        this.router.get('/userByRef/:ref', this.GetUserByRef);
-        this.router.get('/userById/:idCliente', this.GetUserById);
-        this.router.get('/:nick', this.GetUser);
+        this.router.get('/userByRef/:ref', this.verifyToken, this.GetUserByRef);
+        this.router.get('/userById/:idCliente', this.verifyToken, this.GetUserById);
+        this.router.get('/:nick', this.verifyToken, this.GetUser);
         this.router.get('/Rnotificaciones/:duenoActividad',this.getReciboNotificaciones);
-        this.router.post('/getUserById', this.getUsuarioById);
-        this.router.post('/getUserByRef', this.getUsuarioByIdRef);
+        this.router.post('/getUserById', this.verifyToken, this.getUsuarioById);
+        this.router.post('/getUserByRef',this.verifyToken, this.getUsuarioByIdRef);
         this.router.post('/', this.CreateUser);
         this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
         this.router.post('/RechazoNotificaciones/:participanteActividad/:tituloActividad', this.postRechazoNotificaciones);
-        this.router.put('/:username', this.UpdateUser);
+        this.router.put('/:username',this.verifyToken, this.UpdateUser);
         this.router.put('/Unotificacion', this.putNotificacion);
-        this.router.delete('/borrar', this.DeleteUser);
+        this.router.delete('/borrar',this.verifyToken, this.DeleteUser);
         this.router.delete('/borrarnotificacion/:dueñoActividad/:participanteActividad/:tituloActividad', this.deleteNotificacion);
         this.router.post('/validacion', this.validarUsuario);
 
