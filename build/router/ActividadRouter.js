@@ -3,8 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Actividad_1 = require("../models/Actividad");
 const Valoracion_1 = require("../models/Valoracion");
-const jsonwebtoken_1 = require("jsonwebtoken");
-//const {Point} = require('mongoose-geojson-schemas');
+const jwt = require('jsonwebtoken');
 class ActividadRouter {
     constructor() {
         this.router = express_1.Router();
@@ -198,6 +197,9 @@ class ActividadRouter {
             localizacion,
             valoraciones
         });
+        console.log(titulo);
+        console.log(propietario);
+        console.log(ubicacion);
         Actividad_1.default.findOne({ "titulo": titulo, "propietario": propietario })
             .then((data) => {
             console.log("ha entrado fase1");
@@ -307,8 +309,8 @@ class ActividadRouter {
         if (typeof bearerHeader !== 'undefined') {
             const bearer = bearerHeader.split(' ');
             const bearerToken = bearer[1];
-            req.token = bearerToken;
-            jsonwebtoken_1.default.verify(req.token, 'secretkey', (err, authData) => {
+            //req.token = bearerToken;
+            jwt.verify(bearerToken, 'secretkey', (err, authData) => {
                 if (err) {
                     res.sendStatus(403);
                 }

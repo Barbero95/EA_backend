@@ -5,7 +5,6 @@ import * as compression from 'compression';
 import * as logger from 'morgan';
 import * as helmet from 'helmet';
 import * as cors from 'cors';
-import passport from 'passport';
 
 
 
@@ -13,6 +12,7 @@ import passport from 'passport';
 import ActividadRouter from './router/ActividadRouter';
 import UserRouter from './router/UserRouter';
 import ChatRouter from './router/ChatRouter';
+
 
 //server class
 //@ts-ignore
@@ -53,8 +53,8 @@ class Server{
         //this.app.use(passport.initialize());
         //var passportMiddleware = require('./middleware/passport');
         //passport.use(passportMiddleware);
-    }
-        
+
+    }   
 
     public routes(): void {
 
@@ -66,6 +66,8 @@ class Server{
         this.app.use('/users', UserRouter);
         this.app.use('/chat', ChatRouter);
     }
+
+    
 }
 
 //export 

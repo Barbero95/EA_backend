@@ -3,10 +3,8 @@ import Actividad from '../models/Actividad';
 import { default_type } from 'mime';
 import bodyParser = require('body-parser');
 import Valoracion from "../models/Valoracion";
-import passport from 'passport';
 import {Types} from "mongoose";
-import jwt from 'jsonwebtoken';
-//const {Point} = require('mongoose-geojson-schemas');
+const jwt = require('jsonwebtoken');
 
 class ActividadRouter{
 
@@ -266,6 +264,9 @@ class ActividadRouter{
             localizacion,
             valoraciones
         });
+        console.log ( titulo);
+        console.log ( propietario);
+        console.log ( ubicacion);
         Actividad.findOne({ "titulo": titulo, "propietario": propietario})
         .then((data) => {
             console.log("ha entrado fase1");
@@ -414,8 +415,8 @@ class ActividadRouter{
         if(typeof bearerHeader !== 'undefined'){
             const bearer = bearerHeader.split(' ');
             const bearerToken = bearer[1];
-            req.token = bearerToken;
-            jwt.verify(req.token, 'secretkey', (err, authData) => {
+            //req.token = bearerToken;
+            jwt.verify(bearerToken, 'secretkey', (err, authData) => {
                 if(err){
                     res.sendStatus(403);
                 }else{

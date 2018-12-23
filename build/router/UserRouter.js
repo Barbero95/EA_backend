@@ -5,6 +5,7 @@ const User_1 = require("../models/User");
 const Notificacion_1 = require("../models/Notificacion");
 const multer = require("multer");
 const jwt = require('jsonwebtoken');
+//import jwt from 'jsonwebtoken';
 class UserRouter {
     constructor() {
         this.router = express_1.Router();
@@ -189,6 +190,8 @@ class UserRouter {
         const actividadesCliente = req.body.actividadesCliente;
         const horasUsuario = req.body.horasUsuario;
         const contadorEstrellasUsuario = req.body.contadorEstrellasUsuario;
+        console.log(password);
+        console.log(nick);
         const user = new User_1.default({
             nombre,
             apellido,
@@ -231,28 +234,39 @@ class UserRouter {
     //no es necesario enviar el usuario en el frontend si llega el 200
     //se ha puesto un temporizador de validez de 3600s -> a 1h
     validarUsuario(req, res) {
+        /*
         const u = {
-            id: 1,
+            id:1,
             username: req.body.nick,
             password: req.body.password
-        };
+        }
+        */
         User_1.default.findOne({ "nick": req.body.nick, "password": req.body.password })
             .then((data) => {
-            console.log("He llegado hasta la validación");
-            console.log(req.body.nick);
-            console.log(req.body.password);
-            console.log(data);
-            res.statusCode = 200;
-            jwt.sign(u, 'secretkey', { expiresIn: '3600s' }, (err, token) => {
-                res.json({
-                    token
+            if (data == null) {
+                res.statusCode = 404;
+                res.json(null);
+            }
+            else {
+                console.log("He llegado hasta la validación");
+                console.log("data: " + data);
+                res.statusCode = 200;
+                const u = {
+                    id: 1,
+                    username: req.body.nick
+                };
+                //jwt.sign(u, 'secretkey',{ expiresIn: '3600s' }, (err, token) => {
+                jwt.sign(u, 'secretkey', (err, token) => {
+                    res.json({
+                        token
+                    });
                 });
-            });
-            /*
-            res.json({
-                //data
-            });
-            */
+                /*
+                res.json({
+                    //data
+                });
+                */
+            }
         })
             .catch((err) => {
             res.statusCode = 404;
@@ -316,6 +330,7 @@ class UserRouter {
         const contadorEstrellasUsuario = req.body.contadorEstrellasUsuario;
         //const actividadesPropietario: number = req.body.actividadesPropietario;
         //const actividadesCliente: number = req.body.actividadesCliente;
+        console.log(nombre);
         User_1.default.findOneAndUpdate({ "nick": username }, { $set: { "nombre": nombre, "apellido": apellido, "email": email, "tags": tags, "password": password, "imagen": imagen, "horasUsuario": horasUsuario, "contadorEstrellasUsuario": contadorEstrellasUsuario } })
             .then((data) => {
             res.statusCode = 200;
@@ -410,18 +425,16 @@ class UserRouter {
         if (typeof bearerHeader !== 'undefined') {
             const bearer = bearerHeader.split(' ');
             const bearerToken = bearer[1];
-            req.token = bearerToken;
-            jwt.verify(req.token, 'secretkey', (err, authData) => {
+            //req.token = bearerToken;
+            jwt.verify(bearerToken, 'secretkey', (err, authData) => {
                 if (err) {
                     res.sendStatus(403);
                 }
                 else {
                     //para descomponer la info dentro de lo encriptado es el nick del usuario
-                    /*
-                    res.json({
-                        authData
-                    });
-                    */
+                    //res.json({
+                    //    authData
+                    //});
                     next();
                 }
             });
