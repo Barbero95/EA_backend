@@ -13,6 +13,7 @@ import ActividadRouter from './router/ActividadRouter';
 import UserRouter from './router/UserRouter';
 import ChatRouter from './router/ChatRouter';
 
+
 //server class
 //@ts-ignore
 class Server{
@@ -41,12 +42,19 @@ class Server{
 
         //config
         this.app.use(bodyParser.json());
+        //yo david he cambiado el true por un false para la autentificación si no funciona cambiar por true
         this.app.use(bodyParser.urlencoded({extended: true}));
         this.app.use(logger('dev'));
         this.app.use(compression());
         this.app.use(helmet());
         this.app.use(cors());
-        this.app.use('/uploads', express.static('uploads'));}
+        this.app.use('/uploads', express.static('uploads'));
+        ///también de autentificación
+        //this.app.use(passport.initialize());
+        //var passportMiddleware = require('./middleware/passport');
+        //passport.use(passportMiddleware);
+
+    }   
 
     public routes(): void {
 
@@ -58,6 +66,8 @@ class Server{
         this.app.use('/users', UserRouter);
         this.app.use('/chat', ChatRouter);
     }
+
+    
 }
 
 //export 

@@ -4,11 +4,23 @@ const express_1 = require("express");
 const User_1 = require("../models/User");
 const Notificacion_1 = require("../models/Notificacion");
 const multer = require("multer");
+const jwt = require('jsonwebtoken');
+//import jwt from 'jsonwebtoken';
 class UserRouter {
     constructor() {
         this.router = express_1.Router();
         this.routes();
     }
+    /* para crear autentificación más currada
+    private createToken(user) {
+        return jwt.sign({ id: user.id, email: user.email }, config.jwtSecret, {
+            expiresIn: 200 // 86400 expires in 24 hours
+          });
+        
+       //const token =  "1a2b3c4d";
+       //return token;
+    }
+    */
     //ver todos los usuarios
     GetUsers(req, res) {
         User_1.default.find({})
@@ -86,6 +98,7 @@ class UserRouter {
     GetUserById(req, res) {
         const idusuario = req.params.idCliente;
         console.log(idusuario);
+        jwt.verifyToken;
         User_1.default.findOne({ "_id": idusuario })
             .then((data) => {
             console.log("la data es: " + data);
@@ -177,6 +190,8 @@ class UserRouter {
         const actividadesCliente = req.body.actividadesCliente;
         const horasUsuario = req.body.horasUsuario;
         const contadorEstrellasUsuario = req.body.contadorEstrellasUsuario;
+        console.log(password);
+        console.log(nick);
         const user = new User_1.default({
             nombre,
             apellido,
@@ -215,15 +230,43 @@ class UserRouter {
             res.json(err);
         });
     }
+    // yo david he añadido authentificación enviamos solo el token
+    //no es necesario enviar el usuario en el frontend si llega el 200
+    //se ha puesto un temporizador de validez de 3600s -> a 1h
     validarUsuario(req, res) {
+        /*
+        const u = {
+            id:1,
+            username: req.body.nick,
+            password: req.body.password
+        }
+        */
         User_1.default.findOne({ "nick": req.body.nick, "password": req.body.password })
             .then((data) => {
-            console.log("He llegado hasta la validación");
-            console.log(req.body.nick);
-            console.log(req.body.password);
-            console.log(data);
-            res.statusCode = 200;
-            res.json(data);
+            if (data == null) {
+                res.statusCode = 404;
+                res.json(null);
+            }
+            else {
+                console.log("He llegado hasta la validación");
+                console.log("data: " + data);
+                res.statusCode = 200;
+                const u = {
+                    id: 1,
+                    username: req.body.nick
+                };
+                //jwt.sign(u, 'secretkey',{ expiresIn: '3600s' }, (err, token) => {
+                jwt.sign(u, 'secretkey', (err, token) => {
+                    res.json({
+                        token
+                    });
+                });
+                /*
+                res.json({
+                    //data
+                });
+                */
+            }
         })
             .catch((err) => {
             res.statusCode = 404;
@@ -287,6 +330,7 @@ class UserRouter {
         const contadorEstrellasUsuario = req.body.contadorEstrellasUsuario;
         //const actividadesPropietario: number = req.body.actividadesPropietario;
         //const actividadesCliente: number = req.body.actividadesCliente;
+        console.log(nombre);
         User_1.default.findOneAndUpdate({ "nick": username }, { $set: { "nombre": nombre, "apellido": apellido, "email": email, "tags": tags, "password": password, "imagen": imagen, "horasUsuario": horasUsuario, "contadorEstrellasUsuario": contadorEstrellasUsuario } })
             .then((data) => {
             res.statusCode = 200;
@@ -375,23 +419,47 @@ class UserRouter {
     //modificar usuario
     UpdateImgUser(req, res) {
     }
+    //extrae el token añadido a la cabecera de http
+    verifyToken(req, res, next) {
+        const bearerHeader = req.headers['authorization'];
+        if (typeof bearerHeader !== 'undefined') {
+            const bearer = bearerHeader.split(' ');
+            const bearerToken = bearer[1];
+            //req.token = bearerToken;
+            jwt.verify(bearerToken, 'secretkey', (err, authData) => {
+                if (err) {
+                    res.sendStatus(403);
+                }
+                else {
+                    //para descomponer la info dentro de lo encriptado es el nick del usuario
+                    //res.json({
+                    //    authData
+                    //});
+                    next();
+                }
+            });
+        }
+        else {
+            res.sendStatus(403);
+        }
+    }
     //@ts-ignore
     routes() {
         //@ts-ignore
         this.router.get('/', this.GetUsers);
         this.router.get('/login/:username/:password', this.GetLogin);
-        this.router.get('/userByRef/:ref', this.GetUserByRef);
-        this.router.get('/userById/:idCliente', this.GetUserById);
-        this.router.get('/:nick', this.GetUser);
+        this.router.get('/userByRef/:ref', this.verifyToken, this.GetUserByRef);
+        this.router.get('/userById/:idCliente', this.verifyToken, this.GetUserById);
+        this.router.get('/:nick', this.verifyToken, this.GetUser);
         this.router.get('/Rnotificaciones/:duenoActividad', this.getReciboNotificaciones);
-        this.router.post('/getUserById', this.getUsuarioById);
-        this.router.post('/getUserByRef', this.getUsuarioByIdRef);
+        this.router.post('/getUserById', this.verifyToken, this.getUsuarioById);
+        this.router.post('/getUserByRef', this.verifyToken, this.getUsuarioByIdRef);
         this.router.post('/', this.CreateUser);
         this.router.post('/ENotificaciones', this.postEnvioNotificaciones);
         this.router.post('/RechazoNotificaciones/:participanteActividad/:tituloActividad', this.postRechazoNotificaciones);
-        this.router.put('/:username', this.UpdateUser);
+        this.router.put('/:username', this.verifyToken, this.UpdateUser);
         this.router.put('/Unotificacion', this.putNotificacion);
-        this.router.delete('/borrar', this.DeleteUser);
+        this.router.delete('/borrar', this.verifyToken, this.DeleteUser);
         this.router.delete('/borrarnotificacion/:dueñoActividad/:participanteActividad/:tituloActividad', this.deleteNotificacion);
         this.router.post('/validacion', this.validarUsuario);
         const storage = multer.diskStorage({
