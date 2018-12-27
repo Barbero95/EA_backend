@@ -36,7 +36,6 @@ class ChatRouter {
         return __awaiter(this, void 0, void 0, function* () {
             let room = req.body.room;
             let chat = yield Chat_1.default.find({ room: room });
-            console.log('hoola', chat);
             res.status(200).send(chat);
         });
     }
@@ -67,7 +66,6 @@ class ChatRouter {
                     "users.$.lastView": body.lastView
                 }
             });
-            console.log('ieep', body);
             yield Message_1.default.updateMany({ room: body.room, to: body.user, seen: false }, { seen: true });
             res.status(200).send({ okey: 'ok' });
         });
@@ -124,7 +122,6 @@ class ChatRouter {
     getMessagesNotSeen(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let user = req.body;
-            console.log(user);
             let messages = yield Message_1.default.find({ to: user._id, seen: false });
             res.status(200).send({ number: messages.length });
         });

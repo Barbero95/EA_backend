@@ -55,8 +55,8 @@ export class ChatServer {
           }
         }
         let checkChat : any = await Chat.findOne({ room: room });
-
-        if(checkChat) {
+        let checkChatActividad : any = await Actividad.findOne({ _id: users.actividad, rooms: room});
+        if(checkChat && checkChatActividad) {
           checkChat.users.find(user => {
             if(user.userId === users.userFrom._id) {
               user.lastView = Date.now();
@@ -64,6 +64,14 @@ export class ChatServer {
           });
           await Chat.findOneAndUpdate({ room: room }, checkChat);
 
+          console.log('joining room', room);
+          socket.join(room);
+        } else if (checkChat && !checkChatActividad) {
+          await Actividad.update({ _id: users.actividad }, {
+            $push: {
+              rooms: room
+            }
+          });
           console.log('joining room', room);
           socket.join(room);
         } else {

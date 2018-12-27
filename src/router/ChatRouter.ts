@@ -33,8 +33,6 @@ class ChatRouter {
 
     let chat = await Chat.find({room: room});
 
-    console.log('hoola', chat);
-
     res.status(200).send(chat);
   }
 
@@ -64,7 +62,6 @@ class ChatRouter {
         "users.$.lastView": body.lastView
       }
     });
-    console.log('ieep', body);
 
     await Message.updateMany({room: body.room, to: body.user, seen: false}, {seen: true});
 
@@ -93,6 +90,7 @@ class ChatRouter {
       room = "" + users.userTo._id + "" + users.userFrom._id;
     }
     let checkChat = await Chat.findOne({room: room});
+
     if(checkChat) {
       res.status(200).send(checkChat);
     } else {
@@ -120,7 +118,6 @@ class ChatRouter {
 
   async getMessagesNotSeen(req: Request, res: Response) {
     let user : any = req.body;
-    console.log(user);
 
     let messages = await Message.find({to: user._id, seen: false});
     res.status(200).send({number: messages.length});
