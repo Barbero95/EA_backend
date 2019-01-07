@@ -54,7 +54,6 @@ class ChatServer {
                     }
                     let checkChat = yield Chat_1.default.findOne({ room: room });
                     let checkChatActividad = yield Actividad_1.default.findOne({ _id: users.actividad, rooms: room });
-                    console.log('esta', checkChatActividad);
                     if (checkChat && checkChatActividad) {
                         checkChat.users.find(user => {
                             if (user.userId === users.userFrom._id) {

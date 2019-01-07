@@ -454,7 +454,7 @@ class ActividadRouter{
         this.router.get('/get/valoracion/:idValoracion',this.verifyToken, this.GetValoracion);
         this.router.post('/',this.verifyToken, this.CrearActividad);
         this.router.post('/valorar',this.verifyToken, this.Valorar);
-        this.router.put('/update/:title',this.verifyToken, this.ModificarActividad);
+        this.router.put('/update/:title', this.verifyToken, this.ModificarActividad);
         this.router.delete('/:propietario/:titulo',this.verifyToken, this.BorrarActividad);
 
         /////busqueda 
