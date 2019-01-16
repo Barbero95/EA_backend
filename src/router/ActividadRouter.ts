@@ -249,6 +249,7 @@ class ActividadRouter{
         const horasActividad: number = req.body.horasActividad;
         const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
         const valoraciones: string[] = req.body.valoraciones;
+        const imagen: string = req.body.imagen;
 
         console.log(req.body.location);
         const actividad = new Actividad({
@@ -262,11 +263,13 @@ class ActividadRouter{
             contadorEstrellasActividad,
             ubicacion,
             localizacion,
-            valoraciones
+            valoraciones,
+            imagen
         });
         console.log ( titulo);
         console.log ( propietario);
         console.log ( ubicacion);
+        console.log ( imagen);
         Actividad.findOne({ "titulo": titulo, "propietario": propietario})
         .then((data) => {
             console.log("ha entrado fase1");
@@ -360,6 +363,7 @@ class ActividadRouter{
         const propietario: string = req.body.propietario;
         const horasActividad: number = req.body.horasActividad;
         const contadorEstrellasActividad: number = req.body.contadorEstrellasActividad;
+        const imagen: string = req.body.imagen;
         const valoraciones: string[] = req.body.valoraciones;
         
         console.log(req.body.clientes);
@@ -369,7 +373,7 @@ class ActividadRouter{
 
        console.log(propietario);
        console.log(clientes);
-        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "valoraciones": valoraciones,"clientes":clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad}})
+        Actividad.findOneAndUpdate({"titulo": title , "propietario": propietario}, { $set: {"titulo": titulo, "descripcion" :descripcion, "estrellas": estrellas, "tags": tags, "imagen": imagen, "valoraciones": valoraciones,"clientes":clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad}})
         .then((data) => {
             res.statusCode = 200;
             res.json(

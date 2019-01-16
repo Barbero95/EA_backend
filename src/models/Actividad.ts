@@ -46,7 +46,10 @@ const ActividadSchema: Schema = new Schema({
     //[lati, long]
     localizacion:[{
         type: Number
-    }]
+    }],
+    imagen: {
+        type: String
+    }
     
 });
 
