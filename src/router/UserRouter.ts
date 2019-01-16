@@ -556,10 +556,15 @@ public GetImgUser(req: Request, res: Response): void{
 //añadir por primera vez la foto de un usuario
 public CreateNewImg(req: Request, res: Response): void{
 
-    //const upload = multer ({dest: 'uploads/'})
-    let path = req.file.path;
     if (req.file) {
-        console.log("file!!!")
+        console.log("file!!!");
+        res.statusCode = 200;
+        res.json("Foto subida");
+
+    }else{
+        res.statusCode = 400;
+        res.json("Error al subur la foto");
+
     }
 }
 //modificar usuario
@@ -619,14 +624,9 @@ public verifyToken (req, res ,next){
         const storage = multer.diskStorage({
             destination: function(req, file, cb) {
             cb(null, './uploads/');
-            //usado en la version anterior
-            //cb(null, '../fotosproyectoea/');
-            //prueba
-            //cb(null, '../frontendapp/src/assets/images');
             },
             filename: function(req, file, cb) {
-                console.log(" Guardamos el nombre del avatar");
-            //cb(null, file.originalname);
+                console.log(" Guardamos el nombre del avatar" + file.originalname);
             cb(null, file.originalname + ".png");
             }
         });
@@ -645,9 +645,9 @@ public verifyToken (req, res ,next){
             },
             fileFilter: fileFilter
         });
-        this.router.post('/foto/perfil/:avatar',upload.single('avatar'), this.CreateNewImg);
+        this.router.post('/foto/:avatar', upload.single('avatar'), this.CreateNewImg);
         //@ts-ignore
-        this.router.get('/foto/perfil/:id', this.GetImgUser);
+        //this.router.get('/foto/perfil/:id', this.GetImgUser);
         //this.router.put('/:id', this.UpdateImgUser);
     }
 
