@@ -45,7 +45,10 @@ const ActividadSchema = new mongoose_1.Schema({
     //[lati, long]
     localizacion: [{
             type: Number
-        }]
+        }],
+    imagen: {
+        type: String
+    }
 });
 //ActividadSchema.index({ loc: "2dsphere" });
 exports.default = mongoose_1.model('Actividade', ActividadSchema);

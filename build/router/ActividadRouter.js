@@ -183,6 +183,7 @@ class ActividadRouter {
         const horasActividad = req.body.horasActividad;
         const contadorEstrellasActividad = req.body.contadorEstrellasActividad;
         const valoraciones = req.body.valoraciones;
+        const imagen = req.body.imagen;
         console.log(req.body.location);
         const actividad = new Actividad_1.default({
             titulo,
@@ -195,11 +196,13 @@ class ActividadRouter {
             contadorEstrellasActividad,
             ubicacion,
             localizacion,
-            valoraciones
+            valoraciones,
+            imagen
         });
         console.log(titulo);
         console.log(propietario);
         console.log(ubicacion);
+        console.log(imagen);
         Actividad_1.default.findOne({ "titulo": titulo, "propietario": propietario })
             .then((data) => {
             console.log("ha entrado fase1");
@@ -272,6 +275,7 @@ class ActividadRouter {
         const propietario = req.body.propietario;
         const horasActividad = req.body.horasActividad;
         const contadorEstrellasActividad = req.body.contadorEstrellasActividad;
+        const imagen = req.body.imagen;
         const valoraciones = req.body.valoraciones;
         console.log(req.body.clientes);
         console.log(req.body.valoraciones);
@@ -279,7 +283,7 @@ class ActividadRouter {
         console.log(title);
         console.log(propietario);
         console.log(clientes);
-        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "valoraciones": valoraciones, "clientes": clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad } })
+        Actividad_1.default.findOneAndUpdate({ "titulo": title, "propietario": propietario }, { $set: { "titulo": titulo, "descripcion": descripcion, "estrellas": estrellas, "tags": tags, "imagen": imagen, "valoraciones": valoraciones, "clientes": clientes, "propietario": propietario, "horasActividad": horasActividad, "contadorEstrellasActividad": contadorEstrellasActividad } })
             .then((data) => {
             res.statusCode = 200;
             res.json(data);
