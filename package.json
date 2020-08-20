@@ -13,7 +13,7 @@
     "@types/cors": "^2.8.4",
     "@types/socket.io": "1.4.31",
     "async": "^2.6.1",
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "cors": "^2.8.5",
